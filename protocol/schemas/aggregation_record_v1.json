@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marunthagam.murailabs.com/protocol/v1/aggregation-record",
+  "title": "Marunthagam Open Protocol — Aggregation Record v1.0",
+  "description": "Schema for anonymized aggregated health signals synced from Tier 1/2 to Tier 3. Individual records are NEVER transmitted — only these aggregates.",
+  "type": "object",
+  "required": [
+    "protocol_version",
+    "period",
+    "geo_hash",
+    "total_interactions",
+    "triage_distribution",
+    "top_conditions",
+    "escalation_rate",
+    "anomaly_flag"
+  ],
+  "properties": {
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "period": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" }
+      }
+    },
+    "geo_hash": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 6
+    },
+    "total_interactions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "triage_distribution": {
+      "type": "object",
+      "required": ["green", "yellow", "red"],
+      "properties": {
+        "green": { "type": "integer", "minimum": 0 },
+        "yellow": { "type": "integer", "minimum": 0 },
+        "red": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "top_conditions": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["condition", "count"],
+        "properties": {
+          "condition": { "type": "string" },
+          "count": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "escalation_rate": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "anomaly_flag": {
+      "type": "boolean",
+      "description": "True if any metric exceeds 2σ from 30-day rolling baseline"
+    }
+  },
+  "additionalProperties": false
+}

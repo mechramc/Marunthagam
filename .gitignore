@@ -1,0 +1,103 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+.env.*
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Model artifacts (tracked via HuggingFace Hub, not git)
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+lora_adapters/
+checkpoints/
+runs/
+wandb/
+mlruns/
+outputs/
+
+# Training data (tracked via HuggingFace Hub)
+training/data/raw/
+training/data/processed/
+
+# Android build artifacts
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+*.aab
+*.keystore
+!android/app/src/
+
+# Node / Dashboard
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.next/
+dashboard/.nuxt/
+dashboard/.cache/
+dashboard/build/
+dashboard/.env
+dashboard/.env.*
+
+# SQLite databases (generated at runtime)
+*.db
+*.sqlite
+*.sqlite3
+
+# Encrypted local logs
+*.enc
+local_logs/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# Secrets
+*.pem
+*.key
+secrets/
+.secrets
+
+# Compiled protocol schemas
+protocol/schemas/compiled/
+
+# Evaluation outputs
+eval/results/raw/
+eval/results/*.csv
+
+# Temp / scratch
+scratch/
+tmp/
+temp/

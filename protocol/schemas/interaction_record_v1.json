@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marunthagam.murailabs.com/protocol/v1/interaction-record",
+  "title": "Marunthagam Open Protocol — Interaction Record v1.0",
+  "description": "Standard schema for a single community health triage interaction. Any compatible implementation must conform to this schema.",
+  "type": "object",
+  "required": [
+    "protocol_version",
+    "record_id",
+    "timestamp",
+    "locale",
+    "device_tier",
+    "model_id",
+    "modalities_used",
+    "triage_result",
+    "sync_status"
+  ],
+  "properties": {
+    "protocol_version": {
+      "type": "string",
+      "description": "Semantic version of the Marunthagam Open Protocol",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "example": "1.0.0"
+    },
+    "record_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique record identifier generated on-device"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp of the interaction (ISO 8601)"
+    },
+    "locale": {
+      "type": "string",
+      "description": "BCP-47 language/region code",
+      "example": "ta-IN"
+    },
+    "device_tier": {
+      "type": "string",
+      "enum": ["field", "clinic", "district"],
+      "description": "Which tier of the three-tier system generated this record"
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Model identifier used for inference",
+      "example": "gemma-4-E4B-it-marunthagam-fused-Q4_K_M"
+    },
+    "modalities_used": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["audio", "image", "text"]
+      },
+      "minItems": 1,
+      "description": "Which input modalities were provided in this interaction"
+    },
+    "triage_result": {
+      "type": "object",
+      "required": ["level", "confidence", "suspected_conditions", "reasoning_chain", "next_steps_tamil", "escalation_flag"],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["GREEN", "YELLOW", "RED"],
+          "description": "Triage urgency level"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Calibrated model confidence in the triage decision"
+        },
+        "suspected_conditions": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["condition", "rank"],
+            "properties": {
+              "condition": { "type": "string" },
+              "rank": { "type": "integer", "minimum": 1, "maximum": 3 }
+            }
+          }
+        },
+        "reasoning_chain": {
+          "type": "string",
+          "description": "Step-by-step clinical reasoning in Tamil"
+        },
+        "next_steps_tamil": {
+          "type": "string",
+          "description": "Plain-Tamil instructions for ASHA worker and patient"
+        },
+        "protocol_references": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "WHO/IMNCI/TN protocol codes that grounded the decision"
+        },
+        "escalation_flag": {
+          "type": "boolean",
+          "description": "True if confidence < 0.7 or conflicting signals detected"
+        },
+        "disclaimer": {
+          "type": "string",
+          "const": "இது மருத்துவ ஆலோசனை அல்ல",
+          "description": "Mandatory disclaimer: This is not medical advice"
+        }
+      }
+    },
+    "protocol_overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule_id", "original_level", "overridden_to", "reason"],
+        "properties": {
+          "rule_id": { "type": "string" },
+          "original_level": { "type": "string", "enum": ["GREEN", "YELLOW", "RED"] },
+          "overridden_to": { "type": "string", "enum": ["GREEN", "YELLOW", "RED"] },
+          "reason": { "type": "string" }
+        }
+      },
+      "description": "List of deterministic protocol overrides applied to the LLM output"
+    },
+    "geo_hash": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 6,
+      "description": "Geohash at ~1km resolution for epidemiological aggregation only. Never used for individual tracking."
+    },
+    "sync_status": {
+      "type": "string",
+      "enum": ["pending", "synced", "failed"],
+      "description": "Whether this record's aggregated signal has been synced to Tier 3"
+    }
+  },
+  "additionalProperties": false
+}
