@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pandoc:*)"
+      "Bash(pandoc:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip install:*)",
+      "Bash(pytest:*)"
     ]
   }
 }

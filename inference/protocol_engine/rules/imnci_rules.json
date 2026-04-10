@@ -1,0 +1,137 @@
+[
+  {
+    "id": "IMNCI-001",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "convulsion|seizure|வலிப்பு|வலிப்புத்தாக்கம்",
+    "age_group": "any",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Any convulsion/seizure is an emergency danger sign — immediate referral required"
+  },
+  {
+    "id": "IMNCI-002",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "fever|காய்ச்சல்",
+    "age_group": "infant",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Any fever in infant under 2 months is a danger sign — always RED"
+  },
+  {
+    "id": "IMNCI-003",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "unable to drink|cannot drink|not drinking|குடிக்க முடியவில்லை|குடிக்கவில்லை",
+    "age_group": "child",
+    "duration_min_days": 0,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Unable to drink/breastfeed is a general danger sign in child"
+  },
+  {
+    "id": "IMNCI-004",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "chest indrawing|severe chest|சாம்பல் நிறம்|சுவாசிக்க கஷ்டம்|மூச்சு விட முடியவில்லை",
+    "age_group": "any",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Severe chest indrawing or inability to breathe — severe pneumonia, RED"
+  },
+  {
+    "id": "IMNCI-005",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "vomiting everything|cannot keep food|எல்லாவற்றையும் வாந்தி|வாந்தி நிற்கவில்லை",
+    "age_group": "child",
+    "duration_min_days": 0,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Child vomiting everything is a general danger sign"
+  },
+  {
+    "id": "IMNCI-006",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "stiff neck|neck stiffness|கழுத்து விறைப்பு|கழுத்தை வளைக்க முடியவில்லை",
+    "age_group": "any",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Stiff neck with fever — possible meningitis, RED emergency"
+  },
+  {
+    "id": "IMNCI-007",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "severe malnutrition|marasmus|kwashiorkor|மிகவும் மெலிந்த|வீக்கம் கால்|உடல் வீக்கம்",
+    "age_group": "child",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Severe acute malnutrition signs — RED referral"
+  },
+  {
+    "id": "IMNCI-008",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "lethargic|unconscious|unresponsive|சோர்வாக|உணர்வற்ற|விழிப்பில்லாம|எழுந்திரிக்கவில்லை",
+    "age_group": "child",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Lethargic or unconscious child — danger sign, RED"
+  },
+  {
+    "id": "IMNCI-009",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "diarrhea|வயிற்றுப்போக்கு",
+    "age_group": "child",
+    "duration_min_days": 14,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Diarrhea persisting more than 14 days in child — PHC evaluation required"
+  },
+  {
+    "id": "MATERNAL-001",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "bleeding.*pregnancy|pregnancy.*bleeding|கர்ப்ப.*ரத்தம்|ரத்தம்.*கர்ப்ப|கர்ப்பிணி.*ரத்தப்போக்கு",
+    "age_group": "adult",
+    "duration_min_days": 0,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Vaginal bleeding during pregnancy — obstetric emergency, RED"
+  },
+  {
+    "id": "MATERNAL-002",
+    "source": "WHO_IMNCI",
+    "condition_pattern": "headache.*pregnancy|pregnancy.*headache|swelling.*pregnancy|கர்ப்ப.*தலைவலி|கர்ப்ப.*வீக்கம்",
+    "age_group": "adult",
+    "duration_min_days": 0,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Headache or swelling in pregnancy — possible pre-eclampsia, PHC within 48h"
+  },
+  {
+    "id": "TN-001",
+    "source": "TN_STATE",
+    "condition_pattern": "fever.*rash|rash.*fever|காய்ச்சல்.*தோல் புள்ளி|தோல் புள்ளி.*காய்ச்சல்|காய்ச்சல்.*சிவந்த",
+    "age_group": "child",
+    "duration_min_days": 2,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Fever with rash in child for 2+ days — possible measles, PHC evaluation required"
+  },
+  {
+    "id": "TN-002",
+    "source": "TN_STATE",
+    "condition_pattern": "fever|காய்ச்சல்",
+    "age_group": "adult",
+    "duration_min_days": 4,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Fever persisting 4+ days in adult — PHC evaluation required"
+  },
+  {
+    "id": "TN-003",
+    "source": "TN_STATE",
+    "condition_pattern": "fever.*rash.*cough|measles|தட்டம்மை|சிவந்த புள்ளி.*இருமல்",
+    "age_group": "child",
+    "duration_min_days": 2,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Suspected measles (fever+rash+cough triad) in child — PHC evaluation"
+  },
+  {
+    "id": "TN-004",
+    "source": "TN_STATE",
+    "condition_pattern": "cough|இருமல்",
+    "age_group": "any",
+    "duration_min_days": 21,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Persistent cough 3+ weeks — possible TB, PHC evaluation required"
+  }
+]

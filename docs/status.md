@@ -2,14 +2,14 @@
 
 **Last updated:** 2026-04-10
 **Sprint deadline:** 2026-05-18 (38 days remaining)
-**Overall progress:** 0% (0/55 atomic tasks complete)
+**Overall progress:** 31% (15/49 atomic tasks complete)
 
 ---
 
 ## Current Focus
 
 **Phase:** Week 1 — Foundation
-**Active task:** T1.1 — Create baseline_examples.json
+**Active task:** T4.1 — Dataset pipeline + T5+ training scripts (parallel)
 
 ---
 
@@ -27,7 +27,20 @@
 
 ## Completed Tasks
 
-*(none yet)*
+- ✅ T1.1 — eval/data/baseline_examples.json (20 Tamil triage fixtures, 7G/7Y/6R)
+- ✅ T1.2 — training/configs/baseline.yaml
+- ✅ T1.3 — training/scripts/baseline_eval.py
+- ✅ T2.1 — inference/protocol_engine/schema.sql (no PII, CHECK constraints)
+- ✅ T2.2 — inference/protocol_engine/rules/imnci_rules.json (15 rules)
+- ✅ T2.3 — inference/protocol_engine/load_rules.py (idempotent INSERT OR IGNORE)
+- ✅ T2.4 — inference/protocol_engine/engine.py (ProtocolEngine, confidence floor, disclaimer)
+- ✅ T2.5 — inference/protocol_engine/test_engine.py (9 tests)
+- ✅ T2.6 — All 9 engine tests pass
+- ✅ T3.1 — inference/function_calling/schemas.py (Pydantic v2, disclaimer validator)
+- ✅ T3.2 — inference/function_calling/handler.py (tool_call extraction + fallback)
+- ✅ T3.3 — inference/function_calling/test_handler.py (12 tests)
+- ✅ T3.4 — All 12 handler tests pass
+- ✅ T2.7/T3.5 — Verifier approved (21 total tests passing)
 
 ---
 

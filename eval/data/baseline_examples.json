@@ -1,0 +1,142 @@
+[
+  {
+    "symptom_description": "பெரியவருக்கு இன்று மட்டும் லேசான காய்ச்சல் இருக்கிறது, வேறு எந்த பிரச்சினையும் இல்லை",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "GREEN",
+    "case_description": "Mild fever in adult, 1 day, no other symptoms"
+  },
+  {
+    "symptom_description": "குழந்தைக்கு சளி மூக்கு ஒழுகுகிறது, இரண்டு நாட்களாக இருக்கிறது, காய்ச்சல் இல்லை",
+    "age_group": "child",
+    "duration_days": 2,
+    "gold_level": "GREEN",
+    "case_description": "Common cold with runny nose in child, 2 days, no fever"
+  },
+  {
+    "symptom_description": "பெரியவருக்கு கையில் சின்ன கீறல் காயம் ஆனது, ரத்தம் நின்றுவிட்டது, சிறிய காயம்",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "GREEN",
+    "case_description": "Minor cut/wound in adult, bleeding has stopped, small wound"
+  },
+  {
+    "symptom_description": "வயிறு லேசாக வலிக்கிறது என்கிறார், ஒரு நாளாகி இருக்கிறது, வாந்தி இல்லை காய்ச்சல் இல்லை",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "GREEN",
+    "case_description": "Mild stomach ache in adult, 1 day, no vomiting or fever"
+  },
+  {
+    "symptom_description": "தலை லேசாக வலிக்கிறது என்கிறார், ஒரு நாளாகி இருக்கிறது, காய்ச்சல் இல்லை, மயக்கம் இல்லை",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "GREEN",
+    "case_description": "Mild headache in adult, 1 day, no fever or dizziness"
+  },
+  {
+    "symptom_description": "நேற்று முதல் லேசான வயிற்றுப்போக்கு இருக்கிறது, நீர் குடிக்கிறார், சுறுசுறுப்பாக இருக்கிறார்",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "GREEN",
+    "case_description": "Mild diarrhea in adult, 1 day, drinking well, active"
+  },
+  {
+    "symptom_description": "தொண்டை லேசாக வலிக்கிறது என்கிறார், இரண்டு நாட்களாகி இருக்கிறது, சாப்பிட முடிகிறது",
+    "age_group": "adolescent",
+    "duration_days": 2,
+    "gold_level": "GREEN",
+    "case_description": "Mild sore throat in adolescent, 2 days, able to eat"
+  },
+  {
+    "symptom_description": "குழந்தைக்கு மூன்று நாட்களாக காய்ச்சல் இருக்கிறது, இப்போது உடம்பில் சிவந்த புள்ளிகள் தெரிகின்றன",
+    "age_group": "child",
+    "duration_days": 3,
+    "gold_level": "YELLOW",
+    "case_description": "Child with fever 3 days and red skin rash — possible measles signal, needs PHC evaluation"
+  },
+  {
+    "symptom_description": "குழந்தை இரண்டு நாட்களாக சரியாக சாப்பிடவில்லை, தண்ணீரும் குடிக்கவில்லை, சோர்வாக இருக்கிறது",
+    "age_group": "child",
+    "duration_days": 2,
+    "gold_level": "YELLOW",
+    "case_description": "Child not eating or drinking well for 2 days, lethargic — needs PHC assessment"
+  },
+  {
+    "symptom_description": "ஏழு மாத கர்ப்பிணி, கால் பாதம் வீங்கி இருக்கிறது, தலைவலியும் சொல்கிறாள்",
+    "age_group": "adult",
+    "duration_days": 3,
+    "gold_level": "YELLOW",
+    "case_description": "Pregnant woman 7th month with ankle swelling and headache — possible pre-eclampsia, needs PHC"
+  },
+  {
+    "symptom_description": "குழந்தைக்கு இரண்டு நாட்களாக வயிற்றுப்போக்கு இருக்கிறது, நீர் சரியாக குடிக்கிறது, காய்ச்சல் இல்லை",
+    "age_group": "child",
+    "duration_days": 2,
+    "gold_level": "YELLOW",
+    "case_description": "Moderate diarrhea in child for 2 days, drinking adequately — needs PHC monitoring"
+  },
+  {
+    "symptom_description": "பெரியவருக்கு ஐந்து நாட்களாக இருமல் இருக்கிறது, சளியும் வருகிறது, காய்ச்சல் லேசாக இருக்கிறது",
+    "age_group": "adult",
+    "duration_days": 5,
+    "gold_level": "YELLOW",
+    "case_description": "Persistent cough with phlegm in adult for 5 days, low-grade fever — needs PHC evaluation for TB risk"
+  },
+  {
+    "symptom_description": "நான்கு நாட்களாக காய்ச்சல் விடவில்லை, மருந்து சாப்பிட்டாலும் சரியாகவில்லை என்கிறார்",
+    "age_group": "adult",
+    "duration_days": 4,
+    "gold_level": "YELLOW",
+    "case_description": "Persistent fever in adult for 4 days not responding to home treatment — needs PHC visit"
+  },
+  {
+    "symptom_description": "குழந்தையின் உடம்பில் சிவந்த தடிப்புகள் பரவுகின்றன, மூன்று நாட்களாகி இருக்கிறது, காய்ச்சல் சின்னதாக இருக்கிறது",
+    "age_group": "child",
+    "duration_days": 3,
+    "gold_level": "YELLOW",
+    "case_description": "Spreading skin rash in child over 3 days with low fever — needs PHC evaluation for infection"
+  },
+  {
+    "symptom_description": "குழந்தைக்கு திடீரென்று வலிப்பு வந்தது, கை கால் துடித்தது, இப்போது மயக்கமாக இருக்கிறது",
+    "age_group": "child",
+    "duration_days": 1,
+    "gold_level": "RED",
+    "case_description": "Convulsion/seizure in child with post-ictal lethargy — emergency, go now"
+  },
+  {
+    "symptom_description": "இரண்டு மாத குழந்தைக்கு காய்ச்சல் வந்துவிட்டது, சூடாக இருக்கிறது",
+    "age_group": "infant",
+    "duration_days": 1,
+    "gold_level": "RED",
+    "case_description": "Fever in infant under 2 months — always RED per IMNCI, emergency referral required"
+  },
+  {
+    "symptom_description": "திடீரென்று நெஞ்சு வலிக்கிறது என்கிறார், கை வலிக்கிறது என்கிறார், மூச்சு விட சிரமம் படுகிறார்",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "RED",
+    "case_description": "Sudden chest pain radiating to arm with breathing difficulty in adult — possible cardiac emergency"
+  },
+  {
+    "symptom_description": "கர்ப்பிணிக்கு திடீரென்று ரத்தம் போகிறது, வயிற்றில் வலிக்கிறது என்கிறாள்",
+    "age_group": "adult",
+    "duration_days": 1,
+    "gold_level": "RED",
+    "case_description": "Vaginal bleeding during pregnancy with abdominal pain — obstetric emergency, go now"
+  },
+  {
+    "symptom_description": "குழந்தைக்கு மூச்சு விட மிகவும் கஷ்டமாக இருக்கிறது, உதடு நீலமாக மாறுகிறது, மார்பு உள்ளே போகிறது",
+    "age_group": "child",
+    "duration_days": 1,
+    "gold_level": "RED",
+    "case_description": "Severe respiratory distress in child with cyanosis and chest in-drawing — emergency, go now"
+  },
+  {
+    "symptom_description": "குழந்தைக்கு அதிக காய்ச்சல் இருக்கிறது, உடம்பு முழுவதும் சிவந்த புள்ளிகள், தூக்கமாக சோர்வாக கிடக்கிறது, எழுந்திருக்கவே மறுக்கிறது",
+    "age_group": "child",
+    "duration_days": 2,
+    "gold_level": "RED",
+    "case_description": "High fever with widespread rash and severe lethargy in child — measles emergency, risk of complications"
+  }
+]
