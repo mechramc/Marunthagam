@@ -2,14 +2,14 @@
 
 **Last updated:** 2026-04-10
 **Sprint deadline:** 2026-05-18 (38 days remaining)
-**Overall progress:** 31% (15/49 atomic tasks complete)
+**Overall progress:** 40% (20/49 atomic tasks complete)
 
 ---
 
 ## Current Focus
 
 **Phase:** Week 1 — Foundation
-**Active task:** T4.1 — Dataset pipeline + T5+ training scripts (parallel)
+**Active task:** T5.1 — LoRA training scripts (Unsloth QLoRA)
 
 ---
 
@@ -17,7 +17,7 @@
 
 | Phase | Week | Tasks | Done | Status |
 |-------|------|-------|------|--------|
-| Foundation | Apr 10–16 | T1–T4 (28 tasks) | 0 | 🔲 Not started |
+| Foundation | Apr 10–16 | T1–T4 (28 tasks) | 20 | 🟡 In progress |
 | Fine-Tuning | Apr 17–23 | T5–T6 (11 tasks) | 0 | 🔲 Blocked on data |
 | App Build | Apr 24–30 | T7–T8 (14 tasks) | 0 | 🔲 Not started |
 | Evaluation | May 1–7 | T9–T10 (16 tasks) | 0 | 🔲 Blocked on models |
@@ -41,6 +41,11 @@
 - ✅ T3.3 — inference/function_calling/test_handler.py (12 tests)
 - ✅ T3.4 — All 12 handler tests pass
 - ✅ T2.7/T3.5 — Verifier approved (21 total tests passing)
+- ✅ T4.1 — training/data/README.md (data pipeline docs, 8 sections)
+- ✅ T4.2 — training/scripts/translate_dataset.py (Gemma 4 31B automated translation)
+- ✅ T4.3 — training/data/fixtures/ (30 fixture entries: 10 each triage/derm/maternal)
+- ✅ T4.4 — training/scripts/format_training_data.py (Gemma 4 chat format, 80/10/10 split)
+- ✅ T4.5 — Format pipeline validated (val non-empty, disclaimer enforced, correct 4-turn format)
 
 ---
 

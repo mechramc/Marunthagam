@@ -21,6 +21,14 @@ Verifier agent signs off before any push.
 
 ## Checkpoints
 
+### [2026-04-10 20:48] Checkpoint 2 — Dataset pipeline + baseline eval
+
+**Tasks completed:** T4.1–T4.5
+**Tests passing:** 31 (9 engine + 10 logger + 12 handler)
+**Verifier:** ✅ Approved — all splits non-empty, disclaimer enforced, 4-turn format correct
+**Files:** training/data/README.md, training/scripts/translate_dataset.py, training/data/fixtures/ (3×10 JSONL), training/scripts/format_training_data.py
+**Notes:** val.jsonl uses max(1, round(n×VAL_RATIO)) to guarantee non-empty with small fixture groups. test.jsonl is empty for 10-example fixtures (expected — real data will have hundreds).
+
 ### [2026-04-10 14:30] Checkpoint 1 — Protocol engine + Function calling
 
 **Tasks completed:** T1.1–T1.3, T2.1–T2.7, T3.1–T3.5
