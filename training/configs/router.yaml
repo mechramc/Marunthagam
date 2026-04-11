@@ -1,0 +1,21 @@
+# KALAVAI MoE Router Configuration
+# Single linear layer (embedding_dim → 3) + softmax
+# Based on KALAVAI paper (arXiv:2603.22755)
+
+# Data directory containing formatted specialist val.jsonl files
+data_dir: "data/formatted"
+
+# Embedding dimension (must match E4B hidden size)
+# TODO: Use actual Gemma 4 E4B embeddings (dim=2560 for E4B)
+# Stub uses 768 for pipeline testing
+embedding_dim: 768
+
+# Training hyperparameters
+learning_rate: 1.0e-3
+epochs: 50
+
+# Output
+output_dir: "outputs/router"
+
+# Routing strategy: "top1" (default) or "top2_weighted" (for ambiguous inputs)
+routing_strategy: "top1"

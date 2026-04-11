@@ -1,0 +1,20 @@
+# LoRA-Maternal: Maternal and child health specialist (IMNCI-aligned)
+specialist: maternal
+base_model: "unsloth/gemma-4-E4B-it"
+max_seq_length: 4096
+lora_rank: 32
+lora_alpha: 64
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+batch_size: 4
+gradient_accumulation: 4
+epochs: 3
+learning_rate: 2.0e-4
+warmup_steps: 50
+use_wandb: true

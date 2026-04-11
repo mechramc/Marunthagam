@@ -21,6 +21,14 @@ Verifier agent signs off before any push.
 
 ## Checkpoints
 
+### [2026-04-10 23:12] Checkpoint 3 — Week 2 training scripts + inference logger
+
+**Tasks completed:** T5.1–T5.2, T6.1–T6.3, T8.1–T8.4
+**Tests passing:** 33 (9 engine + 12 logger + 12 handler)
+**Verifier:** ✅ Approved — all guarded imports confirmed, KalavaiRouter architecture correct, 12 logger tests pass, PII guarantee verified
+**Files:** train_lora.py, lora_*.yaml (×3), train_router.py, router.yaml, export_gguf.py, logger.py, test_logger.py
+**Notes:** embed_text in train_router.py uses random-normal stub (documented TODO); router.yaml embedding_dim=768 placeholder (real E4B dim=2560, will update before Week 4 eval). Logger test_logger.py now covers get_pending_sync and full PII forbidden column set.
+
 ### [2026-04-10 20:48] Checkpoint 2 — Dataset pipeline + baseline eval
 
 **Tasks completed:** T4.1–T4.5

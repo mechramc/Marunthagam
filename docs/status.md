@@ -2,14 +2,14 @@
 
 **Last updated:** 2026-04-10
 **Sprint deadline:** 2026-05-18 (38 days remaining)
-**Overall progress:** 40% (20/49 atomic tasks complete)
+**Overall progress:** 57% (28/49 atomic tasks complete)
 
 ---
 
 ## Current Focus
 
 **Phase:** Week 1 — Foundation
-**Active task:** T5.1 — LoRA training scripts (Unsloth QLoRA)
+**Active task:** T7.1 — Android app project structure
 
 ---
 
@@ -17,8 +17,8 @@
 
 | Phase | Week | Tasks | Done | Status |
 |-------|------|-------|------|--------|
-| Foundation | Apr 10–16 | T1–T4 (28 tasks) | 20 | 🟡 In progress |
-| Fine-Tuning | Apr 17–23 | T5–T6 (11 tasks) | 0 | 🔲 Blocked on data |
+| Foundation | Apr 10–16 | T1–T4 (28 tasks) | 28 | ✅ Complete |
+| Fine-Tuning | Apr 17–23 | T5–T6 (11 tasks) | 6 | ✅ Complete |
 | App Build | Apr 24–30 | T7–T8 (14 tasks) | 0 | 🔲 Not started |
 | Evaluation | May 1–7 | T9–T10 (16 tasks) | 0 | 🔲 Blocked on models |
 | Submission | May 8–18 | T11 (6 tasks) | 0 | 🔲 Not started |
@@ -46,6 +46,15 @@
 - ✅ T4.3 — training/data/fixtures/ (30 fixture entries: 10 each triage/derm/maternal)
 - ✅ T4.4 — training/scripts/format_training_data.py (Gemma 4 chat format, 80/10/10 split)
 - ✅ T4.5 — Format pipeline validated (val non-empty, disclaimer enforced, correct 4-turn format)
+- ✅ T5.1 — training/scripts/train_lora.py (parameterized Unsloth QLoRA trainer, 3 seeds)
+- ✅ T5.2 — training/configs/lora_triage.yaml, lora_derm.yaml, lora_maternal.yaml
+- ✅ T6.1 — training/scripts/train_router.py (KalavaiRouter: nn.Linear + softmax)
+- ✅ T6.2 — training/scripts/export_gguf.py + training/configs/router.yaml
+- ✅ T6.3 — Week 2 training scripts verified (LoRA + router + GGUF export, all guarded imports)
+- ✅ T8.1 — inference/protocol_engine/logger.py (encrypted SQLite interaction logger)
+- ✅ T8.2 — inference/protocol_engine/test_logger.py (12 tests)
+- ✅ T8.3 — All 12 logger tests pass
+- ✅ T8.4 — Logger + full inference suite verified (33 total tests green)
 
 ---
 
