@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher icon foreground — simple cross symbol for health -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Vertical bar of cross -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M46,20 L62,20 L62,88 L46,88 Z" />
+    <!-- Horizontal bar of cross -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,46 L88,46 L88,62 L20,62 Z" />
+</vector>

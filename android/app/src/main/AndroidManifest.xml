@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml — Marunthagam
+
+    Design notes:
+      - INTERNET is listed with tools:node="remove" so the merger removes it from
+        the final APK manifest, making the offline-only constraint explicit and
+        verifiable (adb shell dumpsys package com.marunthagam.marunthagam).
+      - largeHeap="true" is required: the Gemma 4 E4B Q4_K_M model is ~5 GB;
+        without it the JVM heap ceiling on many devices will OOM before llama.cpp
+        even starts loading weights.
+      - configChanges on MainActivity prevents Activity recreation during inference;
+        recreating mid-inference would free the loaded model and corrupt the context.
+-->
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.marunthagam">
+
+    <!-- Storage — read GGUF model from /sdcard/marunthagam/ -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!-- Android 13+ scoped media permissions replace READ_EXTERNAL_STORAGE -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- Encrypted log DB in private app storage — WRITE not needed for internal storage,
+         but kept for future sdcard sync of anonymised aggregates -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- Camera — clinical photo input for dermatology triage -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- Microphone — voice symptom input via Whisper-small-Tamil fallback (offline) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!--
+        INTERNET is explicitly removed from the merged manifest.
+        Marunthagam is fully offline — no network calls in the inference path.
+        This prevents accidental network usage and satisfies the hackathon offline requirement.
+    -->
+    <uses-permission android:name="android.permission.INTERNET"
+        tools:node="remove" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        tools:targetApi="35">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+    </application>
+
+</manifest>

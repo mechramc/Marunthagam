@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name in Tamil: "மருந்தகம்" = "pharmacy / medicine store" — brand name -->
+    <string name="app_name">மருந்தகம்</string>
+
+    <!-- Assess / submit button: "தீர்மானி" = "Assess" / "Determine" -->
+    <string name="btn_assess">தீர்மானி</string>
+
+    <!-- Symptom input hint: "Enter symptoms here" -->
+    <string name="hint_symptoms">அறிகுறிகளை இங்கே உள்ளிடுங்கள்</string>
+
+    <!-- Age group dropdown label: "Age group" -->
+    <string name="label_age_group">வயது பிரிவு</string>
+
+    <!-- Duration field label: "Days (how many days?)" -->
+    <string name="label_duration">நாட்கள் (எத்தனை நாளாக?)</string>
+
+    <!--
+        Medical disclaimer — MUST appear in every triage screen.
+        "This is not medical advice" (CLAUDE.md requirement).
+    -->
+    <string name="disclaimer">இது மருத்துவ ஆலோசனை அல்ல</string>
+
+    <!-- Loading state: "Loading model..." — shown while llama.cpp loads the GGUF -->
+    <string name="loading_model">மாதிரி ஏற்றுகிறது…</string>
+
+    <!-- Error: "Model file not found" — shown when GGUF is absent from /sdcard/ -->
+    <string name="error_model_not_found">மாதிரி கோப்பு கிடைக்கவில்லை</string>
+
+    <!-- Snackbar validation message: "Please enter symptoms" -->
+    <string name="error_symptoms_empty">அறிகுறிகளை உள்ளிடுங்கள்</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        age_groups — internal values passed to TriageEngine.triage(ageGroup=…)
+        Must stay in sync with VALID_AGE_GROUPS in TriageEngine.kt and the
+        function schema enum in triage_classify().
+    -->
+    <string-array name="age_groups">
+        <item>infant</item>
+        <item>child</item>
+        <item>adolescent</item>
+        <item>adult</item>
+        <item>elderly</item>
+    </string-array>
+
+    <!--
+        age_groups_tamil — display labels shown in the AutoCompleteTextView dropdown.
+        Indices must align 1:1 with age_groups above so the selected position maps
+        correctly to the internal value.
+    -->
+    <string-array name="age_groups_tamil">
+        <!-- "Infant (< 2 years)" -->
+        <item>குழந்தை (&lt; 2 வருடம்)</item>
+        <!-- "Child (2–12)" -->
+        <item>குழந்தை (2–12)</item>
+        <!-- "Adolescent (13–18)" -->
+        <item>இளைஞர் (13–18)</item>
+        <!-- "Adult" -->
+        <item>பெரியவர்</item>
+        <!-- "Elderly" -->
+        <item>முதியவர்</item>
+    </string-array>
+</resources>
