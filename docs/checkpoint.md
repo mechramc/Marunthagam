@@ -21,6 +21,24 @@ Verifier agent signs off before any push.
 
 ## Checkpoints
 
+### [2026-04-12 04:38] Checkpoint 5 — Task 9+7+11: eval suite completion, Android scaffold, README + docs
+
+**Commit:** 26a1736
+**Tasks completed:** T9.2–T9.4 (eval_safety, eval_latency, adversarial_prompts), T7.4–T7.8 (Android Gradle + Manifest + MainActivity), T11.1–T11.3 (README, architecture.md, protocol_spec.md)
+**Tests passing:** 33 (unchanged — new code is scripts/docs, no new pytest suites)
+**Verifier:** ✅ Approved — eval scripts run clean in mock mode, Android namespace consistency confirmed, README structure matches spec
+**Files:** eval_safety.py, eval_latency.py, adversarial_prompts.json (100 prompts), build.gradle.kts (app+root), settings.gradle.kts, gradle.properties, gradle-wrapper.properties, AndroidManifest.xml, MainActivity.kt, strings.xml, arrays.xml, adaptive icons, README.md, docs/architecture.md, docs/protocol_spec.md
+**Notes:** Latency mock reports FAIL on workstation targets (expected — phone-tier TTFT ~2s vs workstation target <1s). Safety mock reports 98/100 (2 intentional slip-throughs for realistic testing). Android needs: llama.cpp source in cpp/llama.cpp/, NDK r26+, local.properties.
+
+### [2026-04-12 03:00] Checkpoint 4 — Week 3 build: eval scripts, Android JNI, React dashboard, results notebook
+
+**Commit:** 3a00b7a
+**Tasks completed:** T7.1–T7.3 (Android JNI + Kotlin + layout), T9.1 (run_eval.py + eval_triage.py + ablation_rank.py), T10.1–T10.4 (full React+D3 dashboard), notebook
+**Tests passing:** 33 (all prior tests green)
+**Verifier:** ✅ Approved — eval scripts run mock mode, privacy fix applied (kv_cache_clear on prefill failure), disclaimer moved outside hidden CardView, D3 null guards added, Tamil i18n centralized
+**Files:** eval/scripts/ (3 files), eval/notebooks/results_analysis.ipynb, android JNI (6 files), dashboard (21 files), training/data/formatted_test/ (9 JSONL splits)
+**Notes:** Critical privacy fix: added kv_cache_clear() on JNI prefill error path to prevent cross-patient context bleed. Dashboard uses Tamil Nadu geohash prefixes tf7/tf8.
+
 ### [2026-04-10 23:12] Checkpoint 3 — Week 2 training scripts + inference logger
 
 **Tasks completed:** T5.1–T5.2, T6.1–T6.3, T8.1–T8.4
