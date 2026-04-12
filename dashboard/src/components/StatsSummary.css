@@ -1,0 +1,79 @@
+/* StatsSummary — four-card overview strip */
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+@media (max-width: 1280px) {
+  .stats-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-card {
+  position: relative;
+  background: #16213e;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem 1rem;
+  overflow: hidden;
+  border: 1px solid #2a2a4a;
+}
+
+.stat-card__accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent, #a0aec0);
+  border-radius: 8px 0 0 8px;
+}
+
+.stat-card__value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0 0 0.25rem;
+  line-height: 1;
+}
+
+.stat-card__sub-value {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  margin: 0 0 0.5rem;
+}
+
+.stat-card__label-tamil {
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  margin: 0.5rem 0 0.1rem;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+.stat-card__label-english {
+  font-size: 0.75rem;
+  color: #718096;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.delta {
+  font-size: 0.78rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.delta.up    { color: #2ecc71; }
+.delta.down  { color: #e74c3c; }
+.delta.neutral { color: #718096; }
+
+.delta__symbol {
+  font-size: 1rem;
+  font-weight: 700;
+}

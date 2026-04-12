@@ -96,6 +96,8 @@ protocol/schemas/compiled/
 # Evaluation outputs
 eval/results/raw/
 eval/results/*.csv
+eval/results/run_*.json
+eval/results/triage_eval_*.json
 
 # Temp / scratch
 scratch/

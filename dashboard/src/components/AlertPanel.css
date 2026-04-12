@@ -1,0 +1,161 @@
+/* AlertPanel — RED cluster alert list */
+
+.alert-panel {
+  background: #16213e;
+  border-radius: 8px;
+  border: 1px solid #2a2a4a;
+  overflow: hidden;
+}
+
+.alert-panel__header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #2a2a4a;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.alert-panel__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+.alert-panel__title-en {
+  font-size: 0.8rem;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Empty state */
+.alert-panel__empty {
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.alert-panel__empty-tamil {
+  font-size: 1rem;
+  color: #2ecc71;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  margin: 0 0 0.25rem;
+}
+
+.alert-panel__empty-english {
+  font-size: 0.85rem;
+  color: #718096;
+  margin: 0;
+}
+
+/* List */
+.alert-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Alert item */
+.alert-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid #1a1a3a;
+  transition: background 0.15s ease;
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
+
+.alert-item:hover {
+  background: #1a1a3a;
+}
+
+.alert-item--critical {
+  border-left: 3px solid #e74c3c;
+}
+
+/* Left column */
+.alert-item__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 7rem;
+}
+
+.alert-item__geohash {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #a0aec0;
+  letter-spacing: 0.08em;
+}
+
+.critical-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+.critical-badge__en {
+  font-family: inherit;
+  color: rgba(231, 76, 60, 0.8);
+}
+
+/* Center column */
+.alert-item__center {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.alert-item__red-count {
+  font-size: 0.875rem;
+  color: #cbd5e0;
+}
+
+.alert-item__red-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e74c3c;
+}
+
+.trend-badge {
+  font-size: 0.78rem;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  padding: 0.1rem 0;
+}
+
+.trend-badge--up     { color: #e74c3c; }
+.trend-badge--down   { color: #2ecc71; }
+.trend-badge--stable { color: #a0aec0; }
+
+/* Right column */
+.alert-item__right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+}
+
+.alert-item__timing {
+  font-size: 0.78rem;
+  color: #718096;
+}
+
+.alert-item__timing-label {
+  color: #a0aec0;
+  font-weight: 500;
+}

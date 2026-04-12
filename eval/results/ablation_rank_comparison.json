@@ -1,0 +1,235 @@
+{
+  "timestamp": "20260412_010009",
+  "targets": {
+    "weighted_f1": 0.8,
+    "red_recall": 0.9
+  },
+  "break_even": {
+    "min_rank_for_f1_target": 16,
+    "min_rank_for_red_recall_target": 16
+  },
+  "plot_data": {
+    "ranks": [
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "weighted_f1_mean": [
+      0.6482,
+      0.7303,
+      0.8096,
+      0.8415,
+      0.8511
+    ],
+    "weighted_f1_std": [
+      0.0213,
+      0.0306,
+      0.0123,
+      0.0057,
+      0.0073
+    ],
+    "red_recall_mean": [
+      0.7135,
+      0.8151,
+      0.9052,
+      0.9252,
+      0.9364
+    ],
+    "red_recall_std": [
+      0.0034,
+      0.0056,
+      0.0174,
+      0.0185,
+      0.012
+    ]
+  },
+  "summaries": [
+    {
+      "rank": 4,
+      "source": "mock",
+      "n_seeds": 3,
+      "weighted_f1_mean": 0.6482,
+      "weighted_f1_std": 0.0213,
+      "macro_f1_mean": 0.6306,
+      "macro_f1_std": 0.0175,
+      "red_recall_mean": 0.7135,
+      "red_recall_std": 0.0034,
+      "seed_results": [
+        {
+          "seed": 42,
+          "weighted_f1": 0.6783,
+          "macro_f1": 0.6552,
+          "red_recall": 0.7141,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 137,
+          "weighted_f1": 0.6328,
+          "macro_f1": 0.6208,
+          "red_recall": 0.7174,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 256,
+          "weighted_f1": 0.6336,
+          "macro_f1": 0.6158,
+          "red_recall": 0.7091,
+          "n_cases": 30,
+          "source": "mock"
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "source": "mock",
+      "n_seeds": 3,
+      "weighted_f1_mean": 0.7303,
+      "weighted_f1_std": 0.0306,
+      "macro_f1_mean": 0.7069,
+      "macro_f1_std": 0.0286,
+      "red_recall_mean": 0.8151,
+      "red_recall_std": 0.0056,
+      "seed_results": [
+        {
+          "seed": 42,
+          "weighted_f1": 0.7575,
+          "macro_f1": 0.7352,
+          "red_recall": 0.8186,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 137,
+          "weighted_f1": 0.7458,
+          "macro_f1": 0.7179,
+          "red_recall": 0.8072,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 256,
+          "weighted_f1": 0.6876,
+          "macro_f1": 0.6677,
+          "red_recall": 0.8195,
+          "n_cases": 30,
+          "source": "mock"
+        }
+      ]
+    },
+    {
+      "rank": 16,
+      "source": "mock",
+      "n_seeds": 3,
+      "weighted_f1_mean": 0.8096,
+      "weighted_f1_std": 0.0123,
+      "macro_f1_mean": 0.7896,
+      "macro_f1_std": 0.0129,
+      "red_recall_mean": 0.9052,
+      "red_recall_std": 0.0174,
+      "seed_results": [
+        {
+          "seed": 42,
+          "weighted_f1": 0.807,
+          "macro_f1": 0.7833,
+          "red_recall": 0.8914,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 137,
+          "weighted_f1": 0.796,
+          "macro_f1": 0.7778,
+          "red_recall": 0.8944,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 256,
+          "weighted_f1": 0.8257,
+          "macro_f1": 0.8076,
+          "red_recall": 0.9297,
+          "n_cases": 30,
+          "source": "mock"
+        }
+      ]
+    },
+    {
+      "rank": 32,
+      "source": "mock",
+      "n_seeds": 3,
+      "weighted_f1_mean": 0.8415,
+      "weighted_f1_std": 0.0057,
+      "macro_f1_mean": 0.8228,
+      "macro_f1_std": 0.0132,
+      "red_recall_mean": 0.9252,
+      "red_recall_std": 0.0185,
+      "seed_results": [
+        {
+          "seed": 42,
+          "weighted_f1": 0.834,
+          "macro_f1": 0.8042,
+          "red_recall": 0.9338,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 137,
+          "weighted_f1": 0.8426,
+          "macro_f1": 0.8301,
+          "red_recall": 0.9423,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 256,
+          "weighted_f1": 0.8478,
+          "macro_f1": 0.834,
+          "red_recall": 0.8995,
+          "n_cases": 30,
+          "source": "mock"
+        }
+      ]
+    },
+    {
+      "rank": 64,
+      "source": "mock",
+      "n_seeds": 3,
+      "weighted_f1_mean": 0.8511,
+      "weighted_f1_std": 0.0073,
+      "macro_f1_mean": 0.8306,
+      "macro_f1_std": 0.0136,
+      "red_recall_mean": 0.9364,
+      "red_recall_std": 0.012,
+      "seed_results": [
+        {
+          "seed": 42,
+          "weighted_f1": 0.8416,
+          "macro_f1": 0.8139,
+          "red_recall": 0.92,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 137,
+          "weighted_f1": 0.8524,
+          "macro_f1": 0.8306,
+          "red_recall": 0.9406,
+          "n_cases": 30,
+          "source": "mock"
+        },
+        {
+          "seed": 256,
+          "weighted_f1": 0.8594,
+          "macro_f1": 0.8473,
+          "red_recall": 0.9486,
+          "n_cases": 30,
+          "source": "mock"
+        }
+      ]
+    }
+  ]
+}

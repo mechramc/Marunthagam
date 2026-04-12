@@ -1,0 +1,170 @@
+/* App shell: sidebar + content area */
+
+:root {
+  --color-green:      #2ecc71;
+  --color-yellow:     #f39c12;
+  --color-red:        #e74c3c;
+  --color-bg:         #1a1a2e;
+  --color-surface:    #16213e;
+  --color-border:     #2a2a4a;
+  --color-text:       #e2e8f0;
+  --color-text-muted: #718096;
+  --sidebar-width:    220px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App shell ── */
+
+.app-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sidebar ── */
+
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar__brand {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar__brand-tamil {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-green);
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  line-height: 1.2;
+}
+
+.sidebar__brand-subtitle {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  margin-top: 0.3rem;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  line-height: 1.4;
+}
+
+/* ── Nav list ── */
+
+.sidebar__nav-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0 0.5rem;
+  flex: 1;
+}
+
+.sidebar__nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--color-text-muted);
+  transition: background 0.15s ease, color 0.15s ease;
+  margin-bottom: 0.25rem;
+}
+
+.sidebar__nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+}
+
+.sidebar__nav-item--active {
+  background: rgba(46, 204, 113, 0.12);
+  color: var(--color-green);
+}
+
+.sidebar__nav-icon {
+  font-size: 1rem;
+  width: 1.25rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sidebar__nav-label-tamil {
+  font-size: 0.85rem;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  line-height: 1.3;
+}
+
+.sidebar__nav-label-en {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  display: block;
+  line-height: 1;
+}
+
+/* When active, en label also gets accent color */
+.sidebar__nav-item--active .sidebar__nav-label-en {
+  color: rgba(46, 204, 113, 0.7);
+}
+
+/* ── Sidebar footer ── */
+
+.sidebar__footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.sidebar__disclaimer {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  line-height: 1.5;
+}
+
+/* ── Content area ── */
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* Scrollbar styling for content area */
+.content-area::-webkit-scrollbar {
+  width: 6px;
+}
+.content-area::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+.content-area::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}

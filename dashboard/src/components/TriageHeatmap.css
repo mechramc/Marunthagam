@@ -1,0 +1,94 @@
+/* TriageHeatmap */
+
+.heatmap-container {
+  background: #16213e;
+  border-radius: 8px;
+  border: 1px solid #2a2a4a;
+  padding: 1.25rem 1.5rem;
+}
+
+.heatmap-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.heatmap-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+.heatmap-title-en {
+  font-size: 0.8rem;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heatmap-legend {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legend-label {
+  font-size: 0.78rem;
+  color: #a0aec0;
+}
+
+.heatmap-svg-wrapper {
+  position: relative;
+  overflow-x: auto;
+}
+
+.heatmap-svg {
+  display: block;
+  cursor: default;
+}
+
+/* D3 cell group hover: brighten */
+.heatmap-svg g[role="button"]:hover rect,
+.heatmap-svg g[role="button"]:focus rect {
+  filter: brightness(1.2);
+  outline: 2px solid #e2e8f0;
+}
+
+.heatmap-svg g[role="button"]:focus {
+  outline: none; /* outline on the rect instead */
+}
+
+/* Tooltip */
+.heatmap-tooltip {
+  display: none;
+  position: fixed;
+  background: rgba(22, 33, 62, 0.97);
+  border: 1px solid #2a2a4a;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  pointer-events: none;
+  z-index: 1000;
+  max-width: 220px;
+  line-height: 1.6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}

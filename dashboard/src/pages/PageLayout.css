@@ -1,0 +1,46 @@
+/* Shared page layout styles */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  min-height: 100%;
+}
+
+.page__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+.page__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+.page__updated {
+  font-size: 0.78rem;
+  color: #718096;
+}
+
+.page__section {
+  width: 100%;
+}
+
+.page__disclaimer {
+  font-size: 0.82rem;
+  color: #718096;
+  font-style: italic;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid #2a2a4a;
+}

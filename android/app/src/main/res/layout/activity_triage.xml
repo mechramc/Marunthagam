@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_triage.xml — Triage input and result screen for ASHA workers.
+
+    Design principles:
+      - Material Design 3 components throughout.
+      - Tamil hint text and labels to support non-English-literate workers.
+      - Result panel is GONE initially; revealed by the ViewModel after inference.
+      - Triage level badge background is set programmatically from TriageLevel
+        (GREEN → #4CAF50, YELLOW → #FFC107, RED → #F44336).
+      - Minimum touch target size ≥ 48 dp for accessibility (WCAG 2.1 AA).
+-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ================================================================
+             SECTION: Page heading
+             ================================================================ -->
+        <TextView
+            android:id="@+id/tvHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="மருந்தகம் — நோயாளி தகவல்"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textColor="?attr/colorOnSurface" />
+
+        <!-- Sub-heading — "Enter patient details below" -->
+        <TextView
+            android:id="@+id/tvSubheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="கீழே நோயாளி விவரங்களை உள்ளிடுங்கள்"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- ================================================================
+             SECTION: Symptom description input
+             Hint: "அறிகுறிகளை இங்கே உள்ளிடுங்கள்" = "Enter symptoms here"
+             ================================================================ -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSymptoms"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="அறிகுறிகளை இங்கே உள்ளிடுங்கள்"
+            app:counterEnabled="true"
+            app:counterMaxLength="500"
+            app:helperText="Tamil அல்லது English-ல் உள்ளிடலாம்">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSymptoms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLines="6"
+                android:minLines="3"
+                android:scrollbars="vertical" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ================================================================
+             SECTION: Age group spinner
+             "வயது பிரிவு" = "Age group"
+             ================================================================ -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAgeGroup"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="வயது பிரிவு">
+
+            <!--
+                Use AutoCompleteTextView rather than Spinner to stay within
+                Material3 ExposedDropdownMenu pattern. Adapter is set in Activity:
+                    ArrayAdapter(ctx, R.layout.list_item, R.array.age_groups)
+            -->
+            <AutoCompleteTextView
+                android:id="@+id/spinnerAgeGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                tools:text="adult" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ================================================================
+             SECTION: Duration in days
+             "நாட்கள் (அறிகுறி காலம்)" = "Days (symptom duration)"
+             ================================================================ -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDuration"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="நாட்கள் (அறிகுறி காலம்)"
+            app:helperText="உதாரணம்: 3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDurationDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                tools:text="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ================================================================
+             SECTION: Assess / submit button
+             "தீர்மானி" = "Assess" / "Determine"
+             ================================================================ -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAssess"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:minHeight="56dp"
+            android:text="தீர்மானி"
+            android:textSize="16sp" />
+
+        <!-- Progress indicator — visible during inference (managed by ViewModel) -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressInference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:trackCornerRadius="4dp" />
+
+        <!-- ================================================================
+             SECTION: Result panel (initially hidden)
+             Revealed by ViewModel after successful inference.
+             ================================================================ -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Triage level badge row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- Level label: "தீர்மானிப்பு" = "Assessment" -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="தீர்மானிப்பு"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <!--
+                        Level badge — background tint set programmatically:
+                          GREEN  → colorGreen  (#4CAF50)
+                          YELLOW → colorYellow (#FFC107)
+                          RED    → colorRed    (#F44336)
+                    -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTriageLevel"
+                        style="@style/Widget.Material3.Chip.Assist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="GREEN"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        tools:text="YELLOW" />
+
+                </LinearLayout>
+
+                <!-- Divider -->
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Confidence score: "நம்பகத்தன்மை" = "Confidence" -->
+                <TextView
+                    android:id="@+id/tvConfidenceLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="நம்பகத்தன்மை"
+                    android:textAppearance="?attr/textAppearanceLabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvConfidence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    tools:text="82%" />
+
+                <!-- Escalation warning — shown only when escalationFlag = true -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEscalation"
+                    style="@style/Widget.Material3.Chip.Assist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="உடனடி மேல்நிலை பரிந்துரை"
+                    android:visibility="gone"
+                    app:chipBackgroundColor="#FFF3E0"
+                    app:chipStrokeColor="#FF9800"
+                    tools:visibility="visible" />
+
+                <!-- Next steps heading: "அடுத்த படிகள்" = "Next steps" -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="அடுத்த படிகள்"
+                    android:textAppearance="?attr/textAppearanceLabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvNextSteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:lineSpacingMultiplier="1.4"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    tools:text="நீர் அதிகமாக குடிக்கவும். இரண்டு நாட்களில் குணமடையாவிட்டால் மருத்துவரை அணுகுங்கள்." />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!--
+            Disclaimer — placed OUTSIDE cardResult so it is always visible,
+            regardless of whether inference has completed.
+            Requirement: "இது மருத்துவ ஆலோசனை அல்ல" must never be hidden.
+        -->
+        <TextView
+            android:id="@+id/tvDisclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="இது மருத்துவ ஆலோசனை அல்ல"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
+            android:textColor="?attr/colorError"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+</ScrollView>
