@@ -50,6 +50,7 @@ training/data/processed/
 android/.gradle/
 android/build/
 android/app/build/
+android/app/.cxx/
 android/local.properties
 *.apk
 *.aab
@@ -98,6 +99,8 @@ eval/results/raw/
 eval/results/*.csv
 eval/results/run_*.json
 eval/results/triage_eval_*.json
+eval/results/latency_*.json
+eval/results/safety_eval_*.json
 
 # Temp / scratch
 scratch/

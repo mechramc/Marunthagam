@@ -99,6 +99,12 @@ cd dashboard && npm install && npm run dev
 cd android && ./gradlew assembleDebug
 ```
 
+Build verification as of 2026-04-14:
+
+- Dashboard production build passes with `npm run build`
+- Android debug APK build passes with `./gradlew assembleDebug`
+- Android additionally requires `android/app/src/main/cpp/llama.cpp/`, an installed Android SDK/NDK, and a valid `android/local.properties`
+
 ---
 
 ## Evaluation Results

@@ -32,7 +32,9 @@ if(ANDROID_ABI STREQUAL "arm64-v8a")
     add_compile_options(
         -march=armv8-a+fp+simd   # baseline for all Android ARM64 devices
         -O3
-        -ffast-math              # safe for inference workloads (no IEEE edge cases needed)
+        # ggml explicitly requires non-finite math support; avoid -ffast-math
+        # because it implies -ffinite-math-only and breaks current llama.cpp.
+        -fno-finite-math-only
     )
     message(STATUS "ARM64-v8a target: NEON / SIMD enabled via -march=armv8-a+fp+simd")
 endif()

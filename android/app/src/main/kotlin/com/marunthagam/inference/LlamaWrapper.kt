@@ -60,9 +60,9 @@ object LlamaWrapper {
     // These map 1-to-1 to the JNI exports in marunthagam_jni.cpp.
     // -----------------------------------------------------------------------
 
-    private external fun loadModel(modelPath: String): Boolean
-    private external fun runInference(prompt: String, maxTokens: Int): String
-    private external fun freeModel()
+    private external fun nativeLoadModel(modelPath: String): Boolean
+    private external fun nativeRunInference(prompt: String, maxTokens: Int): String
+    private external fun nativeFreeModel()
 
     // -----------------------------------------------------------------------
     // Public API — all suspend functions; safe to call from any coroutine scope
@@ -83,7 +83,7 @@ object LlamaWrapper {
     suspend fun loadModel(modelPath: String): Boolean = withContext(Dispatchers.IO) {
         inferenceMutex.withLock {
             Log.i(TAG, "loadModel: starting — path=$modelPath")
-            val success = runCatching { loadModel(modelPath) }
+            val success = runCatching { nativeLoadModel(modelPath) }
                 .onFailure { error ->
                     Log.e(TAG, "loadModel: native call threw exception", error)
                 }
@@ -124,7 +124,7 @@ object LlamaWrapper {
                 return@withLock null
             }
 
-            val raw = runCatching { runInference(prompt, maxTokens) }
+            val raw = runCatching { nativeRunInference(prompt, maxTokens) }
                 .onFailure { error ->
                     Log.e(TAG, "runInference: native call threw exception", error)
                 }
@@ -151,7 +151,7 @@ object LlamaWrapper {
                 Log.d(TAG, "freeModel: no model loaded, nothing to do")
                 return@withLock
             }
-            runCatching { freeModel() }
+            runCatching { nativeFreeModel() }
                 .onFailure { error ->
                     Log.e(TAG, "freeModel: native call threw exception", error)
                 }
@@ -163,9 +163,7 @@ object LlamaWrapper {
     // -----------------------------------------------------------------------
     // Library initialisation — executed once when the class is first referenced
     // -----------------------------------------------------------------------
-    companion object {
-        init {
-            System.loadLibrary("marunthagam")
-        }
+    init {
+        System.loadLibrary("marunthagam")
     }
 }
