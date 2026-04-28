@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import random
+import math
 import yaml
 from pathlib import Path
 
@@ -96,18 +96,53 @@ def embed_text(texts: list[str], dim: int = 768) -> "np.ndarray":
     return rng.standard_normal((len(texts), dim)).astype(np.float32)
 
 
+def load_config(config_path: str) -> dict:
+    with open(config_path, encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+def build_train_val_split(
+    embeddings: "np.ndarray",
+    labels: list[int],
+    val_fraction: float = 0.20,
+) -> tuple["np.ndarray", "np.ndarray", list[int], list[int]]:
+    """Create a validation split that still works on small local fixture datasets."""
+    total_examples = len(labels)
+    num_classes = len(set(labels))
+    if total_examples < 2:
+        raise ValueError("Router training needs at least 2 examples.")
+
+    min_examples_per_class = min(labels.count(label) for label in set(labels))
+    can_stratify = min_examples_per_class >= 2 and total_examples > num_classes
+
+    if can_stratify:
+        val_size = max(math.ceil(total_examples * val_fraction), num_classes)
+        val_size = min(val_size, total_examples - 1)
+        stratify_labels = labels
+    else:
+        val_size = max(1, math.ceil(total_examples * val_fraction))
+        val_size = min(val_size, total_examples - 1)
+        stratify_labels = None
+
+    return train_test_split(
+        embeddings,
+        labels,
+        test_size=val_size,
+        random_state=42,
+        stratify=stratify_labels,
+    )
+
+
 def train_router(
     cfg: dict,
     embeddings: "np.ndarray",
     labels: list[int],
 ) -> "KalavaiRouter":
     """Train the router and return the trained model."""
-    X_train, X_val, y_train, y_val = train_test_split(
-        embeddings,
-        labels,
-        test_size=0.20,
-        random_state=42,
-        stratify=labels,
+    X_train, X_val, y_train, y_val = build_train_val_split(
+        embeddings=embeddings,
+        labels=labels,
+        val_fraction=cfg.get("val_fraction", 0.20),
     )
 
     embedding_dim = cfg["embedding_dim"]
@@ -165,8 +200,8 @@ def main() -> None:
             "Run: pip install numpy torch scikit-learn"
         )
 
-    with open(args.config) as f:
-        cfg = yaml.safe_load(f)
+    cfg = load_config(args.config)
+    print("Router embedding path: stub random embeddings for local pipeline verification only.")
 
     texts, labels = load_router_data(cfg["data_dir"])
     print(f"Loaded {len(texts)} examples ({dict(zip(SPECIALISTS, [labels.count(i) for i in range(3)]))})")

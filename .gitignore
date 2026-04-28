@@ -45,6 +45,10 @@ outputs/
 # Training data (tracked via HuggingFace Hub)
 training/data/raw/
 training/data/processed/
+training/data/local_formatted/
+training/models/
+training/unsloth_compiled_cache/
+unsloth_compiled_cache/
 
 # Android build artifacts
 android/.gradle/

@@ -27,8 +27,12 @@ VAL_RATIO = 0.10
 
 def load_approved(reviewed_path: str) -> list[dict]:
     """Load only approved entries from a reviewed JSONL file."""
+    reviewed_file = Path(reviewed_path)
+    if not reviewed_file.exists():
+        raise FileNotFoundError(f"Reviewed JSONL not found: {reviewed_file}")
+
     approved = []
-    with open(reviewed_path, encoding="utf-8") as f:
+    with open(reviewed_file, encoding="utf-8") as f:
         for line in f:
             if not line.strip():
                 continue
@@ -129,6 +133,28 @@ def write_jsonl(path: Path, examples: list[dict]) -> None:
             f.write(json.dumps(ex, ensure_ascii=False) + "\n")
 
 
+def format_reviewed_dataset(
+    reviewed_path: str,
+    specialist: str,
+    output_dir: str,
+    seed: int,
+) -> tuple[Path, dict[str, int]]:
+    """Format one reviewed dataset and return the output path plus split sizes."""
+    approved = load_approved(reviewed_path)
+    if not approved:
+        raise ValueError(f"No approved entries found in {reviewed_path}")
+
+    formatted = [format_as_chat(entry) for entry in approved]
+    train, val, test = split_data(formatted, seed=seed)
+
+    out_dir = Path(output_dir) / specialist
+    write_jsonl(out_dir / "train.jsonl", train)
+    write_jsonl(out_dir / "val.jsonl", val)
+    write_jsonl(out_dir / "test.jsonl", test)
+
+    return out_dir, {"train": len(train), "val": len(val), "test": len(test)}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Format reviewed data into Gemma 4 training format")
     parser.add_argument("--reviewed", required=True, help="Reviewed JSONL file path")
@@ -143,21 +169,20 @@ def main() -> None:
     args = parser.parse_args()
 
     approved = load_approved(args.reviewed)
-    if not approved:
-        print(f"No approved entries found in {args.reviewed}")
-        return
-
     print(f"Loaded {len(approved)} approved entries for specialist: {args.specialist}")
 
-    formatted = [format_as_chat(entry) for entry in approved]
-    train, val, test = split_data(formatted, seed=args.seed)
+    out_dir, split_sizes = format_reviewed_dataset(
+        reviewed_path=args.reviewed,
+        specialist=args.specialist,
+        output_dir=args.output_dir,
+        seed=args.seed,
+    )
 
-    out_dir = Path(args.output_dir) / args.specialist
-    write_jsonl(out_dir / "train.jsonl", train)
-    write_jsonl(out_dir / "val.jsonl", val)
-    write_jsonl(out_dir / "test.jsonl", test)
-
-    print(f"train: {len(train)} | val: {len(val)} | test: {len(test)}")
+    print(
+        f"train: {split_sizes['train']} | "
+        f"val: {split_sizes['val']} | "
+        f"test: {split_sizes['test']}"
+    )
     print(f"Output: {out_dir}/")
 
 

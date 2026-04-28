@@ -1,0 +1,9 @@
+# Local smoke-test router configuration.
+# Uses fixture-derived formatted data and the stub embedding path in train_router.py.
+
+data_dir: "data/local_formatted"
+embedding_dim: 768
+learning_rate: 1.0e-3
+epochs: 10
+output_dir: "outputs/router_local"
+routing_strategy: "top1"

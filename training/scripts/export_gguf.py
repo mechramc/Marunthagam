@@ -54,11 +54,21 @@ def export_gguf(checkpoint_path: str, output_path: str, quantization: str) -> No
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     print(f"Exporting to GGUF ({quantization}): {out_path}")
-    model.save_pretrained_gguf(
-        str(out_path.with_suffix("")),  # Unsloth appends .gguf
-        tokenizer,
-        quantization_method=quantization,
-    )
+    try:
+        model.save_pretrained_gguf(
+            str(out_path.with_suffix("")),  # Unsloth appends .gguf
+            tokenizer,
+            quantization_method=quantization,
+        )
+    except RuntimeError as exc:
+        message = str(exc)
+        if "MODEL_ARCH.GEMMA4" in message or "GEMMA4" in message:
+            raise RuntimeError(
+                "GGUF conversion reached the local llama.cpp converter, but that converter "
+                "does not support Gemma 4 yet. Update the local llama.cpp / gguf tooling "
+                "that Unsloth uses, then retry the same export command."
+            ) from exc
+        raise
     print(f"Export complete: {out_path}")
 
 
