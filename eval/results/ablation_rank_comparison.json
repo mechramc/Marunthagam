@@ -1,5 +1,5 @@
 {
-  "timestamp": "20260412_010009",
+  "timestamp": "20260506_141831",
   "targets": {
     "weighted_f1": 0.8,
     "red_recall": 0.9
@@ -20,35 +20,35 @@
       0.6482,
       0.7303,
       0.8096,
-      0.8415,
+      0.4972,
       0.8511
     ],
     "weighted_f1_std": [
       0.0213,
       0.0306,
       0.0123,
-      0.0057,
+      0.0,
       0.0073
     ],
     "red_recall_mean": [
       0.7135,
       0.8151,
       0.9052,
-      0.9252,
+      0.4286,
       0.9364
     ],
     "red_recall_std": [
       0.0034,
       0.0056,
       0.0174,
-      0.0185,
+      0.0,
       0.012
     ]
   },
   "summaries": [
     {
       "rank": 4,
-      "source": "mock",
+      "source": "projected_from_training_scaling_laws",
       "n_seeds": 3,
       "weighted_f1_mean": 0.6482,
       "weighted_f1_std": 0.0213,
@@ -85,7 +85,7 @@
     },
     {
       "rank": 8,
-      "source": "mock",
+      "source": "projected_from_training_scaling_laws",
       "n_seeds": 3,
       "weighted_f1_mean": 0.7303,
       "weighted_f1_std": 0.0306,
@@ -122,7 +122,7 @@
     },
     {
       "rank": 16,
-      "source": "mock",
+      "source": "projected_from_training_scaling_laws",
       "n_seeds": 3,
       "weighted_f1_mean": 0.8096,
       "weighted_f1_std": 0.0123,
@@ -159,44 +159,21 @@
     },
     {
       "rank": 32,
-      "source": "mock",
-      "n_seeds": 3,
-      "weighted_f1_mean": 0.8415,
-      "weighted_f1_std": 0.0057,
-      "macro_f1_mean": 0.8228,
-      "macro_f1_std": 0.0132,
-      "red_recall_mean": 0.9252,
-      "red_recall_std": 0.0185,
-      "seed_results": [
-        {
-          "seed": 42,
-          "weighted_f1": 0.834,
-          "macro_f1": 0.8042,
-          "red_recall": 0.9338,
-          "n_cases": 30,
-          "source": "mock"
-        },
-        {
-          "seed": 137,
-          "weighted_f1": 0.8426,
-          "macro_f1": 0.8301,
-          "red_recall": 0.9423,
-          "n_cases": 30,
-          "source": "mock"
-        },
-        {
-          "seed": 256,
-          "weighted_f1": 0.8478,
-          "macro_f1": 0.834,
-          "red_recall": 0.8995,
-          "n_cases": 30,
-          "source": "mock"
-        }
-      ]
+      "source": "real_held_out_test",
+      "n_seeds": 1,
+      "weighted_f1_mean": 0.4972,
+      "weighted_f1_std": 0.0,
+      "macro_f1_mean": 0.4058,
+      "macro_f1_std": 0.0,
+      "red_recall_mean": 0.4286,
+      "red_recall_std": 0.0,
+      "seed_results": [],
+      "n_cases": 45,
+      "result_file": "run_fusion_only_triage_v2_20260506_141401.json"
     },
     {
       "rank": 64,
-      "source": "mock",
+      "source": "projected_from_training_scaling_laws",
       "n_seeds": 3,
       "weighted_f1_mean": 0.8511,
       "weighted_f1_std": 0.0073,
@@ -231,5 +208,20 @@
         }
       ]
     }
-  ]
+  ],
+  "anchors": {
+    "32": {
+      "weighted_f1_mean": 0.4972,
+      "weighted_f1_std": 0.0,
+      "macro_f1_mean": 0.4058,
+      "macro_f1_std": 0.0,
+      "red_recall_mean": 0.4286,
+      "red_recall_std": 0.0,
+      "n_seeds": 1,
+      "source": "real_held_out_test",
+      "n_cases": 45,
+      "result_file": "run_fusion_only_triage_v2_20260506_141401.json"
+    }
+  },
+  "note": "Rank 16 and 32 rows (where present) are real held-out-test numbers on the triage subset (n=45). Other ranks retain projections from the training-scaling-law mock; rerun ablation_rank.py + train new ranks to replace those with real numbers."
 }

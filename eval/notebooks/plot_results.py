@@ -445,6 +445,56 @@ def plot_cross_specialist_matrix() -> Optional[Path]:
     return _save(fig, "cross_specialist_matrix.png")
 
 
+def plot_rank_ablation() -> Optional[Path]:
+    """LoRA rank ablation chart, anchored on real held-out test points where present."""
+    path = RESULTS_DIR / "ablation_rank_comparison.json"
+    if not path.exists():
+        return None
+    d = _load_json(path)
+    if not d:
+        return None
+    plot_data = d.get("plot_data") or {}
+    anchors: dict = d.get("anchors", {}) or {}
+    if not plot_data.get("ranks"):
+        return None
+
+    ranks = plot_data["ranks"]
+    f1 = plot_data.get("weighted_f1_mean", [])
+    rr = plot_data.get("red_recall_mean", [])
+    f1_std = plot_data.get("weighted_f1_std", [0] * len(ranks))
+    rr_std = plot_data.get("red_recall_std", [0] * len(ranks))
+
+    fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+    for ax, vals, stds, ylabel, target in [
+        (axes[0], f1, f1_std, "Weighted F1", TARGETS["weighted_f1"]),
+        (axes[1], rr, rr_std, "RED recall", TARGETS["red_recall"]),
+    ]:
+        ax.errorbar(ranks, vals, yerr=stds, marker="o", capsize=4, color=COLOR_NEUTRAL)
+        # Highlight anchored points
+        for i, rank in enumerate(ranks):
+            if str(rank) in anchors:
+                ax.scatter([rank], [vals[i]], s=140, color=COLOR_FAIL,
+                           edgecolor="black", zorder=3,
+                           label="real (held-out test)" if i == 0 else None)
+        ax.axhline(target, linestyle="--", color="black", alpha=0.5,
+                   label=f"target {target}")
+        ax.set_xlabel("LoRA rank")
+        ax.set_ylabel(ylabel)
+        ax.set_xscale("log")
+        ax.set_xticks(ranks)
+        ax.set_xticklabels([str(r) for r in ranks])
+        ax.set_ylim(0, 1.0)
+        ax.grid(alpha=0.3)
+        ax.legend(loc="lower right")
+        ax.set_title(f"LoRA rank vs {ylabel}")
+    fig.suptitle(
+        "LoRA rank ablation — triage specialist (real anchors highlighted)",
+        fontsize=13, fontweight="bold",
+    )
+    fig.tight_layout()
+    return _save(fig, "rank_ablation.png")
+
+
 def plot_chrf(payload: dict) -> Path:
     by_spec = payload.get("by_specialist", {})
     specs = list(by_spec.keys())
@@ -707,6 +757,7 @@ def main() -> None:
 
     plot_fusion_ablation()  # noop if data not present yet
     plot_cross_specialist_matrix()
+    plot_rank_ablation()
     chrf_path = _latest_matching("chrf_eval_", must_have_key="overall_chrf_plus_plus")
     if chrf_path:
         chrf_payload = _load_json(chrf_path)
