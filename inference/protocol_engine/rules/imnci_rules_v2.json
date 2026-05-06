@@ -206,17 +206,17 @@
   {
     "id": "ADULT-CARDIAC-001",
     "source": "MARUNTHAGAM_ADULT",
-    "chief_complaint_pattern": "chest\\s*(pain|press(ure|ing)?|tight(ness)?|discomf(ort)?)|cardiac|மார்பு\\s*(வலி|இறுக்க|நெருக்கம்)",
+    "chief_complaint_pattern": "chest\\s*(pain|press(ure|ing)?|tight(ness)?|discomf(ort)?)|cardiac|மார்[பு][ிீு]?[ல்னை]*\\s*[஀-௿\\s]{0,30}?(வலி|இறுக்க|நெருக்கம்|பீடிப்)",
     "required_co_signals": [
-      "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(மரத்|வலி))",
-      "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*sweat|tachycard|palpitat|heart\\s*racing|மூச்சு\\s*(திண|நெருக|இடை)|வியர்|பதற்ற)"
+      "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|பரவ்|கழுத்தெலும்|கை[஀-௿]{0,3}\\s*(மரத்|வலி|மரத்துப்போ)|மரத்துப்போ)",
+      "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*sweat|tachycard|palpitat|heart\\s*racing|மூச்சு\\s*(திண|நெருக|இடை)|வியர்|பதற்ற|மரத்துப்போ|பரவி)"
     ],
     "negative_scoping": [],
     "age_group": "adolescent|adult|elderly",
     "duration_min_days": 0,
     "duration_max_days": null,
     "minimum_triage_level": "RED",
-    "override_reason": "Cardiac-pattern symptoms (chest pain + radiation + autonomic/dyspnea). Same-day cardiology evaluation required REGARDLESS of patient self-attribution to anxiety/panic — symptom pattern alone is sufficient."
+    "override_reason": "Cardiac-pattern symptoms (chest pain + radiation + autonomic/dyspnea). Same-day cardiology evaluation required REGARDLESS of patient self-attribution to anxiety/panic — symptom pattern alone is sufficient. v2.1 (2026-05-07): chief regex broadened to handle Tamil case-inflected forms of மார்பு (locative -இல், genitive -இன், accusative -ஐ, dative -க்கு) with up to 30 Tamil chars between the noun and the pain word. Co-signal also broadened to include `கை\\s*மரத்துப்போ` (arm numbness in compound form)."
   },
   {
     "id": "ADULT-ANAPHYLAXIS-001",
@@ -247,7 +247,7 @@
   {
     "id": "ADULT-RESPIRATORY-001",
     "source": "MARUNTHAGAM_ADULT",
-    "chief_complaint_pattern": "wheez|stridor|severe\\s*(dyspn|breathl)|respiratory\\s*distress|cannot\\s*breathe|gasping|மூச்சு\\s*(விசில்|திண|இடைய)",
+    "chief_complaint_pattern": "wheez|stridor|severe\\s*(dyspn|breathl)|respiratory\\s*distress|cannot\\s*breathe|gasping|மூச்சு(?:த்|ு)?\\s*(விசில்|திணறல்|திணற|திண|இடைய)",
     "required_co_signals": [
       "(can(not|'?t)\\s*(speak|complete|finish)|speak\\s*in\\s*(short|broken)|cyanos|blue\\s*(lip|finger|nail)|use(s)?\\s*accessory|tripod|sit(ting)?\\s*forward|பேச\\s*முடியவில்|நீல\\s*(உதடு|நிற)|மார்பு\\s*உள்வாங்க)"
     ],
@@ -261,7 +261,7 @@
   {
     "id": "ANIMAL-BITE-RESPIRATORY-001",
     "source": "MARUNTHAGAM_ADULT",
-    "chief_complaint_pattern": "(dog|cat|monkey|wild\\s*animal|snake|bat)\\s*(bit(e|ten)?|attack|scratch)|animal\\s*bit|நாய்\\s*கடி|பூனை\\s*கடி|பாம்பு\\s*கடி",
+    "chief_complaint_pattern": "(dog|cat|monkey|wild\\s*animal|snake|bat)\\s*(bit(e|ten)?|attack|scratch)|animal\\s*bit|(நாய்|நாயின்|நாயினால்|நாயை)\\s*[஀-௿\\s]{0,15}?(கடி|கடிக்க|கடிக்கப்பட்)|(பூனை|பூனையின்|பூனையால்|பூனையை)\\s*[஀-௿\\s]{0,15}?(கடி|கடிக்க)|(பாம்பு|பாம்பின்|பாம்பால்|பாம்பை)\\s*[஀-௿\\s]{0,15}?(கடி|கடிக்க)",
     "required_co_signals": [
       "(dyspn|short(ness)?\\s*of\\s*breath|breathless|airway\\s*swell|throat\\s*tight|hypotens|low\\s*BP|shock|collap|மூச்சு\\s*(திண|நெருக்)|இரத்த\\s*அழுத்தம்\\s*குறை)"
     ],

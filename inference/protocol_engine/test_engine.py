@@ -603,3 +603,133 @@ class TestNewOnsetJaundice001:
             )
         assert result.level == "YELLOW"
         assert not any(o.rule_id == "NEW-ONSET-JAUNDICE-001" for o in overrides)
+
+
+# ------------- v2.1 Bucket A regex tightenings (2026-05-07) ------------------
+#
+# Targeted morphology fixes for three Tamil case-inflected forms found
+# in held-out test cases that the v2.0 chief regex didn't handle:
+#   - locative -இல் on மார்பு (chest)            → ADULT-CARDIAC-001
+#   - instrumental -இனால் on நாய் (dog)          → ANIMAL-BITE-RESPIRATORY-001
+#   - sandhi compound -த்திணறல் on மூச்சு (breath) → ADULT-RESPIRATORY-001
+#
+# Each fix has a positive test (rule fires on the previously-missed case)
+# and a negative test (rule does not over-fire on a benign case that
+# contains the same morpheme in a non-emergency context).
+
+
+class TestCardiacLocativeFix:
+    """ADULT-CARDIAC-001 v2.1 fix: locative `மார்பில்` + intervening words."""
+
+    @pytest.fixture
+    def db(self, tmp_path):
+        rules_file = Path(__file__).parent / "rules" / "imnci_rules_v2.json"
+        all_rules = json.loads(rules_file.read_text(encoding="utf-8"))
+        rule = next(r for r in all_rules if r.get("id") == "ADULT-CARDIAC-001")
+        return make_db(tmp_path, [rule])
+
+    def test_pos_tamil_locative_chest_pain_fires(self, db):
+        """triage_test_039 case: locative மார்பில் + adjective + வலி + arm numbness."""
+        with ProtocolEngine(db) as engine:
+            result, overrides = engine.apply(
+                make_result("YELLOW", 0.9),
+                chief_complaint="இடது மார்பில் கடுமையான வலி மற்றும் இடது கையில் மரத்துப்போன உணர்வு",
+                narrative="ER visit, chest pain radiating to jaw, dyspnea",
+                age_group="adult",
+                duration_days=1,
+            )
+        assert result.level == "RED"
+        assert any(o.rule_id == "ADULT-CARDIAC-001" for o in overrides)
+
+    def test_neg_chest_skin_red_spot_does_not_fire(self, db):
+        """`மார்பில் சிவப்பு புள்ளி` (red spot on chest) — locative form present
+        but no pain/tightness/discomfort word. Negative-test guards the
+        morphology fix from over-firing on dermatologic chest mentions."""
+        with ProtocolEngine(db) as engine:
+            result, overrides = engine.apply(
+                make_result("GREEN", 0.85),
+                chief_complaint="மார்பில் சிவப்பு புள்ளி, அரிப்பு",
+                narrative="redness on chest skin, no pain",
+                age_group="adult",
+                duration_days=3,
+            )
+        assert result.level == "GREEN"
+        assert not any(o.rule_id == "ADULT-CARDIAC-001" for o in overrides)
+
+
+class TestAnimalBiteInstrumentalFix:
+    """ANIMAL-BITE-RESPIRATORY-001 v2.1 fix: instrumental `நாயினால்` + passive `கடிக்கப்பட்`."""
+
+    @pytest.fixture
+    def db(self, tmp_path):
+        rules_file = Path(__file__).parent / "rules" / "imnci_rules_v2.json"
+        all_rules = json.loads(rules_file.read_text(encoding="utf-8"))
+        rule = next(r for r in all_rules if r.get("id") == "ANIMAL-BITE-RESPIRATORY-001")
+        return make_db(tmp_path, [rule])
+
+    def test_pos_tamil_instrumental_dog_bite_with_dyspnea_fires(self, db):
+        """Instrumental form நாயினால் + bite passive + respiratory co-signal."""
+        with ProtocolEngine(db) as engine:
+            result, overrides = engine.apply(
+                make_result("YELLOW", 0.85),
+                chief_complaint="நாயினால் கடிக்கப்பட்டது, கடித்த இடத்தில் வலி",
+                narrative="மூச்சு திண, தொண்டை வீக்கம் (dyspnea, throat swelling)",
+                age_group="adult",
+                duration_days=0,
+            )
+        assert result.level == "RED"
+        assert any(o.rule_id == "ANIMAL-BITE-RESPIRATORY-001" for o in overrides)
+
+    def test_neg_dog_raised_no_bite_does_not_fire(self, db):
+        """`நாயினால் வளர்க்கப்பட்ட` (raised by a dog — fanciful) — uses
+        instrumental form but no `கடி` keyword. Negative-test guards the
+        morphology fix from over-firing on non-bite mentions of நாய்."""
+        with ProtocolEngine(db) as engine:
+            result, overrides = engine.apply(
+                make_result("GREEN", 0.9),
+                chief_complaint="நாயினால் வளர்க்கப்பட்ட குழந்தை, தடிப்பு",
+                narrative="child raised around a dog, has rash",
+                age_group="child",
+                duration_days=14,
+            )
+        assert result.level == "GREEN"
+        assert not any(o.rule_id == "ANIMAL-BITE-RESPIRATORY-001" for o in overrides)
+
+
+class TestRespiratoryCompoundFix:
+    """ADULT-RESPIRATORY-001 v2.1 fix: sandhi compound `மூச்சுத்திணறல்`."""
+
+    @pytest.fixture
+    def db(self, tmp_path):
+        rules_file = Path(__file__).parent / "rules" / "imnci_rules_v2.json"
+        all_rules = json.loads(rules_file.read_text(encoding="utf-8"))
+        rule = next(r for r in all_rules if r.get("id") == "ADULT-RESPIRATORY-001")
+        return make_db(tmp_path, [rule])
+
+    def test_pos_tamil_compound_dyspnea_with_severe_distress_fires(self, db):
+        """Compound form மூச்சுத்திணறல் + severe-distress co-signal."""
+        with ProtocolEngine(db) as engine:
+            result, overrides = engine.apply(
+                make_result("YELLOW", 0.85),
+                chief_complaint="மூச்சுத்திணறல் கடுமையாக",
+                narrative="பேச முடியவில்லை, நீல உதடு (cannot speak, blue lips)",
+                age_group="adult",
+                duration_days=1,
+            )
+        assert result.level == "RED"
+        assert any(o.rule_id == "ADULT-RESPIRATORY-001" for o in overrides)
+
+    def test_neg_breathing_exercise_does_not_fire(self, db):
+        """`மூச்சுப் பயிற்சி` (breathing exercise) — uses மூச்சு + sandhi
+        but with non-respiratory-distress noun. Negative-test guards the
+        morphology fix from matching unrelated breath-prefix compounds."""
+        with ProtocolEngine(db) as engine:
+            result, overrides = engine.apply(
+                make_result("GREEN", 0.9),
+                chief_complaint="மூச்சுப் பயிற்சி பற்றி கேள்வி",
+                narrative="question about breathing exercises for stress relief",
+                age_group="adult",
+                duration_days=30,
+            )
+        assert result.level == "GREEN"
+        assert not any(o.rule_id == "ADULT-RESPIRATORY-001" for o in overrides)
