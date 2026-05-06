@@ -10,6 +10,24 @@
   --color-text:       #e2e8f0;
   --color-text-muted: #718096;
   --sidebar-width:    220px;
+
+  /* Role accent. Tier 3 (district) is green by default; the role-aware
+     selectors below override this for Tier 2 (clinic) so the chrome
+     visually distinguishes the two audiences at a glance. */
+  --color-accent:        var(--color-green);
+  --color-accent-soft:   rgba(46, 204, 113, 0.15);
+  --color-accent-rim:    rgba(46, 204, 113, 0.5);
+  --color-accent-text:   rgba(46, 204, 113, 0.7);
+  --color-accent-bg:     #14302a;        /* darker green-tinted surface */
+}
+
+/* Tier 2 (clinic) — Apache blue accent */
+.app-shell[data-role="clinic"] {
+  --color-accent:        #3b9eff;
+  --color-accent-soft:   rgba(59, 158, 255, 0.15);
+  --color-accent-rim:    rgba(59, 158, 255, 0.5);
+  --color-accent-text:   rgba(59, 158, 255, 0.85);
+  --color-accent-bg:     #142039;        /* darker blue-tinted surface */
 }
 
 *,
@@ -63,7 +81,7 @@ body {
   display: block;
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--color-green);
+  color: var(--color-accent);
   font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
   line-height: 1.2;
 }
@@ -107,9 +125,9 @@ body {
 }
 
 .sidebar__role-btn--active {
-  background: rgba(46, 204, 113, 0.15);
-  border-color: var(--color-green);
-  color: var(--color-green);
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .sidebar__role-tamil {
@@ -125,7 +143,7 @@ body {
 }
 
 .sidebar__role-btn--active .sidebar__role-en {
-  color: rgba(46, 204, 113, 0.7);
+  color: var(--color-accent-text);
 }
 
 /* ── Nav list ── */
@@ -155,8 +173,8 @@ body {
 }
 
 .sidebar__nav-item--active {
-  background: rgba(46, 204, 113, 0.12);
-  color: var(--color-green);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 .sidebar__nav-icon {
@@ -181,7 +199,7 @@ body {
 
 /* When active, en label also gets accent color */
 .sidebar__nav-item--active .sidebar__nav-label-en {
-  color: rgba(46, 204, 113, 0.7);
+  color: var(--color-accent-text);
 }
 
 /* ── Sidebar footer ── */
@@ -206,6 +224,10 @@ body {
   flex: 1;
   overflow-y: auto;
   min-width: 0;
+}
+
+.role-banner-wrap {
+  padding: 1rem 2rem 0;
 }
 
 /* Scrollbar styling for content area */

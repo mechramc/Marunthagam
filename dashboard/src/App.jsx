@@ -6,6 +6,7 @@ import TrendsView   from './pages/TrendsView.jsx';
 import CaseQueue    from './pages/clinic/CaseQueue.jsx';
 import CaseDetail   from './pages/clinic/CaseDetail.jsx';
 import Catchment    from './pages/clinic/Catchment.jsx';
+import RoleBanner from './components/RoleBanner.jsx';
 import { TA } from './i18n/ta.js';
 import './App.css';
 
@@ -97,6 +98,9 @@ export default function App() {
 
       {/* ── Main content ── */}
       <div className="content-area">
+        <div className="role-banner-wrap">
+          <RoleBanner role={role} />
+        </div>
         <Routes>
           {/* District (Tier 3) */}
           <Route path="/district"        element={<Overview />}    />

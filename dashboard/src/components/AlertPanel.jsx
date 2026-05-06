@@ -102,8 +102,14 @@ export default function AlertPanel({ alerts }) {
                 <div className="alert-item__center">
                   <span className="alert-item__red-count" aria-label={`${alert.red_count} ${TA.ALERT_RED_COUNT_EN}`}>
                     <span className="alert-item__red-number">{alert.red_count}</span>
-                    {' '}{TA.ALERT_RED_COUNT_EN}
+                    {' '}RED · 48h
                   </span>
+                  {typeof alert.yellow_count === 'number' && alert.yellow_count > 0 && (
+                    <span className="alert-item__yellow-count">
+                      <span className="alert-item__yellow-number">{alert.yellow_count}</span>
+                      {' '}YELLOW · 24h
+                    </span>
+                  )}
                   <span className={trendClass(alert.trend)} aria-label={`Trend: ${alert.trend}`}>
                     {trendLabel(alert.trend)}
                   </span>

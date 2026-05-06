@@ -141,11 +141,12 @@ def main() -> None:
     today = today.replace(hour=18, minute=0, second=0, microsecond=0)
     day_offsets = []
     for _ in preds:
-        # 6 days of prior data (full) + today (~50% of typical day)
-        # Probability mass: 6 days × 1.0 + today × 0.5 = total 6.5, today share = 0.077
+        # Roughly even distribution across the last 7 days, with today
+        # getting a slight extra share so the "today vs yesterday" Stats
+        # cards render with a populated current bucket.
         r = rng.random()
-        if r < 0.077:
-            day_offsets.append(0)
+        if r < 0.165:
+            day_offsets.append(0)  # today
         else:
             day_offsets.append(rng.randint(1, 6))
 
@@ -230,42 +231,54 @@ def main() -> None:
         for d in dates_sorted
     ]
 
-    # --- 5. Alerts: cells with red_count >= 2 in the last 24h ---
-    cutoff = (today - timedelta(hours=24)).isoformat(timespec="seconds")
-    cell_red_recent: dict[str, list[str]] = defaultdict(list)
+    # --- 5. Alerts: cells with any RED in the last 48h, OR ≥3 YELLOW in 24h ---
+    # The held-out sample is small (n=131 over 7 days) so we widen the alert
+    # window vs production-tier defaults; the dashboard is meant to feel
+    # populated for screenshots, and a 48h window on a sparse sample gives
+    # the right amount of cluster signal.
+    cutoff_48h = (today - timedelta(hours=48)).isoformat(timespec="seconds")
+    cutoff_24h = (today - timedelta(hours=24)).isoformat(timespec="seconds")
+    cell_red_48h: dict[str, list[str]] = defaultdict(list)
+    cell_yellow_24h: dict[str, list[str]] = defaultdict(list)
     for r in pred_records:
-        if r["level"] == "RED" and r["timestamp"] >= cutoff:
-            cell_red_recent[r["geohash"]].append(r["timestamp"])
+        if r["level"] == "RED" and r["timestamp"] >= cutoff_48h:
+            cell_red_48h[r["geohash"]].append(r["timestamp"])
+        if r["level"] == "YELLOW" and r["timestamp"] >= cutoff_24h:
+            cell_yellow_24h[r["geohash"]].append(r["timestamp"])
+
     alerts = []
-    for cell, ts_list in cell_red_recent.items():
-        if len(ts_list) < 2:
+    for cell in set(cell_red_48h) | set(cell_yellow_24h):
+        red = sorted(cell_red_48h.get(cell, []))
+        yel = sorted(cell_yellow_24h.get(cell, []))
+        if not red and len(yel) < 3:
             continue
-        ts_sorted = sorted(ts_list)
-        # Trend: heuristic — compare to prior 24h count
-        prior_window_start = (today - timedelta(hours=48)).isoformat(timespec="seconds")
-        prior_count = sum(
+        # Trend: compare 48h RED to the prior 48h
+        prior_start = (today - timedelta(hours=96)).isoformat(timespec="seconds")
+        prior_red = sum(
             1 for r in pred_records
             if r["geohash"] == cell
             and r["level"] == "RED"
-            and prior_window_start <= r["timestamp"] < cutoff
+            and prior_start <= r["timestamp"] < cutoff_48h
         )
-        if len(ts_list) > prior_count:
+        if len(red) > prior_red:
             trend_dir = "up"
-        elif len(ts_list) < prior_count:
+        elif len(red) < prior_red:
             trend_dir = "down"
         else:
             trend_dir = "stable"
+        all_ts = red + yel
         alerts.append({
             "id": f"alert-{cell}",
             "geohash": cell,
-            "red_count": len(ts_list),
+            "red_count": len(red),
+            "yellow_count": len(yel),
             "trend": trend_dir,
-            "first_seen": ts_sorted[0],
-            "last_seen": ts_sorted[-1],
+            "first_seen": min(all_ts) if all_ts else cutoff_48h,
+            "last_seen": max(all_ts) if all_ts else cutoff_48h,
         })
-    # Sort alerts by red_count desc, take top 10
-    alerts.sort(key=lambda a: a["red_count"], reverse=True)
-    alerts = alerts[:10]
+    # Sort: most RED first, then most YELLOW, take top 12
+    alerts.sort(key=lambda a: (-a["red_count"], -a["yellow_count"]))
+    alerts = alerts[:12]
 
     # --- 6. Stats: today vs yesterday ---
     today_str = today.strftime("%Y-%m-%d")
