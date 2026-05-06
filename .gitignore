@@ -115,6 +115,8 @@ eval/results/run_*.json
 eval/results/triage_eval_*.json
 eval/results/latency_*.json
 eval/results/safety_eval_*.json
+eval/results/chrf_eval_*.json
+eval/logs/
 
 # Temp / scratch
 scratch/
