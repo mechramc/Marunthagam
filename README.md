@@ -81,9 +81,14 @@ Example output:
 git clone https://github.com/mechramc/Marunthagam
 cd Marunthagam
 
-# Download model weights (HuggingFace — link TBD)
+# Download model weights from HuggingFace
 mkdir models
-# huggingface-cli download murailabs/marunthagam-fused-E4B-Q4_K_M --local-dir models/
+hf download mechramc/marunthagam-triage-E4B-Q4_K_M --local-dir models/triage-E4B-Q4_K_M_gguf
+hf download mechramc/marunthagam-derm-E4B-Q4_K_M   --local-dir models/derm-E4B-Q4_K_M_gguf
+hf download mechramc/marunthagam-maternal-E4B-Q4_K_M --local-dir models/maternal-E4B-Q4_K_M_gguf
+
+# Or grab the dataset
+hf download mechramc/marunthagam-tamil-triage --repo-type dataset --local-dir data/
 
 # Run CLI demo (mock mode — no model file needed)
 pip install -r inference/requirements.txt
@@ -322,12 +327,17 @@ The protocol is designed to be adopted by other community health tools regardles
 
 ## Model Weights (HuggingFace)
 
-Models will be published at: https://huggingface.co/murailabs/
+All Marunthagam artifacts are public on HuggingFace:
 
-- `murailabs/marunthagam-triage-lora`
-- `murailabs/marunthagam-derm-lora`
-- `murailabs/marunthagam-maternal-lora`
-- `murailabs/marunthagam-fused-E4B-Q4_K_M`
+**Models** (LoRA adapter + Q4_K_M GGUF + multimodal mmproj per specialist):
+
+- [`mechramc/marunthagam-triage-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-triage-E4B-Q4_K_M) — Sprint 2 B-retrained adapter (production); Sprint 1 GGUF (Sprint 2 GGUF replacing it as a follow-up)
+- [`mechramc/marunthagam-derm-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-derm-E4B-Q4_K_M) — Sprint 1
+- [`mechramc/marunthagam-maternal-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-maternal-E4B-Q4_K_M) — Sprint 1
+
+**Dataset:**
+
+- [`mechramc/marunthagam-tamil-triage`](https://huggingface.co/datasets/mechramc/marunthagam-tamil-triage) — full train/val/test SFT data (3 specialists × 3 splits) + adversarial safety prompts + multilingual safety classifier validation set + the Sprint 2/3 clinician-completed label-quality CSVs. Includes pre-relabel and pre-derm-move backups for reproducibility.
 
 ---
 

@@ -97,6 +97,6 @@ This sprint. Derm contamination move + retrain, semantic similarity replacement 
 ## Open risks
 
 1. **Tier 2 26B may not beat E4B.** Documented Day-8 cancel point. If it doesn't beat E4B held-out F1, the writeup frames as "Tier 2 designed but not deployed in time" rather than shipping numbers that don't strengthen the story.
-2. **HuggingFace upload still blocked.** README claims paths at `murailabs/marunthagam-*`. If the user doesn't approve "go public" by Day 9, those links won't resolve. Backup plan: upload to a personal HF org and update README links.
+2. **HuggingFace upload — running under `mechramc`.** Models at `mechramc/marunthagam-{triage,derm,maternal}-E4B-Q4_K_M`; dataset at `mechramc/marunthagam-tamil-triage`. Bandwidth-bound, ~30-60 min for the 3 GGUFs at ~5 GB each plus mmproj files.
 3. **Phone TTFT remains unmeasured.** Emulator can't credibly demo phone-tier latency. README frames as deferred. Consider Firebase Test Lab if a real-device number is load-bearing for the writeup (~$1-5, ~30 min setup).
 4. **Image multimodal path** has a working mmproj GGUF but no labeled derm test images. Smoke test gated on sourcing 20–40 images quickly — skip otherwise.
