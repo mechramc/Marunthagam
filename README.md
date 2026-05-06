@@ -18,6 +18,8 @@ India's 940,000 ASHA (Accredited Social Health Activist) workers are the first a
 
 Marunthagam (மருந்தகம் — "place of medicine") is a three-tier offline health intelligence system designed for Tamil-speaking ASHA workers. It is not a chatbot. Every output is a structured, validated, protocol-grounded triage decision.
 
+![Marunthagam architecture — three-tier offline community health intelligence](docs/architecture_diagram.svg)
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │  Tier 1 · ASHA Worker (Phone, Offline)              │

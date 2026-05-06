@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="Inter, 'Segoe UI', system-ui, sans-serif">
+  <!--
+    Marunthagam · three-tier offline community health intelligence.
+    Palette:
+      Android green  #3DDC84  (Tier 1, on-device)
+      Apache blue    #007EC6  (Tier 2, clinic)
+      Hackathon ora  #FE7D37  (Tier 3, district)
+    Hand-authored single-file SVG; no external assets.
+  -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,6 L0,12 z" fill="#374151"/>
+    </marker>
+    <marker id="arrow-thin" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,6 L0,12 z" fill="#6b7280"/>
+    </marker>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fafafa"/>
+      <stop offset="100%" stop-color="#eef2f7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="720" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="480" y="42" text-anchor="middle" font-size="26" font-weight="700" fill="#111827">
+    மருந்தகம் · Marunthagam — System Architecture
+  </text>
+  <text x="480" y="68" text-anchor="middle" font-size="14" fill="#374151">
+    Three-tier offline community health triage. No network required for a triage decision.
+  </text>
+
+  <!-- Patient -->
+  <g>
+    <rect x="40" y="120" width="150" height="86" rx="10" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"/>
+    <text x="115" y="148" text-anchor="middle" font-size="14" font-weight="600" fill="#111827">Patient · Village</text>
+    <text x="115" y="170" text-anchor="middle" font-size="12" fill="#374151">Tamil-speaking</text>
+    <text x="115" y="188" text-anchor="middle" font-size="12" fill="#374151">rural community</text>
+  </g>
+  <line x1="190" y1="163" x2="248" y2="163" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="219" y="155" text-anchor="middle" font-size="10" fill="#6b7280">verbal symptom</text>
+
+  <!-- TIER 1 — Android green -->
+  <g>
+    <rect x="250" y="100" width="510" height="170" rx="14" fill="#ecfdf5" stroke="#3DDC84" stroke-width="3"/>
+    <rect x="250" y="100" width="510" height="36" rx="14" fill="#3DDC84"/>
+    <rect x="250" y="120" width="510" height="16" fill="#3DDC84"/>
+    <text x="270" y="124" font-size="15" font-weight="700" fill="#062e1c">
+      Tier 1 · ASHA Worker — Phone (Offline)
+    </text>
+    <text x="745" y="124" text-anchor="end" font-size="12" font-weight="600" fill="#062e1c">
+      Android 10+ · 5 GB GGUF Q4_K_M
+    </text>
+
+    <!-- Inner pipeline boxes -->
+    <g font-size="11.5" fill="#062e1c">
+      <rect x="270" y="156" width="115" height="46" rx="6" fill="#ffffff" stroke="#3DDC84" stroke-width="1.5"/>
+      <text x="327.5" y="174" text-anchor="middle" font-weight="600">Gemma 4 E4B</text>
+      <text x="327.5" y="190" text-anchor="middle">+ KALAVAI LoRAs</text>
+
+      <rect x="395" y="156" width="115" height="46" rx="6" fill="#ffffff" stroke="#3DDC84" stroke-width="1.5"/>
+      <text x="452.5" y="174" text-anchor="middle" font-weight="600">triage_classify()</text>
+      <text x="452.5" y="190" text-anchor="middle">JSON schema</text>
+
+      <rect x="520" y="156" width="115" height="46" rx="6" fill="#ffffff" stroke="#3DDC84" stroke-width="1.5"/>
+      <text x="577.5" y="174" text-anchor="middle" font-weight="600">IMNCI Engine</text>
+      <text x="577.5" y="190" text-anchor="middle">escalate-only</text>
+
+      <rect x="645" y="156" width="105" height="46" rx="6" fill="#ffffff" stroke="#3DDC84" stroke-width="1.5"/>
+      <text x="697.5" y="174" text-anchor="middle" font-weight="600">SQLite Log</text>
+      <text x="697.5" y="190" text-anchor="middle">AES-256</text>
+
+      <line x1="385" y1="179" x2="395" y2="179" stroke="#374151" stroke-width="1.5" marker-end="url(#arrow-thin)"/>
+      <line x1="510" y1="179" x2="520" y2="179" stroke="#374151" stroke-width="1.5" marker-end="url(#arrow-thin)"/>
+      <line x1="635" y1="179" x2="645" y2="179" stroke="#374151" stroke-width="1.5" marker-end="url(#arrow-thin)"/>
+    </g>
+
+    <!-- Specialist LoRAs hint -->
+    <text x="270" y="230" font-size="11" fill="#065f46">
+      ▸ KALAVAI LoRAs: triage · derm · maternal — single MoE router activates the right specialist
+    </text>
+    <text x="270" y="248" font-size="11" fill="#065f46">
+      ▸ Engine: 21 deterministic IMNCI / Tamil Nadu rules · safety classifier · function-calling validator
+    </text>
+    <text x="270" y="262" font-size="11" font-weight="600" fill="#062e1c">
+      Output: GREEN / YELLOW / RED + suspected conditions + Tamil next-steps + IMNCI refs + disclaimer
+    </text>
+  </g>
+
+  <!-- ASHA worker label below Tier 1 -->
+  <g>
+    <rect x="290" y="284" width="150" height="32" rx="6" fill="#ffffff" stroke="#3DDC84" stroke-width="1.5"/>
+    <text x="365" y="304" text-anchor="middle" font-size="12" fill="#062e1c">ASHA Worker · Tablet UI</text>
+  </g>
+
+  <!-- Escalation arrow Tier 1 → Tier 2 -->
+  <g>
+    <path d="M 760 185 C 820 185, 850 230, 850 270" stroke="#007EC6" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+    <text x="830" y="220" text-anchor="middle" font-size="10" fill="#007EC6" font-weight="600">RED escalation</text>
+    <text x="830" y="234" text-anchor="middle" font-size="10" fill="#007EC6">+ visit summary</text>
+  </g>
+
+  <!-- TIER 2 — Apache blue -->
+  <g>
+    <rect x="660" y="280" width="270" height="140" rx="12" fill="#eff6ff" stroke="#007EC6" stroke-width="3"/>
+    <rect x="660" y="280" width="270" height="32" rx="12" fill="#007EC6"/>
+    <rect x="660" y="298" width="270" height="14" fill="#007EC6"/>
+    <text x="675" y="302" font-size="14" font-weight="700" fill="#ffffff">Tier 2 · PHC Doctor (Clinic)</text>
+
+    <text x="675" y="338" font-size="12" font-weight="600" fill="#0c4a6e">Gemma 4 26B-A4B (Q4 GGUF)</text>
+    <text x="675" y="356" font-size="11" fill="#0c4a6e">▸ Full specialist reasoning over the patient's local log</text>
+    <text x="675" y="372" font-size="11" fill="#0c4a6e">▸ Multimodal: image + text-only fallback</text>
+    <text x="675" y="388" font-size="11" fill="#0c4a6e">▸ Local desktop / clinic workstation</text>
+    <text x="675" y="408" font-size="11" font-style="italic" fill="#475569">designed in Sprint 1 · deferred from MVP scope</text>
+  </g>
+
+  <!-- Aggregation arrow Tier 1 → Tier 3 -->
+  <g>
+    <path d="M 505 320 L 505 470" stroke="#FE7D37" stroke-width="2.5" fill="none" marker-end="url(#arrow)" stroke-dasharray="6 4"/>
+    <text x="515" y="370" font-size="11" fill="#92400e" font-weight="600">aggregated signals only</text>
+    <text x="515" y="386" font-size="10" fill="#92400e">geohash ~1km · no patient ID</text>
+    <text x="515" y="402" font-size="10" fill="#92400e">deferred sync (TLS 1.3 when online)</text>
+  </g>
+
+  <!-- TIER 3 — Hackathon orange -->
+  <g>
+    <rect x="40" y="470" width="880" height="160" rx="14" fill="#fff7ed" stroke="#FE7D37" stroke-width="3"/>
+    <rect x="40" y="470" width="880" height="36" rx="14" fill="#FE7D37"/>
+    <rect x="40" y="490" width="880" height="16" fill="#FE7D37"/>
+    <text x="60" y="494" font-size="15" font-weight="700" fill="#451a03">
+      Tier 3 · District Health Officer — Dashboard
+    </text>
+    <text x="900" y="494" text-anchor="end" font-size="12" font-weight="600" fill="#451a03">
+      React + D3 · runs on aggregated signals only
+    </text>
+
+    <g>
+      <rect x="60" y="520" width="200" height="92" rx="8" fill="#ffffff" stroke="#FE7D37" stroke-width="1.5"/>
+      <text x="160" y="544" text-anchor="middle" font-size="13" font-weight="600" fill="#451a03">Map · Geohash heatmap</text>
+      <text x="160" y="566" text-anchor="middle" font-size="11" fill="#7c2d12">G / Y / R density per ~1km cell</text>
+      <text x="160" y="584" text-anchor="middle" font-size="11" fill="#7c2d12">Tamil Nadu · 20 active cells</text>
+      <text x="160" y="602" text-anchor="middle" font-size="11" fill="#7c2d12">last-updated timestamps</text>
+    </g>
+
+    <g>
+      <rect x="280" y="520" width="200" height="92" rx="8" fill="#ffffff" stroke="#FE7D37" stroke-width="1.5"/>
+      <text x="380" y="544" text-anchor="middle" font-size="13" font-weight="600" fill="#451a03">Trends · 7-day</text>
+      <text x="380" y="566" text-anchor="middle" font-size="11" fill="#7c2d12">G/Y/R counts per day</text>
+      <text x="380" y="584" text-anchor="middle" font-size="11" fill="#7c2d12">deviations from baseline</text>
+      <text x="380" y="602" text-anchor="middle" font-size="11" fill="#7c2d12">today partial · prior 6 full</text>
+    </g>
+
+    <g>
+      <rect x="500" y="520" width="200" height="92" rx="8" fill="#ffffff" stroke="#FE7D37" stroke-width="1.5"/>
+      <text x="600" y="544" text-anchor="middle" font-size="13" font-weight="600" fill="#451a03">Alerts · RED clusters</text>
+      <text x="600" y="566" text-anchor="middle" font-size="11" fill="#7c2d12">cells with ≥2 RED in 24h</text>
+      <text x="600" y="584" text-anchor="middle" font-size="11" fill="#7c2d12">trend: up · stable · down</text>
+      <text x="600" y="602" text-anchor="middle" font-size="11" fill="#7c2d12">first / last seen timestamps</text>
+    </g>
+
+    <g>
+      <rect x="720" y="520" width="180" height="92" rx="8" fill="#ffffff" stroke="#FE7D37" stroke-width="1.5"/>
+      <text x="810" y="544" text-anchor="middle" font-size="13" font-weight="600" fill="#451a03">Stats · today vs yesterday</text>
+      <text x="810" y="566" text-anchor="middle" font-size="11" fill="#7c2d12">total / RED / active cells</text>
+      <text x="810" y="584" text-anchor="middle" font-size="11" fill="#7c2d12">escalation rate</text>
+      <text x="810" y="602" text-anchor="middle" font-size="11" fill="#7c2d12">Gemma 4 31B narrative (planned)</text>
+    </g>
+  </g>
+
+  <!-- Footer band: disclaimer + safety architecture -->
+  <g>
+    <rect x="40" y="650" width="880" height="50" rx="10" fill="#1f2937"/>
+    <text x="480" y="676" text-anchor="middle" font-size="14" font-weight="600" fill="#f9fafb">
+      இது மருத்துவ ஆலோசனை அல்ல · This is not medical advice · Decision support, never replacement
+    </text>
+    <text x="480" y="694" text-anchor="middle" font-size="11" fill="#d1d5db">
+      LLM proposes triage level → deterministic protocol engine can only escalate, never downgrade → confidence &lt; 0.70 always escalates
+    </text>
+  </g>
+</svg>
