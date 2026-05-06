@@ -170,9 +170,21 @@
       "id": "ADULT-CARDIAC-001",
       "source": "MARUNTHAGAM_ADULT",
       "min_level": "RED",
-      "fires": [],
-      "chief_only_misses": [],
-      "fires_by_gold": {}
+      "fires": [
+        "triage_test_039"
+      ],
+      "chief_only_misses": [
+        {
+          "case_id": "derm_test_026",
+          "gold": "YELLOW",
+          "failed_filters": [
+            "required_co_signals (1 unmatched)"
+          ]
+        }
+      ],
+      "fires_by_gold": {
+        "RED": 1
+      }
     },
     "ADULT-ANAPHYLAXIS-001": {
       "id": "ADULT-ANAPHYLAXIS-001",
@@ -208,8 +220,29 @@
           ]
         },
         {
+          "case_id": "triage_test_042",
+          "gold": "RED",
+          "failed_filters": [
+            "required_co_signals (1 unmatched)"
+          ]
+        },
+        {
+          "case_id": "triage_test_043",
+          "gold": "RED",
+          "failed_filters": [
+            "required_co_signals (1 unmatched)"
+          ]
+        },
+        {
           "case_id": "triage_test_044",
           "gold": "RED",
+          "failed_filters": [
+            "required_co_signals (1 unmatched)"
+          ]
+        },
+        {
+          "case_id": "maternal_test_043",
+          "gold": "YELLOW",
           "failed_filters": [
             "required_co_signals (1 unmatched)"
           ]
@@ -222,7 +255,15 @@
       "source": "MARUNTHAGAM_ADULT",
       "min_level": "RED",
       "fires": [],
-      "chief_only_misses": [],
+      "chief_only_misses": [
+        {
+          "case_id": "triage_test_040",
+          "gold": "RED",
+          "failed_filters": [
+            "required_co_signals (1 unmatched)"
+          ]
+        }
+      ],
       "fires_by_gold": {}
     },
     "NEW-ONSET-JAUNDICE-001": {
@@ -432,7 +473,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -700,7 +741,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -964,13 +1005,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -1236,7 +1273,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -1501,7 +1538,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -1760,13 +1797,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -2034,7 +2067,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -2567,7 +2600,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -2834,7 +2867,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -3104,7 +3137,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -3369,7 +3402,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -3628,13 +3661,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -3895,7 +3924,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='child')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -4170,7 +4199,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -4438,7 +4467,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -4704,7 +4733,7 @@
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…"
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…"
           ],
           "negative_scoping_hits": []
         },
@@ -4970,7 +4999,7 @@
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…"
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…"
           ],
           "negative_scoping_hits": []
         },
@@ -5237,7 +5266,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -5505,7 +5534,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -5773,7 +5802,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -6041,7 +6070,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -6309,7 +6338,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -6842,7 +6871,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -7110,7 +7139,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -7376,7 +7405,7 @@
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…"
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…"
           ],
           "negative_scoping_hits": []
         },
@@ -7644,7 +7673,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -7915,7 +7944,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -8183,7 +8212,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -8444,7 +8473,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -8709,7 +8738,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -8976,7 +9005,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -9248,7 +9277,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -9516,7 +9545,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -9784,7 +9813,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -10052,7 +10081,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -10316,7 +10345,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -10578,16 +10607,10 @@
         {
           "rule_id": "ADULT-CARDIAC-001",
           "min_level": "RED",
-          "fired": false,
-          "chief_pattern_matched": false,
-          "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
-          ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "fired": true,
+          "chief_pattern_matched": true,
+          "failed_filters": [],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -10853,7 +10876,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -10901,9 +10924,8 @@
           "rule_id": "ANIMAL-BITE-RESPIRATORY-001",
           "min_level": "RED",
           "fired": false,
-          "chief_pattern_matched": false,
+          "chief_pattern_matched": true,
           "failed_filters": [
-            "chief_complaint_pattern",
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
@@ -11117,13 +11139,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -11385,7 +11403,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -11420,9 +11438,8 @@
           "rule_id": "ADULT-RESPIRATORY-001",
           "min_level": "RED",
           "fired": false,
-          "chief_pattern_matched": false,
+          "chief_pattern_matched": true,
           "failed_filters": [
-            "chief_complaint_pattern",
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
@@ -11649,7 +11666,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -11684,9 +11701,8 @@
           "rule_id": "ADULT-RESPIRATORY-001",
           "min_level": "RED",
           "fired": false,
-          "chief_pattern_matched": false,
+          "chief_pattern_matched": true,
           "failed_filters": [
-            "chief_complaint_pattern",
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
@@ -11914,7 +11930,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -12182,7 +12198,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -12450,7 +12466,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -12718,7 +12734,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -12986,7 +13002,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -13254,7 +13270,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -13519,7 +13535,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -13783,7 +13799,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -14048,7 +14064,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -14321,7 +14337,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -14589,7 +14605,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -14857,7 +14873,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -15125,7 +15141,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -15388,7 +15404,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='child')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -15660,7 +15676,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -15924,13 +15940,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -16196,7 +16208,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -16464,7 +16476,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='infant')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -16732,7 +16744,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='child')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -17006,7 +17018,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -17273,13 +17285,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -17544,13 +17552,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -17804,13 +17808,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -18079,7 +18079,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -18343,7 +18343,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -18604,13 +18604,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (2 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -18878,7 +18874,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -19137,13 +19133,12 @@
           "rule_id": "ADULT-CARDIAC-001",
           "min_level": "RED",
           "fired": false,
-          "chief_pattern_matched": false,
+          "chief_pattern_matched": true,
           "failed_filters": [
-            "chief_complaint_pattern",
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…"
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…"
           ],
           "negative_scoping_hits": []
         },
@@ -19408,7 +19403,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='child')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -19677,7 +19672,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -19937,12 +19932,9 @@
           "fired": false,
           "chief_pattern_matched": false,
           "failed_filters": [
-            "chief_complaint_pattern",
-            "required_co_signals (1 unmatched)"
+            "chief_complaint_pattern"
           ],
-          "co_signal_failures": [
-            "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
-          ],
+          "co_signal_failures": [],
           "negative_scoping_hits": []
         },
         {
@@ -20208,7 +20200,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -20475,7 +20467,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -20745,7 +20737,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -21013,7 +21005,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -21276,7 +21268,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -21546,7 +21538,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -21817,7 +21809,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -22081,7 +22073,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -22348,7 +22340,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -22617,7 +22609,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -22885,7 +22877,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -23151,7 +23143,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -23419,7 +23411,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -23687,7 +23679,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -23953,7 +23945,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='infant')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -24229,7 +24221,7 @@
             "age_group (rule='adolescent|adult|elderly' patient='infant')"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -24500,7 +24492,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -24768,7 +24760,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -25032,7 +25024,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -25297,7 +25289,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -25567,7 +25559,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -25830,7 +25822,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -26100,7 +26092,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -26371,7 +26363,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -26634,7 +26626,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -26904,7 +26896,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -27167,7 +27159,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -27432,7 +27424,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -27702,7 +27694,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -27965,7 +27957,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -28235,7 +28227,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -28500,7 +28492,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -28769,7 +28761,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -29037,7 +29029,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -29305,7 +29297,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -29568,7 +29560,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -29841,7 +29833,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -30104,7 +30096,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -30374,7 +30366,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -30636,7 +30628,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -30901,7 +30893,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -31165,7 +31157,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -31435,7 +31427,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -31701,7 +31693,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -31965,7 +31957,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -32238,7 +32230,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -32504,7 +32496,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -32768,7 +32760,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -33038,7 +33030,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -33306,7 +33298,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -33569,7 +33561,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -33839,7 +33831,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -34102,7 +34094,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -34367,7 +34359,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -34630,7 +34622,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -34665,9 +34657,8 @@
           "rule_id": "ADULT-RESPIRATORY-001",
           "min_level": "RED",
           "fired": false,
-          "chief_pattern_matched": false,
+          "chief_pattern_matched": true,
           "failed_filters": [
-            "chief_complaint_pattern",
             "required_co_signals (1 unmatched)"
           ],
           "co_signal_failures": [
@@ -34896,7 +34887,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
@@ -35163,7 +35154,7 @@
             "required_co_signals (2 unmatched)"
           ],
           "co_signal_failures": [
-            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(…",
+            "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|பரவி|ப…",
             "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*…"
           ],
           "negative_scoping_hits": []
