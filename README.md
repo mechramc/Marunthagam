@@ -345,7 +345,7 @@ All Marunthagam artifacts are public on HuggingFace:
 
 **Models** (LoRA adapter + Q4_K_M GGUF + multimodal mmproj per specialist):
 
-- [`mechramc/marunthagam-triage-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-triage-E4B-Q4_K_M) — Sprint 2 B-retrained adapter (production). The currently-uploaded GGUF is the Sprint 1 export; the Sprint 2 B-retrained GGUF is available locally at `training/models/triage-B-E4B-Q4_K_M_gguf/` and is the artifact that produced the held-out numbers in this README — it will be pushed to HF as a follow-up upload.
+- [`mechramc/marunthagam-triage-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-triage-E4B-Q4_K_M) — Sprint 2 B-retrained adapter + Q4_K_M GGUF + multimodal mmproj. The GGUF on HF (sha256 `12579ddf2293…`) is the artifact that produced the held-out numbers in this README — verified via byte-identical hash against the local export at `training/models/triage-B-E4B-Q4_K_M_gguf/`.
 - [`mechramc/marunthagam-derm-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-derm-E4B-Q4_K_M) — Sprint 1
 - [`mechramc/marunthagam-maternal-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-maternal-E4B-Q4_K_M) — Sprint 1
 
