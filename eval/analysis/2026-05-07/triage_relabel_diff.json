@@ -1,0 +1,208 @@
+{
+  "date": "2026-05-07",
+  "splits": {
+    "train": [
+      {
+        "case_id": "triage_train_211",
+        "line_number": 211,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு 62 வயது, வழக்கமான ஆய்வகப் பரிசோதனையில் PSA அளவு 6.5 ஆக உள்ளது. டிஜிட்டல் ரெக்டல் பரிசோதனை (Digital rectal exam) இயல்பாக உள்ளது. எக்கோகிராபி (echography) முடிவில் புரோஸ்டேட் சுரப்பி enlarged ஆக  …",
+        "rater_notes": "PSA 6.5 in 62yo + enlarged prostate + hematuria (RBC 20-22 in urine). Even with normal DRE and reassuring free/total PSA ratio, PSA above age-cutoff plus persistent microhematuria requires urology referral within weeks for cystoscopy/repeat PSA."
+      },
+      {
+        "case_id": "triage_train_213",
+        "line_number": 213,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், ஒரு நிஜமான மனிதரிடம் பேச முடியும் என்று நான்வில்லை, ஆனால் நீங்கள் இருப்பதால், எனக்கு இருக்கும் அறிகுறிகளைப் பற்றி சொல்கிறேன். இவை பயத்தினால் ஏற்படும் அதிர்ச்சிகள் (panic attacks) அல்லது பதற்ற …",
+        "rater_notes": "Chest pressure radiating to jaw + dyspnea + tachycardia. Patient self-attributes to panic and cites recent normal MRI, but symptom pattern alone is the textbook cardiac-mimicking presentation. Labeling this GREEN trains the model to dismiss cardiac-pattern symptoms based on patient self-attribution."
+      },
+      {
+        "case_id": "triage_train_224",
+        "line_number": 224,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம் டாக்டர், எனக்கு 21 வயது, பெண். ஒரு மாதத்திற்கு முன்பு நான் நடந்து சென்றபோது கீழே விழுந்துவிட்டேன். அன்று முதல் எனது இடது காலின் கணுக்கால் பகுதியில் வலி உள்ளது. இது தொடர்ச்சியான வலி அல்ல, காலை  …",
+        "rater_notes": "Post-fall ankle pain x30 days now spreading proximally to knee. Spreading pain after trauma warrants imaging — YELLOW for ortho."
+      },
+      {
+        "case_id": "triage_train_225",
+        "line_number": 225,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது தாயார் சமீபத்தில் பலமாக விழுந்து, தலையில் அடிபட்டு, இரண்டு ஸ்டேப்பிள்ஸ் (staples) போடப்பட்டது. கான்ட்ராஸ்ட் இல்லாத தலையின் CT ஸ்கேன் அறிக்கையில் இவ்வாறு உள்ளது... ஆழமான, பெரிவென்ட்ரிகுலர் (perive …",
+        "rater_notes": "Elderly fall with head impact requiring staples; CT shows hypodensities + lacunar infarcts + volume loss. Ongoing post-trauma neuro monitoring + small-vessel disease findings warrant YELLOW for neuro follow-up, not GREEN home monitoring."
+      },
+      {
+        "case_id": "triage_train_228",
+        "line_number": 228,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது வலது கையில் சுமார் ஒரு மாதமாக மரத்துப்போன உணர்வு உள்ளது. இது அவ்வப்போது வருகிறது; குறிப்பாக அந்த கையைப் பயன்படுத்தும் போது. அதேபோல், தூங்கும் போது கை மிகவும் மரத்துப்போவதால் தூக்கம் கலைகிறது மற்ற …",
+        "rater_notes": "Right hand numbness x30 days, sleep-disrupting, painful, attributed to arthritis but other joints unaffected. Asymmetric persistent numbness needs nerve conduction / neuro evaluation — not GREEN with wrist brace."
+      },
+      {
+        "case_id": "triage_train_238",
+        "line_number": 238,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது 12 வயது மகன் மீது எனது நாய் கடித்தது. அவனுக்கு 0 மற்றும் 3-வது நாள் தடுப்பூசிகள் போடப்பட்டது, இப்போது 7-வது நாள் தடுப்பூசிக்கு வர வேண்டும். அவன் அனைத்து தடுப்பூசிகளையும் எடுத்துக்கொள்ள வேண்டுமா?  …",
+        "rater_notes": "12yo dog bite, mid-rabies-PEP series. Incomplete rabies PEP is an urgent compliance question — YELLOW for immediate vaccinator confirmation. Bite was from puppy not yet rabies-vaccinated at time of bite."
+      },
+      {
+        "case_id": "triage_train_239",
+        "line_number": 239,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "என் மகளின் காதுகள் துளைக்கப்பட்டும் 10 மேலாகிறது. இன்று அவள் ஒரு ஜோடி கம்மல்களைக் கழட்டியபோது, வலது காது துளையிலிருந்து ரத்தம் வரத் தொடங்கியது, ஆனால் இடது காதுக்கு அப்படி நடக்கவில்லை. இதற்கு என்ன காரண …",
+        "rater_notes": "Pediatric ear-piercing bleeding recurring on multiple earring changes with infection signs. Recurrent bleeding + infection signs warrants YELLOW for in-person assessment."
+      },
+      {
+        "case_id": "triage_train_242",
+        "line_number": 242,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம் டாக்டர், என் பெயர் ஆம்பர். நான் அவசர சிகிச்சை室க்கு (Emergency Room) செல்ல வேண்டுமா இல்லையா என்று எனக்குத் தெரியவில்லை, தயவுசெய்து எனக்கு உதவ முடியுமா? நான் வேலையில் இருந்தபோது எனக்குக் கொஞ்சம் …",
+        "rater_notes": "Periorbital trauma with significant swelling, patient explicitly asking 'should I go to ER.' Even with intact vision and no LOC, periorbital fractures need imaging within 24-48h to rule out muscle entrapment."
+      },
+      {
+        "case_id": "triage_train_243",
+        "line_number": 243,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு 34 வயது, ஆண். நான் வழக்கமாக உடற்பயிற்சி செய்கிறேன். எனது உயரம் 6 அடி மற்றும் எடை 95 கிலோ. கடந்த ஒரு வருடமாக நான் தொடர்ந்து டென்னிஸ் விளையாடி வருகிறேன். கடந்த ஒரு வருடமாக எனக்கு அடிக்கடி மார்பு  …",
+        "rater_notes": "Recurrent chest discomfort x365 days in 34yo despite 3 normal TMTs and Echos. Likely musculoskeletal but a YEAR of recurrent chest discomfort warrants at minimum YELLOW for one more structured workup."
+      },
+      {
+        "case_id": "triage_train_249",
+        "line_number": 249,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு நான்கு நாட்களுக்கு முன்பு ஞானப் பற்கள் (wisdom teeth) எடுக்கப்பட்டன. இன்று எனக்குக் காய்ச்சல் இருந்தது, இப்போது அது குறைந்துவிட்டது, ஆனால் உடல்நலக் குறைவு உணர்கிறேன். உடல் வலி, தலைவலி மற்றும் ம …",
+        "rater_notes": "Post wisdom-tooth extraction at day 4 with new fever, body aches, headache, fatigue. Patient explicitly asks about sepsis/endocarditis. Systemic symptoms 4 days post-procedure warrant YELLOW for medical (not just dental) evaluation."
+      },
+      {
+        "case_id": "triage_train_256",
+        "line_number": 256,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது 14 வயது மகன் திங்கட்கிழமை பள்ளியில் மயக்கமடைந்தார், அதன் பிறகு ஆரம்பத்தில் அவரால் தனது கைகளை அசைக்க. அறிவியல் வகுப்பில் இரத்த நாளங்கள் பற்றிய ஆவணப்படத்தைப் பார்த்துக்போது இது நடந்தது. அவரை மருத்த …",
+        "rater_notes": "14yo new-onset syncope with transient post-ictal arm immobility. Even if vasovagal, first syncope with focal neuro deficit warrants YELLOW for neuro/cardiology workup. The transient inability to move arms is the red flag the first doctor downplayed."
+      },
+      {
+        "case_id": "triage_train_267",
+        "line_number": 267,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த ஒரு மணி நேரமாக என் அம்மாவின் இரத்த அழுத்தத்தின் கீழ் அளவு (diastolic) மிகவும் குறைவாக உள்ளது. கடைசி அளவீடு 145/64 ஆக இருந்தது, ஆனால் கீழ் அளவு 51 வரை குறைந்தது. அவர் தனது இரத்த அழுத்த மருந்துகளை …",
+        "rater_notes": "Diastolic 51 (with systolic 145) in patient on antihypertensives, asking whether to take usual dose tonight. Wide pulse pressure + low diastolic on meds is a real medication-management question. YELLOW for same-day GP/cardiology call."
+      },
+      {
+        "case_id": "triage_train_268",
+        "line_number": 268,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வாய்வழி மருத்துவப் பிரச்சனை காரணமாக எனக்கு கிண்டமைசின் (clindamycin) 150mg கேப்ஸ்யூல் மருந்துகள் பரிந்துரைக்க. எனக்கு வாயில் பிரிட்ஜ் (bridge) உடன் கூடிய உள்நடுகைகள் (implants) உள்ளன. எனது தாடையில் இர …",
+        "rater_notes": "Broken jaw screws + completely loosened bridge with exposed gums, prophylactic clindamycin prescribed. Patient choosing NOT to take antibiotics out of Stevens-Johnson fear and lives alone. Hardware failure + decision to refuse prophylaxis warrants YELLOW for in-person review."
+      },
+      {
+        "case_id": "triage_train_279",
+        "line_number": 279,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த 3 முதல் 6 மாதங்களாக, எனக்கு தினமும் லேசான தலைச்சுற்றல் மற்றும் மயக்க உணர்வு உள்ளது - ஆனால் சமநிலையை இழக்கும் அளவுக்கு இல்லை. எனது அன்றாட பணிகளை 100% செய்ய முடிகிறது,, இந்த லேசான தலைச்சுற்றல் மற் …",
+        "rater_notes": "Daily lightheadedness x3-6 months in adult, persistent, distressing. Chronic dizziness needs cardiac/neuro/ENT workup — YELLOW for outpatient evaluation."
+      },
+      {
+        "case_id": "triage_train_281",
+        "line_number": 281,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "நான் 30 வயதுடைய பெண். பணியிடத்தில் புதிய பொறுப்பை ஏற்றதால் ஏற்பட்ட மன அழுத்தத்தினால், எனது இதயத் துடிப்பு சீரற்றதாக உள்ளது. பணியில் சேர்ந்ததிலிருந்து, அவ்வப்போது எனது இதயம் மிக வேகமாகத் துடிக்கிறது; க …",
+        "rater_notes": "New-onset palpitations with felt ectopy in 30yo, persistent x weeks, attributed to stress. New palpitations require ECG/Holter — YELLOW. Stress attribution does not rule out arrhythmia."
+      },
+      {
+        "case_id": "triage_train_282",
+        "line_number": 282,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனது இளைய மகன் கடந்த இரண்டு நாட்களாக காய்ச்சலுடன் உடல்நலக்குறைவாக இருந்தார். நேற்று நான் இருவரையும் மருத்துவரிடம் அழைத்துச் சென்றேன், அப்போது எனது மூத்த மகனுக்கு காசநோய் (TB) பரிசோதனை. இப்போத …",
+        "rater_notes": "Pediatric fever 102-103°F x2 days. Pediatric high-fever needs YELLOW for in-person assessment, especially in regions with malaria/dengue risk."
+      },
+      {
+        "case_id": "triage_train_283",
+        "line_number": 283,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது கணவர் அக்டோபர் 2016-ல் பக்கவாதத்தால் (stroke)ார். ஆரம்பத்தில் அவரது அணுகுமுறை மோசமாக இருந்தது, செவிலியர்களைத் திட்டியதுடன் அவர்களுடன் உடல் ரீதியாக மோதினார். அவர் தீவிர சிகிச்சை மருத்துவமனையில் இர …",
+        "rater_notes": "Post-stroke patient with new behavioral changes + medication-induced excessive sleepiness. Behavioral change post-stroke can signal recurrent ischemia or mood disorder; oversedation in a stroke patient is its own risk."
+      },
+      {
+        "case_id": "triage_train_286",
+        "line_number": 286,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த 4 ஆண்டுகளாக எனது AST, ALT மற்றும் பிலிரூபின் (bilirubin) அளவுகள் அதிகரித்துள்ளன. கல்லீரல் ஸ்கேன் (Liver scan) பரிசோதனையில் லேசான பரவலான கொழுப்பு மாற்றங்கள் (mild diffuse fatty changes) இருப்பது  …",
+        "rater_notes": "AST + ALT + bilirubin all elevated x4 years (1460 days) with mild fatty liver. Persistent multi-LFT abnormality with bilirubin involvement warrants YELLOW for hepatology workup."
+      }
+    ],
+    "val": [
+      {
+        "case_id": "triage_val_032",
+        "line_number": 32,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "நான் நிமோனியா சிகிச்சைக்காக 3 நாட்கள் மருத்துவமனையில் அனுமதிக்கப்பட்டு, நரம்புகளில் செலுத்தப்படும் (IV) ஆன்டிபயாடிக் மருந்துகளை எடுத்துக்கொண்டேன். டிஸ்சார்ஜ் ஆன பிறகு, எனக்கு முதுகு வலி மற்றும் மார்பு …",
+        "rater_notes": "Post-hospital pneumonia patient now with worsening back pain + chest tightness. Recently hospitalized for pneumonia + new chest tightness is the exact pattern that should rule out PE / recurrent pneumonia / empyema — not GREEN with continued NSAIDs alone."
+      }
+    ],
+    "test": [
+      {
+        "case_id": "triage_test_032",
+        "line_number": 32,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த சில மாதங்களாக எனக்கு உதடுகள் வீக்கமாகவும், வெவ்வேறு சமயங்களில் நான் சாப்பிட்ட வெவ்வேறு உணவுகளால் நாக்கு வீக்கமாகவும் உள்ளது. சில நேரங்களில் எனது மேல் உதட்டின் பாதி அல்லது கீழ் உதட்டின் பாதி அல்ல …",
+        "rater_notes": "Recurrent angioedema-pattern lip + tongue swelling x90 days, food-triggered, no diagnosis from allergist or dentist. Recurrent partial lip/tongue swelling without identified trigger raises hereditary angioedema (HAE) or ACE-inhibitor-induced angioedema differential — risk of progression to airway involvement is what makes this YELLOW."
+      }
+    ]
+  },
+  "summary": {
+    "pre": {
+      "train": {
+        "YELLOW": 209,
+        "GREEN": 90,
+        "RED": 52
+      },
+      "val": {
+        "YELLOW": 26,
+        "GREEN": 11,
+        "RED": 6
+      },
+      "test": {
+        "YELLOW": 26,
+        "GREEN": 12,
+        "RED": 7
+      }
+    },
+    "post": {
+      "train": {
+        "YELLOW": 227,
+        "GREEN": 72,
+        "RED": 52
+      },
+      "val": {
+        "YELLOW": 27,
+        "GREEN": 10,
+        "RED": 6
+      },
+      "test": {
+        "YELLOW": 27,
+        "GREEN": 11,
+        "RED": 7
+      }
+    },
+    "n_relabeled": 20
+  }
+}
