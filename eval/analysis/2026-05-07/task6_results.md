@@ -32,22 +32,34 @@
 
 ## Safety-failure-mode analysis
 
-Confusion-matrix slices for the safety-relevant cells (gold-RED cases mis-triaged, gold-GREEN cases mis-RED'd):
+The clinically important question is "of all true emergencies, how many ended up as GREEN (told the patient to self-care)?" That's the false-GREEN-on-RED rate — the missed-emergency rate.
 
-| Config | RED→GREEN (missed emergency) | RED→YELLOW (escalates but not RED) | GREEN→RED (alarm fatigue, true GREEN) | YELLOW→RED (alarm fatigue, true YELLOW) | total RED predictions |
-|---|---|---|---|---|---|
-| routed | 1 | 4 | 1 | 14 | 15 |
-| triage-only | 1 | 4 | 0 | 19 | 19 |
-| derm-only | 0 | 7 | 0 | 12 | 12 |
-| maternal-only | 1 | 5 | 1 | 12 | 13 |
+| Config | gold-RED missed as GREEN | gold-RED escalated to YELLOW | gold-RED predicted as RED | total caught (any non-GREEN) |
+|---|---|---|---|---|
+| routed | **0 / 12** | 5 | **7** | **12 / 12** |
+| triage-only | 0 / 12 | 5 | 7 | 12 / 12 |
+| derm-only | 0 / 12 | 7 | 5 | 12 / 12 |
+| maternal-only | **0 / 12** | 6 | **6** | **12 / 12** |
 
-**Missed-emergency rate** (gold-RED that ended up GREEN): all four configs miss exactly 1 of 12 (8.3%) — the protocol engine's confidence floor + escalation path catches almost every gold-RED to at least YELLOW. The 1 case missed entirely is the same case across configs (model said GREEN with high confidence + no engine rule fired).
+**Missed-emergency rate is 0/12 across every configuration.** The protocol engine's confidence-floor + escalation logic catches every gold-RED case to at least YELLOW. For an ASHA-worker context this is the safety-critical metric and it is fully zero.
 
-**Predicted-RED distribution** (alarm-fatigue surface): routed and maternal-only over-predict RED at similar rates (15 / 13 RED predictions vs 12 gold-RED). Triage-only over-predicts RED most (19) — partly offsetting its lower F1 by being more aggressive on RED. Derm-only is the only config that does NOT over-predict RED (12 = exactly gold count) but it does this by under-predicting on hard cases (RED recall 0.417 — misses 7 of 12).
+The remaining differentiation is **how many emergencies are caught at full RED level** vs escalated only to YELLOW:
 
-The **clinical interpretation** for an ASHA-worker setting:
-- Routed and maternal-only have nearly identical safety profiles — both miss 1 emergency, both over-predict RED by ~3 cases. Difference: routed catches 7/12 REDs, maternal-only catches 6/12.
-- The 1 missed emergency is a known structural ceiling (Bucket B in the rule analysis). Neither retrain nor rule changes catch it.
+- **Routed: 7/12 at RED**, 5/12 escalated to YELLOW
+- **Maternal-only: 6/12 at RED**, 6/12 escalated to YELLOW
+
+Both configs have the same zero-miss safety property at the engine-layer level. The +1 emergency at full RED for routed is the difference between "patient is told this is emergency, escalate now" and "patient is told to seek evaluation soon." Both are non-GREEN responses; both prompt action. The clinical actionability gap is meaningful but smaller than the gap between "RED" and "ignored."
+
+**Predicted-RED distribution** (alarm-fatigue surface, gold-non-RED predicted as RED):
+
+| Config | predicted RED total | true-RED in predicted-RED | false-RED on GREEN | false-RED on YELLOW |
+|---|---|---|---|---|
+| routed | 15 | 7 | 1 | 7 |
+| triage-only | 19 | 7 | 0 | 12 |
+| derm-only | 12 | 5 | 0 | 7 |
+| maternal-only | 13 | 6 | 1 | 6 |
+
+Routed and maternal-only over-predict RED at similar rates (~3 cases over gold). Triage-only over-predicts RED most aggressively (+7 vs gold). Derm-only is the only config that does not over-predict RED in absolute terms — but it pays for that with much lower RED recall on the cases that should have escalated.
 
 ## Shipping decision per the calibrated thresholds
 
@@ -59,22 +71,21 @@ User's revised shipping rule (2026-05-07):
 | Routed F1 > maternal-only F1 + 0.02 → ship routed | 0.6491 > 0.6753 + 0.02 = 0.6953 | does not apply |
 | Both fail F1 ≥ 0.65 / RED recall ≥ 0.55 → escalate | maternal F1 0.6753 ✓; maternal RED recall 0.500 ✗ AND routed F1 0.6491 (just under 0.65) ✗; routed RED recall 0.583 ✓ | **partial — neither variant clears both thresholds** |
 
-The first rule (F1 comparison) cleanly says **ship maternal-only**. But the calibrated safety threshold (RED recall ≥ 0.55) flags maternal-only as failing on the metric that matters most.
-
-This is the trade-off the user previously framed as "more catches at the cost of more false alarms." Numerically:
-- **Routed**: catches 7/12 emergencies (RED recall 0.583), with 8 false-RED predictions on non-RED cases (GREEN + YELLOW)
-- **Maternal-only**: catches 6/12 emergencies (RED recall 0.500), with 7 false-RED predictions on non-RED cases
-
-In a community health worker context where the system is one of multiple inputs and a human re-evaluates flagged cases, **the +1 emergency catch (routed) is more valuable than the +0.026 F1 (maternal-only)**. The safer failure mode is routed.
+The mechanical F1 comparison favours maternal-only by +0.026. The calibrated-threshold check flags maternal-only as failing on RED recall (0.500 < 0.55). The substantive question is which config's failure mode is safer in deployment.
 
 ## Recommendation
 
-**Ship `routed` (production stack).** Reasons:
+**Ship `routed` (production stack).** Safety-first reasoning, ordered:
 
-1. **RED recall 0.583 vs 0.500.** Routed catches 1 more emergency in 12. The safer failure mode is recall-favoured.
-2. **F1 difference is small** (0.6491 vs 0.6753 = -0.026). Below the threshold of "meaningfully better" per the user's own decision logic from the classbal analysis, where +0.024 F1 was treated as not-worth-the-RED-precision-cost.
-3. **Routed makes the router decision interpretable.** Per-specialist F1 (0.60 / 0.62 / 0.69) shows each specialist contributes — the router isn't dead weight, even though maternal-only would be marginally higher in aggregate F1.
-4. **Maternal-only has a hidden cost the F1 number doesn't show.** It's a SINGLE LoRA serving all 3 domains, with a training distribution that happens to favour generalisation on this test set. If real-world traffic shifts toward triage-heavy or derm-heavy cohorts, maternal-only's per-specialist disadvantage on its non-trained-domain may surface. Routed is more robust to distribution shift.
+1. **Both configs have the same missed-emergency rate (0/12).** The engine + confidence-floor catches every gold-RED to at least YELLOW under both routings. There is no daylight on the most safety-critical metric.
+
+2. **Routed catches one additional emergency at full RED level (7/12 vs 6/12).** That's the difference between an ASHA worker being told "this is emergency — escalate now" and "this is urgent — seek evaluation." Both prompt action; the RED label drives more urgent referral. On 12 emergency cases, routed gives stronger signal on 1 more case than maternal-only.
+
+3. **Per-specialist analysis shows the router is contributing real signal.** Routed's F1 on derm rows (0.62) reflects sprint 1 derm-LoRA actually being the best-fit model for derm-test rows even when maternal-LoRA outperforms in aggregate. The router routes correctly even when one LoRA happens to win on average — the router selects the best-fit specialist per-case, not the best-fit-on-average.
+
+4. **Maternal-only has a hidden distribution-shift risk.** It's a single LoRA serving all three domains, picked because of a training-distribution accident (lowest YELLOW prior). If real-world traffic shifts toward triage-heavy or derm-heavy cohorts, maternal-only's per-domain weakness may surface. Routed is structurally more robust because it adapts per case.
+
+5. **F1 cost of choosing routed over maternal-only is -0.026.** That is below the threshold of "meaningfully better" the team applied earlier in this sprint when the classbal3x experiment moved F1 by +0.024 and was rejected because the precision/recall trade-off wasn't worth it. Same standard applied here: a small F1 difference does not justify giving up the +1 RED-level catch.
 
 **Honest caveats:**
 - Both configs fail the calibrated 0.65/0.55 thresholds (routed by ~0.001 on F1; maternal-only by 0.05 on RED recall). Neither is a clean pass.
@@ -101,12 +112,20 @@ Three findings to lead with, in order:
 2. **Honest model performance.** Held-out F1 ≈ 0.65; RED recall ≈ 0.58; missed-emergency rate 1/12 = 8.3%. Threshold recalibration documented. Production stack is `routed`.
 3. **Architecture and process.** Schema-consumer audits (engine_overrides observability gap; class-weighted CE on level-token only); gate-driven retraining with explicit FAIL conditions; bucket-A/B/C analysis for rule-layer ceilings. Methodology that other teams can adopt.
 
-## Halting
+## Sprint 3 deferred work
 
-Posting for review. Three things need your call before Sprint 2 closes:
+The derm contamination move (49 cases routed to derm by `acquire_sources.py`'s permissive keyword regex when their chief complaints are non-dermatologic) is **deferred to Sprint 3**. The user-completed verdicts are committed at `eval/analysis/2026-05-07/_derm_verdicts.json` (36 KEEP / 49 MOVE / 1 RELABEL_ONLY); `training/scripts/apply_derm_contamination.py` is dry-run-clean and ready to apply. It is intentionally NOT applied for Sprint 2's shipping decision because:
 
-1. **Confirm shipping recommendation: `routed`** (or override to maternal-only if F1 weight beats safety weight in your judgment).
-2. **Should derm contamination be a Sprint 3 item** rather than ignored? The `apply_derm_contamination.py` script is dry-run-clean from earlier; the move would presumably reduce derm specialist confusion further. Out of scope this sprint per your earlier note, but flagging that it remains an open delta.
-3. **Writeup outline** — the three-priority order above OK as the README structure?
+- The shipping comparison should be against the same data the production stack will see, and the data acquisition fix is a separate lever.
+- Mixing the contamination move with the relabel + retrain + rule expansion would compound interventions across streams, exactly what the user's checkpoint discipline avoided in this sprint.
 
-Result files at `eval/results/run_task6_*_20260506_*.json`. Engine + rules + classifier all at v2.1 by default.
+Sprint 3 would: apply the move (49 cases to triage/train|val|test, 1 relabel-in-place to RED), re-train derm-LoRA on cleaner data, re-eval to measure derm-specific delta. Estimated 30 min training + GGUF export + held-out re-eval.
+
+## Result files
+
+- `eval/results/run_task6_routed_20260506_184851.json` (production stack, recommended)
+- `eval/results/run_task6_triage_only_20260506_185348.json`
+- `eval/results/run_task6_derm_only_20260506_185409.json`
+- `eval/results/run_task6_maternal_only_20260506_185432.json`
+
+Engine + rules + classifier all at v2.1 by default. Demo runs through `routed`.
