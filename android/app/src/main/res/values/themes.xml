@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Marunthagam Android theme.
+
+        Built on Material 3 (com.google.android.material 1.12.0) so the
+        layout XML can use ?attr/colorOnSurfaceVariant, the
+        Widget.Material3.* widget styles, and the textAppearanceBodyMedium
+        family. Light and dark variants share a Tamil-Nadu-friendly green
+        accent matching the dashboard's brand color.
+    -->
+    <style name="Theme.Marunthagam" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#2ecc71</item>
+        <item name="colorOnPrimary">#0a1f12</item>
+        <item name="colorPrimaryContainer">#a8e6c0</item>
+        <item name="colorOnPrimaryContainer">#0a1f12</item>
+        <item name="colorSecondary">#3b9eff</item>
+        <item name="colorOnSecondary">#062039</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
