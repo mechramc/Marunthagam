@@ -116,6 +116,13 @@ class PredictedOutput:
     reasoning_chain: str
     next_steps_tamil: str
     disclaimer: str = DISCLAIMER_TEXT
+    # Observability fields — populated only when real (non-mock) inference runs.
+    # These let downstream analysis distinguish model output from engine output.
+    pre_engine_level: Optional[str] = None
+    pre_engine_confidence: Optional[float] = None
+    pre_engine_escalation_flag: Optional[bool] = None
+    engine_overrides: list[dict] = field(default_factory=list)
+    class_logprobs: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -427,6 +434,10 @@ def _get_llm(model_path: str) -> "Llama":
         n_gpu_layers=-1,
         n_ctx=4096,
         verbose=False,
+        # logits_all enables the per-position logits needed by `logprobs=N`
+        # in our class-probability probe. ~+30% memory; no effect on the main
+        # generation behaviour.
+        logits_all=True,
     )
     _LLM_CACHE[abs_path] = llm
     return llm
@@ -444,6 +455,78 @@ def _get_protocol_engine() -> Optional[ProtocolEngine]:
         return None
     _PROTOCOL_ENGINE = ProtocolEngine(_PROTOCOL_DB_PATH)
     return _PROTOCOL_ENGINE
+
+
+# ---------------------------------------------------------------------------
+# Per-class logprobs probe (observability only — does not affect inference)
+# ---------------------------------------------------------------------------
+# After the main JSON completion, we run a single 1-token probe with the
+# prompt primed up to `{"level": "` so the next token is the level token.
+# top_logprobs at that position give us the model's distribution over
+# {GREEN, YELLOW, RED} as actually decoded by the GGUF tokenizer.
+
+# Prompt suffix that makes the very next token the level value.
+_LOGPROBS_PROBE_SUFFIX = '{"level": "'
+
+# Tamil: not relevant — we accumulate over Latin token strings the tokenizer
+# emits. Different tokenizers split "GREEN"/"YELLOW"/"RED" differently;
+# we attribute a token's logprob to whichever class label it is a prefix of.
+_CLASS_TOKENS = {"GREEN": "GREEN", "YELLOW": "YELLOW", "RED": "RED"}
+
+
+def _probe_class_logprobs(llm: "Llama", base_prompt: str) -> dict[str, float]:
+    """
+    Re-run a single-token probe to capture {GREEN, YELLOW, RED} logprobs.
+
+    Returns a dict {class_label: logprob} for whichever of the three classes
+    appear in the top-K returned by llama_cpp. Missing classes are absent
+    from the dict (NOT zeroed) so the caller can distinguish "not in top-K"
+    from "exactly 0".
+    """
+    # Drop the trailing `{` the main template primes and replace with the probe
+    # suffix that opens the level value's quoted string.
+    if base_prompt.endswith("{"):
+        probe_prompt = base_prompt[:-1] + _LOGPROBS_PROBE_SUFFIX
+    else:
+        probe_prompt = base_prompt + _LOGPROBS_PROBE_SUFFIX
+
+    try:
+        completion = llm(
+            probe_prompt,
+            max_tokens=1,
+            temperature=0.0,
+            logprobs=20,  # generous — tokenizer may split labels across tokens
+        )
+    except Exception:
+        return {}
+
+    choice = completion.get("choices", [{}])[0]
+    lp = choice.get("logprobs") or {}
+    top_at_pos = lp.get("top_logprobs") or []
+    if not top_at_pos:
+        return {}
+
+    # First emitted token's top-K logprobs as {token_str: logprob}
+    top0 = top_at_pos[0] if isinstance(top_at_pos[0], dict) else {}
+
+    # Attribute each candidate token to a class label by prefix match.
+    # The first token of "GREEN" might be "G", "GR", "GRE", or "GREEN" — all
+    # acceptable as evidence the model picked GREEN. Same for the others.
+    out: dict[str, float] = {}
+    for tok_str, logp in top0.items():
+        stripped = tok_str.lstrip()
+        if not stripped:
+            continue
+        upper = stripped.upper()
+        for cls, full in _CLASS_TOKENS.items():
+            if full.startswith(upper) and upper:
+                # Keep the highest logprob seen for this class (most likely
+                # tokenisation among multiple matches).
+                if cls not in out or logp > out[cls]:
+                    out[cls] = float(logp)
+                break
+
+    return out
 
 
 _TRIAGE_JSON_SCHEMA = {
@@ -525,8 +608,25 @@ def _real_predict(case: TestCase, model_path: str) -> PredictedOutput:
     confidence = max(0.0, min(1.0, confidence))
     escalation_flag = bool(output_data.get("escalation_flag", confidence < 0.70))
 
+    # ---- OBSERVABILITY: snapshot pre-engine state into IMMUTABLE LOCALS ----
+    # MUST happen BEFORE engine.apply runs. engine.apply mutates the
+    # TriageResult in place (engine.py:100 `result.level = current_level`),
+    # so reading triage.level after the call would give post-engine values.
+    # Capture into plain str/float/bool — never reference triage.* afterwards
+    # for these snapshots.
+    pre_engine_level: str = level
+    pre_engine_confidence: float = confidence
+    pre_engine_escalation_flag: bool = escalation_flag
+
+    # ---- OBSERVABILITY: per-class logprobs probe (1 extra forward pass) ----
+    # Called BEFORE engine.apply so the LLM-only signal is captured even if
+    # the engine later overrides the level. Probe is independent of the
+    # main completion; no inference behaviour change for the main call.
+    class_logprobs = _probe_class_logprobs(llm, prompt)
+
     # Apply IMNCI / TN protocol rules and the confidence floor. The engine only
     # upgrades urgency (never downgrades), so this is a safety floor.
+    engine_overrides: list[dict] = []
     engine = _get_protocol_engine()
     if engine is not None:
         triage = TriageResult(
@@ -538,12 +638,22 @@ def _real_predict(case: TestCase, model_path: str) -> PredictedOutput:
             protocol_references=[],
             escalation_flag=escalation_flag,
         )
-        triage, _overrides = engine.apply(
+        triage, overrides = engine.apply(
             triage,
             symptoms=case.tamil_question.strip() or case.verbal_symptoms,
             age_group=case.age_group,
             duration_days=case.duration_days,
         )
+        # Capture override trace BEFORE we read mutated fields.
+        engine_overrides = [
+            {
+                "rule_id": o.rule_id,
+                "original_level": o.original_level,
+                "overridden_to": o.overridden_to,
+                "reason": o.reason,
+            }
+            for o in overrides
+        ]
         level = triage.level
         escalation_flag = triage.escalation_flag
 
@@ -553,6 +663,11 @@ def _real_predict(case: TestCase, model_path: str) -> PredictedOutput:
         escalation_flag=escalation_flag,
         reasoning_chain=str(output_data.get("reasoning_chain", "")),
         next_steps_tamil=str(output_data.get("next_steps_tamil", "")),
+        pre_engine_level=pre_engine_level,
+        pre_engine_confidence=pre_engine_confidence,
+        pre_engine_escalation_flag=pre_engine_escalation_flag,
+        engine_overrides=engine_overrides,
+        class_logprobs=class_logprobs,
     )
 
 
@@ -631,6 +746,12 @@ def compute_metrics(
             "pred": pred_labels[i],
             "confidence": predictions[i].confidence,
             "escalation_flag": predictions[i].escalation_flag,
+            # Observability: model-only signal vs engine-applied signal.
+            "pre_engine_level": predictions[i].pre_engine_level,
+            "pre_engine_confidence": predictions[i].pre_engine_confidence,
+            "pre_engine_escalation_flag": predictions[i].pre_engine_escalation_flag,
+            "engine_overrides": predictions[i].engine_overrides,
+            "class_logprobs": predictions[i].class_logprobs,
         }
         for i, case in enumerate(cases)
     ]
