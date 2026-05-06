@@ -1,5 +1,5 @@
 # மருந்தகம் · Marunthagam
-> Community health intelligence, offline. Tamil-first.
+> Tamil-first offline triage decision support for ASHA workers in rural India. Runs entirely on a low-end Android phone — model, deterministic protocol engine, encrypted log database — no network call required to produce a triage decision. Designed to help community health workers escalate the right cases to the right tier, not to replace PHC doctors.
 
 ![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)
 ![Android 10+](https://img.shields.io/badge/Android-10%2B-green)
@@ -42,9 +42,19 @@ Marunthagam (மருந்தகம் — "place of medicine") is a three-tie
 
 ---
 
+## Decision support, not replacement
+
+Marunthagam is **not** a doctor-in-a-phone, an autonomous diagnostic engine, or a clinic-bypass tool. Three things follow from that framing and they are load-bearing in every design decision:
+
+1. **The system never produces an unsupervised diagnostic prescription.** Every output is a triage *level* (GREEN / YELLOW / RED), a ranked list of *suspected* conditions, plain-Tamil *next steps* (almost always "go to PHC / hospital / 108 ambulance"), and the mandatory disclaimer **"இது மருத்துவ ஆலோசனை அல்ல"** ("This is not medical advice"). The disclaimer is enforced at the JSON schema validation layer — a triage record without it fails to write to the local log.
+2. **Asymmetric error preferences are baked in.** The deterministic IMNCI protocol engine sits below the LLM and can *only escalate*, never downgrade. A confidence below 0.70 always escalates one level. The Sprint 2 retrain explicitly chose recipes that lift RED recall over recipes that lift overall F1, because the safety-relevant failure mode (missing an emergency) is far more costly than the operational failure mode (over-referring a non-emergency to PHC).
+3. **The deployment target is the ASHA worker's existing escalation workflow.** ASHA workers already triage with paper checklists; the model is a second opinion that runs offline, on her phone, in her language. Tier 2 (PHC) and Tier 3 (district) make the actual clinical and population-level calls. The model's job is to make sure no village case slips through to "wait and see" when it should have gone to a hospital that night.
+
+---
+
 ## Demo
 
-> Demo video: [TODO — link after recording]
+> Demo video script (recording pending): [`docs/demo_video_script.md`](docs/demo_video_script.md). Final video link will be added on submission.
 > CLI demo below:
 
 ```bash
@@ -235,6 +245,8 @@ Workstation targets (TTFT < 1s, > 30 tok/s) crushed by 2 orders of magnitude. Ph
 | Sprint 2 classbal3x 3ep on relabeled | 3 | (different scale; not directly comparable) |
 | **Sprint 2 B-retrain 6ep on relabeled (production)** | **6** | **1.893** |
 
+> **Footnote on eval_loss comparability:** Plain SFT runs (rows 1, 2, 4) compute eval_loss as token-level cross-entropy across the entire structured-output sequence, so they are directly comparable to each other. The classbal3x run (row 3) computes loss only on the level-token position with a 3× upweight on the minority class, so its absolute eval_loss number is on a different scale and is not comparable to plain-SFT eval_loss. Held-out F1 / RED recall on the test split (the previous tables) are the apples-to-apples cross-recipe metric, not eval_loss.
+
 **Reproduce:**
 
 ```bash
@@ -261,7 +273,7 @@ Per-run logs (manifest + stdout/stderr + structured event stream) land in `eval/
 
 | Metric | Original target | Calibrated target | Sprint 2 result | Status |
 |---|---|---|---|---|
-| Held-out F1 | > 0.80 | > 0.65 | 0.6491 | ⚠ near calibrated threshold |
+| Held-out F1 | > 0.80 | > 0.65 | 0.6491 | ⚠ 0.001 below calibrated threshold (0.6491 vs 0.65) |
 | Held-out RED recall | > 0.90 | > 0.55 | 0.5833 | ✅ |
 | Held-out missed-emergency rate (RED→GREEN) | — | 0/12 | 0/12 | ✅ |
 | Workstation TTFT / throughput | < 1.0s, > 30 tok/s | unchanged | 0.007–0.038s · 195–213 tok/s | ✅ |
@@ -331,7 +343,7 @@ All Marunthagam artifacts are public on HuggingFace:
 
 **Models** (LoRA adapter + Q4_K_M GGUF + multimodal mmproj per specialist):
 
-- [`mechramc/marunthagam-triage-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-triage-E4B-Q4_K_M) — Sprint 2 B-retrained adapter (production); Sprint 1 GGUF (Sprint 2 GGUF replacing it as a follow-up)
+- [`mechramc/marunthagam-triage-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-triage-E4B-Q4_K_M) — Sprint 2 B-retrained adapter (production). The currently-uploaded GGUF is the Sprint 1 export; the Sprint 2 B-retrained GGUF is available locally at `training/models/triage-B-E4B-Q4_K_M_gguf/` and is the artifact that produced the held-out numbers in this README — it will be pushed to HF as a follow-up upload.
 - [`mechramc/marunthagam-derm-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-derm-E4B-Q4_K_M) — Sprint 1
 - [`mechramc/marunthagam-maternal-E4B-Q4_K_M`](https://huggingface.co/mechramc/marunthagam-maternal-E4B-Q4_K_M) — Sprint 1
 
