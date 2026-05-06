@@ -3,6 +3,10 @@
 **Date:** 2026-05-07
 **Status:** swap canceled — keep sprint-1 derm-LoRA in production stack.
 
+## Summary (for the writeup)
+
+We identified that 21% of the derm specialist's training data was misrouted from other clinical domains (pulmonology, hepatology, GI surgery, etc.). We constructed a cleaned dataset and retrained derm-LoRA on it. On head-to-head evaluation against the original sprint-1 derm-LoRA on identical cleaned test data, the cleaned-data model underperformed (F1 0.538 vs 0.581, RED recall 0.000 vs 1.000). We attribute this to the 15% reduction in training data being more costly than the noise reduction was beneficial in this low-resource specialist regime. Production therefore uses the original sprint-1 derm-LoRA. The contamination diagnosis and cleaned dataset remain documented as data hygiene artifacts — separately valuable from the model decision.
+
 ## What we did
 
 1. Applied `apply_derm_contamination.py` (49 MOVE_TO_TRIAGE + 1 RELABEL_ONLY) per user-completed verdicts. Six derm/triage JSONLs backed up to `*_v2_pre_derm_move.jsonl`. Diff log at `derm_contamination_diff.json`.
