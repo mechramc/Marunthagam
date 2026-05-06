@@ -131,6 +131,8 @@ class SeedResult:
     escalation_rate: float
     n_cases: int
     per_class_report: dict[str, dict[str, float]]
+    per_specialist: dict[str, dict[str, float]] = field(default_factory=dict)
+    predictions: list[dict] = field(default_factory=list)
 
 
 @dataclass
@@ -592,6 +594,47 @@ def compute_metrics(
 
     escalation_rate = sum(escalation_flags) / max(len(escalation_flags), 1)
 
+    # Per-specialist slice — useful for A4 (cross-specialist matrix) and A3 (fusion).
+    per_specialist: dict[str, dict[str, float]] = {}
+    by_spec: dict[str, list[int]] = {}
+    for i, case in enumerate(cases):
+        by_spec.setdefault(case.specialist, []).append(i)
+    for spec, idxs in by_spec.items():
+        if not idxs:
+            continue
+        gold_subset = [gold_labels[i] for i in idxs]
+        pred_subset = [pred_labels[i] for i in idxs]
+        try:
+            wf1 = f1_score(gold_subset, pred_subset, average="weighted",
+                           labels=TRIAGE_LEVELS, zero_division=0)
+            mf1 = f1_score(gold_subset, pred_subset, average="macro",
+                           labels=TRIAGE_LEVELS, zero_division=0)
+            sub_report = classification_report(
+                gold_subset, pred_subset, labels=TRIAGE_LEVELS,
+                output_dict=True, zero_division=0,
+            )  # type: ignore[assignment]
+            sub_red = float(sub_report.get("RED", {}).get("recall", 0.0))
+        except Exception:
+            wf1, mf1, sub_red = 0.0, 0.0, 0.0
+        per_specialist[spec] = {
+            "n": len(idxs),
+            "weighted_f1": round(float(wf1), 4),
+            "macro_f1": round(float(mf1), 4),
+            "red_recall": round(sub_red, 4),
+        }
+
+    predictions_out = [
+        {
+            "case_id": case.case_id,
+            "specialist": case.specialist,
+            "gold": gold_labels[i],
+            "pred": pred_labels[i],
+            "confidence": predictions[i].confidence,
+            "escalation_flag": predictions[i].escalation_flag,
+        }
+        for i, case in enumerate(cases)
+    ]
+
     return SeedResult(
         seed=seed,
         weighted_f1=round(float(weighted_f1), 4),
@@ -611,6 +654,8 @@ def compute_metrics(
             }
             for level in TRIAGE_LEVELS
         },
+        per_specialist=per_specialist,
+        predictions=predictions_out,
     )
 
 
@@ -856,6 +901,8 @@ def run_eval(
                     "escalation_rate": r.escalation_rate,
                     "n_cases": r.n_cases,
                     "per_class": r.per_class_report,
+                    "per_specialist": r.per_specialist,
+                    "predictions": r.predictions,
                 }
                 for r in seed_results
             ],
@@ -888,6 +935,8 @@ def run_eval(
         "red_recall": single.red_recall,
         "escalation_rate": single.escalation_rate,
         "per_class": single.per_class_report,
+        "per_specialist": single.per_specialist,
+        "predictions": single.predictions,
     }
     payload["case_source"] = case_source
     with open(output_path, "w", encoding="utf-8") as fh:

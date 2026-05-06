@@ -1,0 +1,21 @@
+# Triage LoRA at rank 16 — for A7 ablation anchor (real datapoint vs rank 32).
+specialist: triage
+base_model: "unsloth/gemma-4-E4B-it"
+max_seq_length: 4096
+lora_rank: 16
+lora_alpha: 32
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+batch_size: 4
+gradient_accumulation: 4
+epochs: 3
+learning_rate: 2.0e-4
+warmup_steps: 50
+use_wandb: false
+output_dir: outputs/triage-rank16-seed42

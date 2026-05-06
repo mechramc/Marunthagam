@@ -152,21 +152,37 @@ def plot_eval_overview(payload: dict, label: str, out_name: str) -> Optional[Pat
     return _save(fig, out_name)
 
 
+def _extract_headline(payload: dict) -> dict[str, float]:
+    """Pull weighted_f1 / macro_f1 / red_recall from either single-seed or aggregated shape."""
+    if "aggregated" in payload:
+        return {
+            "weighted_f1_mean": payload["aggregated"]["weighted_f1_mean"],
+            "macro_f1_mean": payload["aggregated"]["macro_f1_mean"],
+            "red_recall_mean": payload["aggregated"]["red_recall_mean"],
+        }
+    return {
+        "weighted_f1_mean": payload.get("weighted_f1", 0.0),
+        "macro_f1_mean": payload.get("macro_f1", 0.0),
+        "red_recall_mean": payload.get("red_recall", 0.0),
+    }
+
+
 def plot_fixtures_vs_test_split() -> Optional[Path]:
     """Compare F1 / RED recall on fixtures (50 cases) vs held-out test (131 rows)."""
-    fixtures = _latest_matching("run_", must_have_key="aggregated")
-    # Find the test_split run specifically
+    # Find the test_split run specifically (prefer v2/aggregated)
     test_split: Optional[Path] = None
-    for p in sorted(RESULTS_DIR.glob("run_test_split_*.json"), key=lambda x: x.stat().st_mtime, reverse=True):
+    for p in sorted(RESULTS_DIR.glob("run_test_split_*.json"),
+                    key=lambda x: x.stat().st_mtime, reverse=True):
         test_split = p
         break
-    # Find a fixtures-only aggregated run (not test_split)
+    # Find a fixtures-only run (not test_split, not fusion_only_*)
     fixture_run: Optional[Path] = None
-    for p in sorted(RESULTS_DIR.glob("run_*.json"), key=lambda x: x.stat().st_mtime, reverse=True):
-        if "test_split" in p.name:
+    for p in sorted(RESULTS_DIR.glob("run_*.json"),
+                    key=lambda x: x.stat().st_mtime, reverse=True):
+        if "test_split" in p.name or "fusion_only" in p.name:
             continue
         d = _load_json(p)
-        if d and "aggregated" in d:
+        if d:
             fixture_run = p
             break
     if not fixture_run or not test_split:
@@ -179,8 +195,8 @@ def plot_fixtures_vs_test_split() -> Optional[Path]:
 
     metrics = ["weighted_f1_mean", "macro_f1_mean", "red_recall_mean"]
     metric_labels = ["Weighted F1", "Macro F1", "RED recall"]
-    f_vals = [f_data["aggregated"][m] for m in metrics]
-    t_vals = [t_data["aggregated"][m] for m in metrics]
+    f_vals = [_extract_headline(f_data)[m] for m in metrics]
+    t_vals = [_extract_headline(t_data)[m] for m in metrics]
 
     x = np.arange(len(metrics))
     width = 0.35
@@ -299,6 +315,161 @@ def plot_latency(latency_payload: dict) -> Optional[Path]:
     return _save(fig, "latency_benchmark.png")
 
 
+def plot_fusion_ablation() -> Optional[Path]:
+    """
+    Compare KALAVAI routed eval vs each single-specialist GGUF on the
+    held-out test split. Prefers the multi-seed non-v2 runs because they
+    carry mean ± std; falls back to single-seed v2 if not present.
+    """
+    def _prefer_multi_seed(prefix: str) -> Optional[dict]:
+        # First try non-v2 runs (likely 3-seed, has 'aggregated')
+        for pattern in (f"{prefix}_2*.json", f"{prefix}_v2_*.json"):
+            cands = sorted(RESULTS_DIR.glob(pattern),
+                           key=lambda p: p.stat().st_mtime, reverse=True)
+            for p in cands:
+                if "_v2_" in p.name and pattern == f"{prefix}_2*.json":
+                    continue
+                d = _load_json(p)
+                if d:
+                    return d
+        return None
+
+    routed = _prefer_multi_seed("run_test_split")
+    if not routed:
+        return None
+
+    series: list[tuple[str, dict]] = [("Routed (KALAVAI)", routed)]
+    for spec in ["triage", "derm", "maternal"]:
+        d = _prefer_multi_seed(f"run_fusion_only_{spec}")
+        if d:
+            series.append((f"{spec}-only", d))
+
+    if len(series) < 2:
+        return None
+
+    metric_labels = ["Weighted F1", "Macro F1", "RED recall"]
+    x = np.arange(len(metric_labels))
+    width = 0.8 / len(series)
+
+    fig, ax = plt.subplots(figsize=(11, 5.5))
+    for i, (label, payload) in enumerate(series):
+        h = _extract_headline(payload)
+        vals = [h["weighted_f1_mean"], h["macro_f1_mean"], h["red_recall_mean"]]
+        offset = (i - (len(series) - 1) / 2) * width
+        bars = ax.bar(x + offset, vals, width, label=label)
+        for bar, val in zip(bars, vals):
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                bar.get_height() + 0.005,
+                f"{val:.3f}",
+                ha="center", va="bottom", fontsize=8,
+            )
+
+    ax.axhline(TARGETS["weighted_f1"], linestyle="--", color="black",
+               alpha=0.4, label="F1 target 0.80")
+    ax.axhline(TARGETS["red_recall"], linestyle=":", color="black",
+               alpha=0.4, label="RED recall 0.90")
+    ax.set_xticks(x)
+    ax.set_xticklabels(metric_labels)
+    ax.set_ylim(0, 1.05)
+    ax.set_title("KALAVAI fusion ablation — routed vs single-specialist (held-out test, n=131)")
+    ax.legend(loc="upper right", ncols=2)
+    ax.grid(axis="y", alpha=0.3)
+    fig.tight_layout()
+    return _save(fig, "fusion_ablation.png")
+
+
+def plot_cross_specialist_matrix() -> Optional[Path]:
+    """
+    3x3 heatmap of per-domain F1: rows = model, cols = test specialist.
+
+    Reads run_test_split_v2*.json for the routed eval, plus
+    run_fusion_only_<spec>_v2*.json (or fall back to non-v2) for each single
+    specialist run. Uses each run's `per_specialist` block.
+    """
+    def _latest_with_v2(prefix: str) -> Optional[Path]:
+        # Prefer v2-tagged file; fall back to most recent.
+        v2 = sorted(RESULTS_DIR.glob(f"{prefix}*v2_*.json"),
+                    key=lambda p: p.stat().st_mtime, reverse=True)
+        if v2:
+            return v2[0]
+        plain = sorted(RESULTS_DIR.glob(f"{prefix}*.json"),
+                       key=lambda p: p.stat().st_mtime, reverse=True)
+        return plain[0] if plain else None
+
+    sources: dict[str, Optional[Path]] = {
+        "Routed": _latest_with_v2("run_test_split"),
+        "triage-only": _latest_with_v2("run_fusion_only_triage"),
+        "derm-only": _latest_with_v2("run_fusion_only_derm"),
+        "maternal-only": _latest_with_v2("run_fusion_only_maternal"),
+    }
+    rows: list[str] = []
+    matrix: list[list[float]] = []
+    cols = ["triage", "derm", "maternal"]
+
+    for label, path in sources.items():
+        if path is None:
+            continue
+        d = _load_json(path)
+        if not d:
+            continue
+        # per_specialist may live under aggregated.seed_results[0] or top-level
+        per_spec: dict[str, dict] = {}
+        if d.get("seed_results"):
+            per_spec = d["seed_results"][0].get("per_specialist", {}) or {}
+        elif d.get("per_specialist"):
+            per_spec = d["per_specialist"]
+        if not per_spec:
+            continue
+        rows.append(label)
+        matrix.append([per_spec.get(c, {}).get("weighted_f1", 0.0) for c in cols])
+
+    if not matrix:
+        return None
+
+    arr = np.array(matrix)
+    fig, ax = plt.subplots(figsize=(7.5, max(3.5, 0.8 * len(rows) + 1)))
+    im = ax.imshow(arr, cmap="RdYlGn", vmin=0, vmax=1, aspect="auto")
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            v = arr[i, j]
+            ax.text(j, i, f"{v:.3f}", ha="center", va="center",
+                    color="black" if v > 0.5 else "white", fontsize=10)
+    ax.set_xticks(range(len(cols)))
+    ax.set_xticklabels([c + " rows" for c in cols])
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels(rows)
+    ax.set_title("Cross-specialist Weighted F1 — held-out test split")
+    fig.colorbar(im, ax=ax, label="Weighted F1")
+    fig.tight_layout()
+    return _save(fig, "cross_specialist_matrix.png")
+
+
+def plot_chrf(payload: dict) -> Path:
+    by_spec = payload.get("by_specialist", {})
+    specs = list(by_spec.keys())
+    means = [by_spec[s]["chrf_mean"] for s in specs]
+    overall = payload.get("overall_chrf_plus_plus", 0.0)
+    bar_colors = [COLOR_PASS if v >= TARGETS["chrf"] else COLOR_FAIL for v in means]
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    bars = ax.bar(specs + ["overall"], means + [overall],
+                  color=bar_colors + [COLOR_NEUTRAL], edgecolor="black")
+    for bar, val in zip(bars, means + [overall]):
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            bar.get_height() + 0.01,
+            f"{val:.3f}", ha="center", va="bottom", fontsize=10,
+        )
+    ax.axhline(TARGETS["chrf"], linestyle="--", color="black",
+               label=f"Target {TARGETS['chrf']}")
+    ax.set_ylim(0, 1.0)
+    ax.set_title(f"Tamil fluency — chrF++ (overall {overall:.3f})")
+    ax.legend()
+    ax.grid(axis="y", alpha=0.3)
+    fig.tight_layout()
+    return _save(fig, "tamil_fluency_chrf.png")
+
+
 def plot_progress_tracker(remaining_items: list[dict]) -> Path:
     """
     Render a punch-list of remaining items with status colour.
@@ -358,38 +529,47 @@ def write_summary(
 
     # Headline F1 table
     headline_rows: list[str] = ["| Eval | n | Weighted F1 | RED recall | Status |", "|---|---|---|---|---|"]
+
+    def _row(label: str, payload: dict) -> str:
+        if "aggregated" in payload:
+            agg = payload["aggregated"]
+            wf1 = agg["weighted_f1_mean"]
+            rr = agg["red_recall_mean"]
+            wf1_std = agg["weighted_f1_std"]
+            rr_std = agg["red_recall_std"]
+            wf1_str = f"{wf1:.4f} ± {wf1_std:.4f}"
+            rr_str = f"{rr:.4f} ± {rr_std:.4f}"
+        else:
+            wf1 = payload.get("weighted_f1", 0.0)
+            rr = payload.get("red_recall", 0.0)
+            wf1_str = f"{wf1:.4f}"
+            rr_str = f"{rr:.4f}"
+        st = "PASS" if (wf1 >= 0.80 and rr >= 0.90) else "FAIL"
+        return f"| {label} | {payload.get('n_cases', '?')} | {wf1_str} | {rr_str} | {st} |"
+
     if fixture_payload:
-        agg = fixture_payload["aggregated"]
-        wf1 = agg["weighted_f1_mean"]
-        rr = agg["red_recall_mean"]
-        st = "PASS" if (wf1 >= 0.80 and rr >= 0.90) else "FAIL"
-        headline_rows.append(
-            f"| Fixtures | {fixture_payload.get('n_cases', '?')} | "
-            f"{wf1:.4f} ± {agg['weighted_f1_std']:.4f} | "
-            f"{rr:.4f} ± {agg['red_recall_std']:.4f} | {st} |"
-        )
+        headline_rows.append(_row("Fixtures", fixture_payload))
     if test_split_payload:
-        agg = test_split_payload["aggregated"]
-        wf1 = agg["weighted_f1_mean"]
-        rr = agg["red_recall_mean"]
-        st = "PASS" if (wf1 >= 0.80 and rr >= 0.90) else "FAIL"
-        headline_rows.append(
-            f"| Held-out test split | {test_split_payload.get('n_cases', '?')} | "
-            f"{wf1:.4f} ± {agg['weighted_f1_std']:.4f} | "
-            f"{rr:.4f} ± {agg['red_recall_std']:.4f} | {st} |"
-        )
+        headline_rows.append(_row("Held-out test split", test_split_payload))
     parts.append("## Triage classification")
     parts.append("\n".join(headline_rows) + "\n")
 
+    def _per_class_from(payload: dict) -> dict:
+        if payload.get("seed_results"):
+            return payload["seed_results"][0].get("per_class", {})
+        return payload.get("per_class", {})
+
     if test_split_payload:
-        per_class = test_split_payload["seed_results"][0]["per_class"]
-        parts.append("### Per-class breakdown — held-out test split (seed 42)\n")
-        parts.append(_format_per_class(per_class) + "\n")
+        per_class = _per_class_from(test_split_payload)
+        if per_class:
+            parts.append("### Per-class breakdown — held-out test split\n")
+            parts.append(_format_per_class(per_class) + "\n")
 
     if fixture_payload:
-        per_class = fixture_payload["seed_results"][0]["per_class"]
-        parts.append("### Per-class breakdown — fixtures (seed 42)\n")
-        parts.append(_format_per_class(per_class) + "\n")
+        per_class = _per_class_from(fixture_payload)
+        if per_class:
+            parts.append("### Per-class breakdown — fixtures\n")
+            parts.append(_format_per_class(per_class) + "\n")
 
     parts.append("![](f1_fixtures_vs_test_split.png)\n")
     parts.append("![](triage_eval_test_split.png)\n")
@@ -478,13 +658,13 @@ def main() -> None:
     print(f"Loading results from {RESULTS_DIR}")
     print(f"Writing figures to {FIGURES_DIR}\n")
 
-    # Pick latest fixture run that is NOT a test_split run
+    # Pick latest fixture run that is NOT a test_split or fusion_only run
     fixture_payload: Optional[dict] = None
     for p in sorted(RESULTS_DIR.glob("run_*.json"), key=lambda x: x.stat().st_mtime, reverse=True):
-        if "test_split" in p.name:
+        if "test_split" in p.name or "fusion_only" in p.name:
             continue
         d = _load_json(p)
-        if d and "aggregated" in d:
+        if d:
             fixture_payload = d
             print(f"  Fixture run: {p.name}")
             break
@@ -492,7 +672,7 @@ def main() -> None:
     test_split_payload: Optional[dict] = None
     for p in sorted(RESULTS_DIR.glob("run_test_split_*.json"), key=lambda x: x.stat().st_mtime, reverse=True):
         d = _load_json(p)
-        if d and "aggregated" in d:
+        if d:
             test_split_payload = d
             print(f"  Test-split run: {p.name}")
             break
@@ -524,6 +704,15 @@ def main() -> None:
         plot_safety(safety_payload)
     if latency_payload:
         plot_latency(latency_payload)
+
+    plot_fusion_ablation()  # noop if data not present yet
+    plot_cross_specialist_matrix()
+    chrf_path = _latest_matching("chrf_eval_", must_have_key="overall_chrf_plus_plus")
+    if chrf_path:
+        chrf_payload = _load_json(chrf_path)
+        if chrf_payload:
+            plot_chrf(chrf_payload)
+            print(f"  chrF++ run: {chrf_path.name}")
     if args.remaining:
         plot_progress_tracker(PENDING_ITEMS)
     plot_progress_tracker(PENDING_ITEMS)  # always include the tracker
