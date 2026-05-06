@@ -81,19 +81,68 @@ def load_router_data(data_dir: str) -> tuple[list[str], list[int]]:
     return texts, labels
 
 
-def embed_text(texts: list[str], dim: int = 768) -> "np.ndarray":
+def embed_text(texts: list[str], dim: int = 768, embedder: str = "stub") -> "np.ndarray":
     """
-    Embed text for router training.
-
-    TODO: Replace stub with actual Gemma 4 E4B hidden state extraction.
-    In production: run base model forward pass, extract last-layer CLS embedding.
-
-    Current stub: random embeddings for pipeline development and testing.
-    The router architecture is correct; swap embed_text when E4B embeddings are ready.
+    Embed text for router training. Dispatches based on `embedder`:
+      - "stub":     deterministic random vectors (pipeline-test only, learns nothing)
+      - "e4b":      mean-pooled last hidden state of Gemma 4 E4B (real embeddings)
     """
-    # Stub: random embeddings (replace with actual E4B embeddings)
-    rng = np.random.default_rng(42)
-    return rng.standard_normal((len(texts), dim)).astype(np.float32)
+    if embedder == "e4b":
+        return _embed_text_e4b(texts)
+    if embedder == "stub":
+        rng = np.random.default_rng(42)
+        return rng.standard_normal((len(texts), dim)).astype(np.float32)
+    raise ValueError(f"Unknown embedder: {embedder!r}")
+
+
+def _embed_text_e4b(
+    texts: list[str],
+    base_model: str = "unsloth/gemma-4-E4B-it",
+    max_seq_length: int = 512,
+    batch_size: int = 8,
+) -> "np.ndarray":
+    """
+    Run Gemma 4 E4B (4-bit) forward passes and mean-pool the last hidden
+    state over non-pad tokens. Returns float32 array shape (N, hidden_size).
+    """
+    # Local import keeps the script importable on machines without unsloth/torch.
+    from unsloth import FastLanguageModel  # type: ignore
+
+    model, tokenizer = FastLanguageModel.from_pretrained(
+        model_name=base_model,
+        max_seq_length=max_seq_length,
+        dtype=None,
+        load_in_4bit=True,
+    )
+    text_tokenizer = getattr(tokenizer, "tokenizer", tokenizer)
+    model.eval()
+    device = next(model.parameters()).device
+    if text_tokenizer.pad_token is None:
+        text_tokenizer.pad_token = text_tokenizer.eos_token
+
+    pieces: list["np.ndarray"] = []
+    for start in range(0, len(texts), batch_size):
+        batch = texts[start : start + batch_size]
+        enc = text_tokenizer(
+            batch,
+            padding=True,
+            truncation=True,
+            max_length=max_seq_length,
+            return_tensors="pt",
+        ).to(device)
+        with torch.no_grad():
+            out = model(
+                input_ids=enc["input_ids"],
+                attention_mask=enc["attention_mask"],
+                output_hidden_states=True,
+                return_dict=True,
+            )
+        last_hidden = out.hidden_states[-1]  # (B, T, H)
+        mask = enc["attention_mask"].unsqueeze(-1).to(last_hidden.dtype)
+        pooled = (last_hidden * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1)
+        pieces.append(pooled.float().cpu().numpy())
+
+    return np.concatenate(pieces, axis=0).astype(np.float32)
 
 
 def load_config(config_path: str) -> dict:
@@ -201,12 +250,13 @@ def main() -> None:
         )
 
     cfg = load_config(args.config)
-    print("Router embedding path: stub random embeddings for local pipeline verification only.")
+    embedder = cfg.get("embedder", "stub")
+    print(f"Router embedding path: {embedder}")
 
     texts, labels = load_router_data(cfg["data_dir"])
     print(f"Loaded {len(texts)} examples ({dict(zip(SPECIALISTS, [labels.count(i) for i in range(3)]))})")
 
-    embeddings = embed_text(texts, dim=cfg["embedding_dim"])
+    embeddings = embed_text(texts, dim=cfg["embedding_dim"], embedder=embedder)
     print(f"Embeddings shape: {embeddings.shape}")
 
     router = train_router(cfg, embeddings, labels)

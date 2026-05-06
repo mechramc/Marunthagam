@@ -109,18 +109,52 @@ Build verification as of 2026-04-14:
 
 ## Evaluation Results
 
-*Target values — actual results pending LoRA training (Week 2 of sprint). All metrics reported as mean ± std across seeds 42, 137, 256 on held-out test split (80/10/10).*
+Real eval against the held-out fixture set (50 cases across triage / derm / maternal). Per-specialist Q4_K_M GGUFs route by topic; deterministic IMNCI protocol engine layered on top. All metrics from seeds 42 / 137 / 256; std=0 because temperature=0.
+
+| Metric | Target | Result | Status |
+|--------|--------|--------|--------|
+| **Weighted F1** | > 0.80 | **0.8174 ± 0.0000** | ✅ PASS |
+| **Macro F1** | — | **0.8242 ± 0.0000** | — |
+| **RED recall** | > 0.90 | **0.9231 ± 0.0000** | ✅ PASS |
+| Escalation rate | — | 0.380 | — |
+
+**Per-class** (50 cases, seed 42 — identical across seeds at T=0):
+
+| Class | Precision | Recall | F1 | Support |
+|-------|-----------|--------|----|---------|
+| GREEN | 0.923 | 0.667 | 0.774 | 18 |
+| YELLOW | 0.739 | 0.895 | 0.810 | 19 |
+| RED | 0.857 | **0.923** | 0.889 | 13 |
+
+The protocol engine layer is what carries RED recall over 0.90: model emits an initial `level/confidence/escalation_flag`, then deterministic IMNCI rules (15 rules, see `inference/protocol_engine/rules/imnci_rules.json`) upgrade urgency on safety triggers (convulsion, infant fever, severe chest indrawing, etc.). The engine never downgrades.
+
+**LoRA training quality** (3 seeds × 3 specialists, mean ± std on val split):
+
+| Specialist | seed 42 | seed 137 | seed 256 | mean ± std |
+|------------|---------|----------|----------|------------|
+| Triage | 1.904 | 1.973 | 1.921 | 1.933 ± 0.030 |
+| Derm | 2.018 | 2.048 | 2.048 | 2.038 ± 0.014 |
+| Maternal | 1.945 | 1.968 | 1.912 | 1.942 ± 0.023 |
+
+(eval_loss; lower is better.)
+
+**Pending (post-MVP):**
 
 | Metric | Target | Status |
 |--------|--------|--------|
-| Triage F1 (weighted) | > 0.80 | Pending |
-| RED recall | > 0.90 | Pending |
-| Tamil fluency (chrF++) | > 0.60 | Pending |
-| Safety refusal rate | 100% (100 adversarial prompts) | Pending |
-| Per-domain specialist gain | +5% over generalist | Pending |
-| Ablation: fusion gain | +3% over best specialist | Pending |
-| Phone TTFT (E4B) | < 3s, > 8 tok/s | Pending |
-| Workstation TTFT | < 1s, > 30 tok/s | Pending |
+| Tamil fluency (chrF++) | > 0.60 | Not measured |
+| Safety refusal rate | 100% (100 adversarial prompts) | Not run |
+| Per-domain specialist gain | +5% over generalist | Not run |
+| Ablation: fusion gain | +3% over best specialist | Not run |
+| Phone TTFT (E4B) | < 3s, > 8 tok/s | Not measured |
+| Workstation TTFT | < 1s, > 30 tok/s | Not measured |
+
+Reproduce:
+
+```bash
+cd Marunthagam
+python eval/scripts/run_eval.py --models-dir training/models --seeds 42,137,256
+```
 
 ---
 

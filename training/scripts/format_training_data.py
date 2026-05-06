@@ -24,22 +24,32 @@ TRAIN_RATIO = 0.80
 VAL_RATIO = 0.10
 # Test ratio = 1 - TRAIN_RATIO - VAL_RATIO = 0.10
 
+# Both human-reviewed ("approved") and 31B-labeled ("auto_approved") rows are
+# accepted. Other statuses (rejected, needs_revision, label_*) are skipped.
+ACCEPTED_STATUSES = {"approved", "auto_approved"}
+
 
 def load_approved(reviewed_path: str) -> list[dict]:
-    """Load only approved entries from a reviewed JSONL file."""
+    """Load entries with an accepted review_status from a reviewed JSONL file."""
     reviewed_file = Path(reviewed_path)
     if not reviewed_file.exists():
         raise FileNotFoundError(f"Reviewed JSONL not found: {reviewed_file}")
 
-    approved = []
+    accepted = []
+    status_counts: dict[str, int] = {}
     with open(reviewed_file, encoding="utf-8") as f:
         for line in f:
             if not line.strip():
                 continue
             entry = json.loads(line)
-            if entry.get("review_status") == "approved":
-                approved.append(entry)
-    return approved
+            status = entry.get("review_status", "missing")
+            status_counts[status] = status_counts.get(status, 0) + 1
+            if status in ACCEPTED_STATUSES:
+                accepted.append(entry)
+
+    breakdown = ", ".join(f"{k}={v}" for k, v in sorted(status_counts.items()))
+    print(f"  status breakdown: {breakdown}")
+    return accepted
 
 
 def format_as_chat(entry: dict) -> dict:

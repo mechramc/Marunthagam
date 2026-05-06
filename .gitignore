@@ -46,9 +46,19 @@ outputs/
 training/data/raw/
 training/data/processed/
 training/data/local_formatted/
+training/data/formatted_test/
+training/data/formatted_smoke/
 training/models/
+training/logs/
 training/unsloth_compiled_cache/
 unsloth_compiled_cache/
+
+# Intermediate translate-pass output (re-derivable from data/raw via the pipeline).
+# Keep the final auto-labeled split (*_approved.jsonl) and data/formatted/.
+training/data/reviewed/*_pending.jsonl
+
+# Protocol engine SQLite (re-derivable from rules/imnci_rules.json + load_rules.py)
+inference/protocol_engine/data/
 
 # Android build artifacts
 android/.gradle/

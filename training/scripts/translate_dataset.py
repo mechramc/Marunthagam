@@ -12,6 +12,8 @@ import json
 import re
 from pathlib import Path
 
+import _llama_cpp_setup  # noqa: F401  -- registers cu12 DLL dirs on Windows
+
 try:
     from llama_cpp import Llama
 except ImportError:
