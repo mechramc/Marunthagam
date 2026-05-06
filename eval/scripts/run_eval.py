@@ -74,6 +74,9 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURES_DIR = REPO_ROOT / "training" / "data" / "fixtures"
 EVAL_DATA_DIR = REPO_ROOT / "eval" / "data"
 RESULTS_DIR = REPO_ROOT / "eval" / "results"
+FORMATTED_DIR = REPO_ROOT / "training" / "data" / "formatted"
+
+from run_logger import RunLogger  # noqa: E402  (after sys.path setup above)
 
 # Mock confidence values by level — deterministic and clinically plausible
 _MOCK_CONFIDENCE: dict[str, float] = {
@@ -236,6 +239,98 @@ def load_all_cases() -> list[TestCase]:
 
     baseline = load_baseline_examples()
     all_cases.extend(baseline)
+    return all_cases
+
+
+def load_test_split_specialist(specialist: str) -> list[TestCase]:
+    """
+    Load the held-out test split for one specialist (training/data/formatted/<s>/test.jsonl).
+
+    Each line is a chat-format record:
+        {"messages": [
+            {"role": "user", "content": "<tamil_question>"},
+            {"role": "assistant", "tool_calls": [{"function": {"name": "triage_classify",
+              "arguments": {"verbal_symptoms": ..., "patient_age_group": ..., "duration_days": ..., ...}}}]},
+            {"role": "tool", "content": "<JSON triage_result with level, confidence, suspected_conditions, ...>"},
+            {"role": "assistant", "content": "<next_steps_tamil>"}
+        ]}
+    """
+    path = FORMATTED_DIR / specialist / "test.jsonl"
+    if not path.exists():
+        raise FileNotFoundError(f"Test split not found: {path}")
+
+    cases: list[TestCase] = []
+    with open(path, encoding="utf-8") as fh:
+        for line_num, raw_line in enumerate(fh, start=1):
+            raw_line = raw_line.strip()
+            if not raw_line:
+                continue
+            record = json.loads(raw_line)
+            messages = record.get("messages", [])
+            if not messages:
+                continue
+
+            tamil_question = ""
+            args: dict = {}
+            gold_tool_payload: dict = {}
+            next_steps_tamil = ""
+
+            for msg in messages:
+                role = msg.get("role")
+                if role == "user" and not tamil_question:
+                    tamil_question = msg.get("content") or ""
+                elif role == "assistant" and msg.get("tool_calls"):
+                    tc = msg["tool_calls"][0]
+                    fn = tc.get("function", {})
+                    raw_args = fn.get("arguments")
+                    if isinstance(raw_args, str):
+                        try:
+                            args = json.loads(raw_args)
+                        except json.JSONDecodeError:
+                            args = {}
+                    elif isinstance(raw_args, dict):
+                        args = raw_args
+                elif role == "tool":
+                    raw_tool = msg.get("content")
+                    if isinstance(raw_tool, str):
+                        try:
+                            gold_tool_payload = json.loads(raw_tool)
+                        except json.JSONDecodeError:
+                            gold_tool_payload = {}
+                    elif isinstance(raw_tool, dict):
+                        gold_tool_payload = raw_tool
+                elif role == "assistant" and not msg.get("tool_calls"):
+                    if not next_steps_tamil and msg.get("content"):
+                        next_steps_tamil = msg["content"]
+
+            gold_level = str(gold_tool_payload.get("level", "")).upper()
+            if gold_level not in TRIAGE_LEVELS:
+                # Skip rows we cannot evaluate (no gold label).
+                continue
+
+            cases.append(TestCase(
+                specialist=specialist,
+                verbal_symptoms=args.get("verbal_symptoms", "") or tamil_question,
+                age_group=args.get("patient_age_group", "adult"),
+                duration_days=int(args.get("duration_days", 1) or 1),
+                gold_level=gold_level,
+                case_id=f"{specialist}_test_{line_num:03d}",
+                tamil_question=tamil_question,
+            ))
+
+    return cases
+
+
+def load_all_test_split_cases() -> list[TestCase]:
+    """Load held-out test split rows across all specialists."""
+    all_cases: list[TestCase] = []
+    for specialist in SPECIALISTS:
+        try:
+            cases = load_test_split_specialist(specialist)
+            print(f"  Loaded {len(cases)} cases from test.jsonl for {specialist}")
+            all_cases.extend(cases)
+        except FileNotFoundError as exc:
+            print(f"  WARNING: {exc} — skipping {specialist}", file=sys.stderr)
     return all_cases
 
 
@@ -660,6 +755,9 @@ def run_eval(
     use_mock: bool,
     seeds: list[int],
     models_by_specialist: Optional[dict[str, str]] = None,
+    use_test_split: bool = False,
+    run_logger: Optional[RunLogger] = None,
+    output_tag: Optional[str] = None,
 ) -> AggregatedResult | SeedResult:
     """
     Main eval entry point.
@@ -669,14 +767,21 @@ def run_eval(
     """
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    print(f"Loading test cases from {FIXTURES_DIR} and {EVAL_DATA_DIR} ...")
-    cases = load_all_cases()
+    if use_test_split:
+        print(f"Loading HELD-OUT test split from {FORMATTED_DIR}/<specialist>/test.jsonl ...")
+        cases = load_all_test_split_cases()
+        case_source = "test_split"
+    else:
+        print(f"Loading test cases from {FIXTURES_DIR} and {EVAL_DATA_DIR} ...")
+        cases = load_all_cases()
+        case_source = "fixtures+baseline"
     if not cases:
         raise RuntimeError(
-            "No test cases loaded. Check that fixture files exist in "
-            f"{FIXTURES_DIR}"
+            "No test cases loaded. Check that data files exist."
         )
-    print(f"  Loaded {len(cases)} cases across {len(SPECIALISTS)} specialists + baseline")
+    print(f"  Loaded {len(cases)} cases ({case_source})")
+    if run_logger is not None:
+        run_logger.merge_manifest(case_source=case_source, n_cases=len(cases))
 
     if use_mock:
         mode = "MOCK"
@@ -702,9 +807,20 @@ def run_eval(
         print(f"    Weighted F1={result.weighted_f1:.4f}  RED recall={result.red_recall:.4f}  "
               f"({elapsed:.1f}s)")
         seed_results.append(result)
+        if run_logger is not None:
+            run_logger.log_event(
+                "seed_done",
+                seed=seed,
+                weighted_f1=result.weighted_f1,
+                macro_f1=result.macro_f1,
+                red_recall=result.red_recall,
+                escalation_rate=result.escalation_rate,
+                duration_s=round(elapsed, 3),
+            )
 
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-    output_path = RESULTS_DIR / f"run_{timestamp}.json"
+    tag = f"_{output_tag}" if output_tag else ""
+    output_path = RESULTS_DIR / f"run{tag}_{timestamp}.json"
 
     if len(seeds) > 1:
         aggregated = aggregate_seed_results(seed_results)
@@ -744,9 +860,12 @@ def run_eval(
                 for r in seed_results
             ],
         }
+        payload["case_source"] = case_source
         with open(output_path, "w", encoding="utf-8") as fh:
             json.dump(payload, fh, ensure_ascii=False, indent=2)
         print(f"\n  Results saved to: {output_path}")
+        if run_logger is not None:
+            run_logger.attach_result(output_path)
         return aggregated
 
     # Single seed
@@ -770,9 +889,12 @@ def run_eval(
         "escalation_rate": single.escalation_rate,
         "per_class": single.per_class_report,
     }
+    payload["case_source"] = case_source
     with open(output_path, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=2)
     print(f"\n  Results saved to: {output_path}")
+    if run_logger is not None:
+        run_logger.attach_result(output_path)
     return single
 
 
@@ -842,6 +964,22 @@ def build_arg_parser() -> argparse.ArgumentParser:
             "Default: 42."
         ),
     )
+    parser.add_argument(
+        "--test-split",
+        action="store_true",
+        help=(
+            "Evaluate against the held-out 80/10/10 test split "
+            "(training/data/formatted/<specialist>/test.jsonl, 131 rows total) "
+            "instead of the small fixture set. Use this for the headline F1 number."
+        ),
+    )
+    parser.add_argument(
+        "--tag",
+        type=str,
+        default=None,
+        metavar="TAG",
+        help="Optional tag inserted into the result filename (e.g. 'test_split', 'fusion_only_triage').",
+    )
     return parser
 
 
@@ -862,16 +1000,27 @@ def main() -> None:
         except RuntimeError as exc:
             parser.error(str(exc))
 
-    try:
-        run_eval(
+    with RunLogger(kind="run_eval", args=args) as logger:
+        logger.merge_manifest(
             model_path=model_path,
-            use_mock=args.mock,
-            seeds=seeds,
             models_by_specialist=models_by_specialist,
+            seeds=seeds,
+            use_test_split=args.test_split,
         )
-    except (FileNotFoundError, RuntimeError) as exc:
-        print(f"ERROR: {exc}", file=sys.stderr)
-        sys.exit(1)
+        try:
+            run_eval(
+                model_path=model_path,
+                use_mock=args.mock,
+                seeds=seeds,
+                models_by_specialist=models_by_specialist,
+                use_test_split=args.test_split,
+                run_logger=logger,
+                output_tag=args.tag,
+            )
+        except (FileNotFoundError, RuntimeError) as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            logger.merge_manifest(error_message=str(exc))
+            sys.exit(1)
 
 
 if __name__ == "__main__":
