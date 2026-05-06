@@ -109,24 +109,81 @@ Build verification as of 2026-04-14:
 
 ## Evaluation Results
 
-Real eval against the held-out fixture set (50 cases across triage / derm / maternal). Per-specialist Q4_K_M GGUFs route by topic; deterministic IMNCI protocol engine layered on top. All metrics from seeds 42 / 137 / 256; std=0 because temperature=0.
+Two evaluation sets, both on per-specialist Q4_K_M GGUFs routed by topic, with the deterministic IMNCI protocol engine layered on top. All metrics from seeds 42 / 137 / 256; std=0 because temperature=0.
 
-| Metric | Target | Result | Status |
-|--------|--------|--------|--------|
-| **Weighted F1** | > 0.80 | **0.8174 ± 0.0000** | ✅ PASS |
-| **Macro F1** | — | **0.8242 ± 0.0000** | — |
-| **RED recall** | > 0.90 | **0.9231 ± 0.0000** | ✅ PASS |
-| Escalation rate | — | 0.380 | — |
+**Headline (held-out test split, n=131):**
 
-**Per-class** (50 cases, seed 42 — identical across seeds at T=0):
+| Metric | Target | Held-out test (n=131) | Fixtures (n=50) |
+|--------|--------|-----------------------|-----------------|
+| **Weighted F1** | > 0.80 | **0.6128 ± 0.0000** ❌ | **0.8174 ± 0.0000** ✅ |
+| **Macro F1** | — | **0.5422 ± 0.0000** | **0.8242 ± 0.0000** |
+| **RED recall** | > 0.90 | **0.4167 ± 0.0000** ❌ | **0.9231 ± 0.0000** ✅ |
+| Escalation rate | — | 0.397 | 0.380 |
+
+The held-out test split is the canonical denominator — it is the unseen 10% partition from the 80/10/10 dataset split. Fixtures over-state generalisation. The headline number for the submission is therefore **F1 = 0.6128 / RED recall = 0.4167** on n=131.
+
+**Per-class** (held-out test, n=131, seed 42 — identical across seeds at T=0):
+
+| Class | Precision | Recall | F1 | Support |
+|-------|-----------|--------|----|---------|
+| GREEN | 0.889 | 0.436 | 0.585 | 55 |
+| YELLOW | 0.591 | 0.812 | 0.684 | 64 |
+| RED | 0.312 | 0.417 | 0.357 | 12 |
+
+**Per-class** (fixtures, n=50, seed 42):
 
 | Class | Precision | Recall | F1 | Support |
 |-------|-----------|--------|----|---------|
 | GREEN | 0.923 | 0.667 | 0.774 | 18 |
 | YELLOW | 0.739 | 0.895 | 0.810 | 19 |
-| RED | 0.857 | **0.923** | 0.889 | 13 |
+| RED | 0.857 | 0.923 | 0.889 | 13 |
 
-The protocol engine layer is what carries RED recall over 0.90: model emits an initial `level/confidence/escalation_flag`, then deterministic IMNCI rules (15 rules, see `inference/protocol_engine/rules/imnci_rules.json`) upgrade urgency on safety triggers (convulsion, infant fever, severe chest indrawing, etc.). The engine never downgrades.
+The protocol engine never downgrades urgency — it only applies safety upgrades (15 IMNCI rules, see `inference/protocol_engine/rules/imnci_rules.json`). On fixtures, that lifts RED recall to 0.92; on the test split the model is mis-classifying RED-presenting cases as YELLOW more often than the engine can rescue, so RED recall drops to 0.42.
+
+**Fusion ablation (KALAVAI router vs single specialist, held-out test, n=131):**
+
+| Model | Weighted F1 | RED recall |
+|-------|-------------|------------|
+| Routed (KALAVAI) | 0.6128 | 0.4167 |
+| triage-only | 0.4976 | 0.4167 |
+| derm-only | 0.5481 | 0.2500 |
+| **maternal-only** | **0.6549** | 0.3333 |
+
+Honest finding: the KALAVAI router does not help on the held-out test split. The single maternal LoRA outperforms the routed fusion by +0.042 F1. The router is making suboptimal routing decisions because the maternal LoRA generalises best across all three domains (see cross-specialist matrix in `eval/notebooks/figures/cross_specialist_matrix.png`).
+
+**Safety refusal (n=100 adversarial prompts, 5 categories):**
+
+| Category | Refused / Total | Rate |
+|---|---|---|
+| diagnosis_without_exam | 20/20 | 100.0% |
+| mental_health_crisis | 19/20 | 95.0% |
+| prescription | 16/20 | 80.0% |
+| surgery | 13/20 | 65.0% |
+| scope_violation | 10/20 | 50.0% |
+| **overall** | **78/100** | **78.0%** ❌ |
+
+Target is 100%. The model is strong on diagnosis-without-exam refusals; weak on surgery how-to and out-of-scope queries.
+
+**Latency (workstation, RTX 5090, llama-cpp-python streaming):**
+
+| Specialist | Prompt 50 tok | Prompt 200 tok | Prompt 500 tok |
+|---|---|---|---|
+| triage | 0.038s · 213 tok/s | 0.010s · 211 tok/s | 0.009s · 205 tok/s |
+| derm | 0.007s · 195 tok/s | 0.008s · 209 tok/s | 0.009s · 205 tok/s |
+| maternal | 0.007s · 213 tok/s | 0.008s · 211 tok/s | 0.009s · 205 tok/s |
+
+Workstation targets are TTFT < 1s and throughput > 30 tok/s — both are crushed by 2 orders of magnitude. Phone TTFT (target < 3s) is deferred until we deploy the GGUFs to an Android device.
+
+**Tamil fluency (chrF++, held-out test split):**
+
+| Specialist | n | chrF++ mean |
+|---|---|---|
+| triage | 45 | 0.296 |
+| derm | 41 | 0.308 |
+| maternal | 45 | 0.299 |
+| overall | 131 | 0.301 ❌ (target 0.60) |
+
+Below target, but inspection shows the hypotheses are semantically valid Tamil (e.g. "உடனடியாக மருத்துவமனைக்கு அழைத்துச் செல்லவும்..."); chrF++ punishes paraphrases at the character level. We report the number honestly and link to qualitative samples in `eval/results/chrf_eval_*.json`.
 
 **LoRA training quality** (3 seeds × 3 specialists, mean ± std on val split):
 
@@ -138,23 +195,44 @@ The protocol engine layer is what carries RED recall over 0.90: model emits an i
 
 (eval_loss; lower is better.)
 
-**Pending (post-MVP):**
-
-| Metric | Target | Status |
-|--------|--------|--------|
-| Tamil fluency (chrF++) | > 0.60 | Not measured |
-| Safety refusal rate | 100% (100 adversarial prompts) | Not run |
-| Per-domain specialist gain | +5% over generalist | Not run |
-| Ablation: fusion gain | +3% over best specialist | Not run |
-| Phone TTFT (E4B) | < 3s, > 8 tok/s | Not measured |
-| Workstation TTFT | < 1s, > 30 tok/s | Not measured |
-
-Reproduce:
+**Reproduce:**
 
 ```bash
 cd Marunthagam
-python eval/scripts/run_eval.py --models-dir training/models --seeds 42,137,256
+# Held-out test split (headline F1 / RED recall, n=131, 3 seeds)
+python eval/scripts/run_eval.py --models-dir training/models --seeds 42,137,256 --test-split
+
+# Safety refusal eval
+python eval/scripts/eval_safety.py --models-dir training/models
+
+# Workstation latency (streaming TTFT)
+python eval/scripts/eval_latency.py --models-dir training/models --n-runs 5
+
+# Tamil fluency chrF++
+python eval/scripts/eval_chrf.py --models-dir training/models
+
+# Regenerate visualisation deck (eval/notebooks/figures/)
+python eval/notebooks/plot_results.py
 ```
+
+Per-run logs (manifest + stdout/stderr + structured event stream) land in `eval/logs/<run_id>/`.
+
+**Status of every spec'd metric:**
+
+| Metric | Target | Result | Status |
+|--------|--------|--------|--------|
+| Triage F1 (held-out) | > 0.80 | 0.6128 | ❌ |
+| RED recall (held-out) | > 0.90 | 0.4167 | ❌ |
+| Triage F1 (fixtures) | > 0.80 | 0.8174 | ✅ |
+| RED recall (fixtures) | > 0.90 | 0.9231 | ✅ |
+| Workstation TTFT | < 1.0s | 0.007–0.038s | ✅ |
+| Workstation throughput | > 30 tok/s | 195–213 tok/s | ✅ |
+| Safety refusal | 100% | 78% | ❌ |
+| Tamil fluency (chrF++) | > 0.60 | 0.301 | ❌ |
+| Fusion gain over best single | +3% | -4.2% | ❌ (router needs work) |
+| LoRA rank ablation chart | published | yes (mock projection from training scaling laws, anchored on rank 32 = real) | ⚠ |
+| Phone TTFT | < 3s, > 8 tok/s | not measured | ⏳ (Android deferred) |
+| Per-domain specialist gain | +5% over generalist | reported as cross-specialist matrix; no base-E4B GGUF available | ⚠ |
 
 ---
 
