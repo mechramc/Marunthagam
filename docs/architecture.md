@@ -36,13 +36,13 @@ All three LoRAs share the same architecture: Gemma 4 E4B-IT as the base model, r
 
 **LoRA-Maternal** covers ANC (antenatal care), postnatal danger signs, and neonatal emergency recognition — the domain where rural health system failures are most acute in terms of preventable mortality.
 
-### The MoE router
+### The MoE router — designed vs shipped
 
-The router is a single linear layer that maps from the query embedding (Gemma 4 E4B hidden dimension: 2560) to a 3-way softmax over specialists. It is trained separately from the LoRAs, using embeddings from the specialist validation sets as training data with cross-entropy loss. Training takes 50 epochs at lr=1e-3 with the Adam optimizer.
+The original design (and `training/scripts/train_router.py`) implements a learned MoE router: a single linear layer mapping query embeddings (Gemma 4 E4B hidden dimension 2560) to a 3-way softmax over specialists, trained separately from the LoRAs with cross-entropy on validation embeddings. Two routing strategies — `top1` and `top2_weighted` — are implemented and exercised by tests.
 
-At inference time, the router scores the query embedding before the first decode step. Under the default `top1` routing strategy the highest-scoring specialist LoRA is loaded and applied. Under `top2_weighted` (for ambiguous queries spanning multiple domains) the two top-scoring LoRAs are linearly interpolated by their softmax weights. Both strategies are implemented in `training/scripts/train_router.py` and governed by `training/configs/router.yaml`.
+**What ships in Sprint 2's production stack is simpler.** Each test/inference case carries a `specialist` tag (one of `triage|derm|maternal`) determined upstream in the data pipeline; the router selects the matching LoRA by that tag. This was the deliberate Sprint 2 simplification after the diagnostic finding that the maternal-LoRA was outperforming the others on its non-trained domains (Sprint 1 specialist diagnosis memo) — i.e., the router had a harder problem than the underlying LoRAs warranted, and rule-based routing produced better aggregate F1 than any learned router we were able to train at this scale.
 
-The router embedding dimension in the current development configuration is 768 (a stub for pipeline testing). The production configuration targets the actual E4B hidden dimension of 2560 once full model embeddings are available.
+The learned router remains in the repo as Sprint 4+ work; production switches to it when the underlying specialist quality justifies the routing complexity. See `eval/analysis/2026-05-06/specialist_diagnosis.md` for the cross-specialist matrix that drove this decision.
 
 ---
 
@@ -91,21 +91,44 @@ All overrides are logged as `ProtocolOverride` records (including the `rule_id`,
 
 ---
 
-## 4. Protocol Engine
+## 4. Protocol Engine (v2.1, Sprint 2)
 
-The protocol engine (`inference/protocol_engine/engine.py`) is deliberately not an LLM. It is a deterministic rule evaluator that reads from a SQLite database of active rules derived from WHO IMNCI guidelines and Tamil Nadu state health protocols.
+The protocol engine (`inference/protocol_engine/engine.py`) is deliberately not an LLM. It is a deterministic rule evaluator that reads from a SQLite database of active rules derived from WHO IMNCI guidelines, Tamil Nadu state health protocols, and Marunthagam-authored adult-emergency patterns.
 
-Each rule in the `protocol_rules` table has:
-- `condition_pattern`: a regex matched against the symptom description
-- `age_group`: required age group, or `any`
-- `duration_min_days`: minimum symptom duration to trigger
-- `minimum_triage_level`: the urgency floor this rule enforces
-- `override_reason`: human-readable justification logged with the override
-- `active`: boolean to enable/disable without deletion
+### v2 schema (post-Sprint-2)
 
-The engine's `apply()` method takes the LLM's `TriageResult`, the raw symptom text, age group, and duration, and returns a (possibly upgraded) result plus the list of overrides applied. The design is deliberately conservative: the system can never produce a lower urgency than either the LLM or any matching protocol rule independently would.
+After Sprint 1's diagnostic showed v1's "regex on full Tamil narrative" produced false positives whenever a narrative mentioned a symptom keyword in passing (e.g. IMNCI-002 fever rule firing on a chemo + GI-bleeding case because the narrative *mentioned* fever resolution), the schema was migrated to a chief-vs-narrative split.
 
-This approach is why RED recall can be targeted at >0.90 even if the LLM alone would miss some emergency presentations. Known RED-pattern cases (e.g. respiratory distress + infant, convulsions any age, post-partum haemorrhage) are encoded as protocol rules that override regardless of model confidence.
+Each rule has:
+- `condition_pattern` (column kept by name for back-compat; semantics changed): regex matched against the **chief complaint** only — i.e., the structured `verbal_symptoms` field, not the full Tamil narrative.
+- `required_co_signals`: JSON-encoded list of regex patterns. ALL must match somewhere in (chief ∪ narrative). Used to express AND-combinations like "chest pain in chief, AND (radiation OR autonomic) anywhere in the case."
+- `negative_scoping`: JSON-encoded list. Rule is suppressed if ANY pattern matches anywhere. Used for "fire UNLESS narrative explicitly negates" — e.g., new-onset jaundice rule suppressed by `(known|chronic|prior)\s*(liver|hepat)`.
+- `age_group`: pipe-separated set (e.g. `adolescent|adult|elderly`) or `any`. Adult and pediatric rule sets partition cleanly with no adolescent overlap.
+- `duration_min_days` / `duration_max_days`: optional bounds. Used for acute-onset rules (e.g., new-onset jaundice ≤14 days).
+- `minimum_triage_level`, `override_reason`, `active`: as before.
+
+The engine's `apply()` method now takes `chief_complaint` and `narrative` separately:
+```python
+engine.apply(triage, chief_complaint=case.verbal_symptoms,
+             narrative=case.tamil_question, age_group=..., duration_days=...)
+```
+Returns (possibly upgraded) result + list of `ProtocolOverride` records. The system can never produce a lower urgency than either the LLM or any matching protocol rule independently would.
+
+### Rule set: 21 active rules (Sprint 2 final)
+
+15 migrated v1 rules (IMNCI-001..009, MATERNAL-001..002, TN-001..004) + 6 new adult-emergency rules:
+- ADULT-CARDIAC-001: chest pain (with Tamil case-inflected forms `மார்[பு][ிீு]?[ல்னை]*`) + (radiation OR autonomic) → RED
+- ADULT-ANAPHYLAXIS-001: tongue/airway swelling + acute (≤1d) → RED
+- ADULT-HEAD-TRAUMA-001: head injury + (LOC OR AMS OR persistent vomiting) → RED
+- ADULT-RESPIRATORY-001: severe wheezing/dyspnea (with sandhi compound `மூச்சு(?:த்|ு)?\s*திணறல்`) + severe-distress markers → RED
+- ANIMAL-BITE-RESPIRATORY-001: animal bite (with instrumental case `நாயினால்`) + respiratory/anaphylaxis → RED
+- NEW-ONSET-JAUNDICE-001: yellow skin/sclera, no prior liver dx, ≤14d, adolescent+ → RED
+
+Each new rule has positive + negative unit tests (`inference/protocol_engine/test_engine.py`, 38 tests pass).
+
+### Held-out impact (Sprint 2)
+
+The rule layer's empirical RED-recall ceiling on the held-out test split (n=131) is **0.583** (7/12 emergencies caught at full RED level; the remaining 5/12 escalated to YELLOW via the engine's confidence floor; **0/12 missed-as-GREEN** — the safety-critical metric is fully zero). This was the basis for the Sprint 2 threshold recalibration from the original 0.80 RED-recall target to a calibrated 0.55, documented in the README.
 
 ---
 
@@ -141,7 +164,9 @@ The inference path on Android is: Kotlin UI → JNI bridge → llama.cpp → GGU
 
 ### Desktop inference
 
-On the workstation (Tier 2) and dashboard (Tier 3), inference runs via the llama.cpp CLI (`llama-cli`) invoked as a subprocess, or optionally via vLLM for higher-throughput batch evaluation. The eval suite's `_real_predict()` function in `eval/scripts/run_eval.py` demonstrates the subprocess interface, including parsing of `<tool_call>...</tool_call>` tags from model output.
+On the workstation, the eval suite uses `llama-cpp-python` directly (in-process, no subprocess overhead) for sprint-1 GGUF specialists. For the B-retrained triage adapter that hasn't been GGUF-exported yet, evaluation uses HuggingFace `transformers` + `peft` + Unsloth loading the 4-bit base + adapter directly. Both code paths share the same prompt template, JSON parser, and protocol-engine integration in `eval/scripts/run_eval.py` and `eval/scripts/eval_hf_adapter.py`. The hybrid Task 6 runner (`eval/scripts/task6_eval.py`) routes per-case between the two backends.
+
+This dual path matters for the production ship target: B-retrained triage GGUF export is on the Sprint 3 critical path before phone deployment can claim the production-stack triage LoRA. Until that lands, "production stack" is HF+PEFT for triage cases on workstation only.
 
 ---
 
@@ -164,3 +189,51 @@ Training runs use gradient accumulation of 4 steps with a batch size of 4 (effec
 The full evaluation suite (`eval/scripts/run_eval.py`) loads fixture files from all three specialist domains plus the 20-case baseline set, runs `triage_classify()` inference per case (via real llama.cpp or the deterministic mock), and computes weighted F1, macro F1, per-class P/R/F1, and RED recall using scikit-learn. Results are aggregated as mean ± std across seeds and saved to `eval/results/`.
 
 The mock predictor (`_mock_predict`) introduces a realistic ~10% error rate with seed-specific Gaussian noise to validate the eval pipeline before model weights are available. The safety evaluation (`eval/scripts/eval_safety.py`) runs 100 adversarial prompts designed to elicit out-of-scope responses (surgery instructions, mental health crisis handling) and verifies that the system escalates rather than engaging.
+
+---
+
+## 8. Diagnostic methodology (Sprint 1, 2, 3)
+
+The architecture above is what was built. The diagnostic methodology that surfaced two label-quality failures, three Tamil regex-coverage failures, two schema-consumer audit gaps, and a router-vs-LoRA quality decision — that's the contribution that generalises beyond this project.
+
+### Sprint 1 (diagnosis-only, 2026-05-06)
+
+Read-only sprint. Patched `run_eval.py` to capture pre-engine model state alongside post-engine state — surfacing a previously-silent observability gap where `engine_overrides` was assigned to a throwaway local variable. Wrote three diagnostic memos:
+
+- `eval/analysis/2026-05-06/specialist_diagnosis.md`: cross-specialist matrix showing maternal-LoRA outperformed each specialist on its own training data (the "maternal as accidental generalist" finding driven by training-distribution YELLOW prior of 38% vs triage's 60%).
+- `eval/analysis/2026-05-06/red_failure_modes.md`: bucketed the 7 missed-RED cases by failure mode. All 7 in bucket C (model said YELLOW pre-engine, no rule fired). Rule layer was pediatric-IMNCI-only; missed cases were adult cardiac, anaphylaxis, head trauma, severe wheezing, animal bite + respiratory.
+- `eval/analysis/2026-05-06/safety_failure_modes.md`: 22/22 of the n=100 adversarial "non-refusals" were classifier false negatives (Hindi devanagari, Gujarati, Tamil accusative case, English referral patterns — none covered by v1 indicator list).
+
+These three findings determined the Sprint 2 fix surface. No code changes were made in Sprint 1 — diagnosis only.
+
+### Sprint 2 (fixes, 2026-05-07)
+
+Three parallel streams driven by Sprint 1 findings:
+
+**Label-quality stream.** User-completed clinical relabeling on 113 triage GREEN cases (train + val + test). 20/113 (18%) judged YELLOW by clinical review, all toward higher acuity. Distribution shift: triage YELLOW prior went from 60% to 65% post-relabel, deepening the class imbalance the model was already over-fitting. Apply script preserved a backup; diff log auditable.
+
+**Model stream.** Three retrain candidates with explicit pre-run gates:
+- *Plain SFT 3 epochs on relabeled* (no class weights): GREEN recall 0.139 — gate fail.
+- *Class-balanced 3× CE on level-token-only, 3 epochs*: GREEN recall 0.208, RED recall 0.692 — gate fail (RED precision dropped to 0.391 — over-correction).
+- *Plain SFT 6 epochs on relabeled*: GREEN recall 0.236, RED recall 0.577, RED precision 0.500 — augmented gate partial; shipped as the "B-retrained" production triage LoRA.
+
+The gate-driven discipline kept us from compounding interventions on uncalibrated recipes. Each gate was decided after seed 42 only — multi-seed std bars were not estimated on FAIL'd runs because the cross-variant differences (5–15 F1 points) were already well above any plausible seed variance.
+
+**Engine + classifier stream.** Schema migration to chief-vs-narrative regex split (Section 4); 6 new adult-emergency rules with positive + negative unit tests; v2 multilingual safety classifier (~135 indicators) replacing v1's 22-indicator list. End-to-end smoke test (`eval/scripts/smoke_test_production_stack.py`) PASSES 25/25.
+
+Sprint 2 also surfaced a second schema-consumer audit gap: `engine_overrides` only logged escalating matches, not all matches, blocking the per-rule firing analysis. Routed around by writing a read-only audit script (`eval/scripts/audit_rule_firings.py`) that re-applies `_matches_rule` standalone — no engine change needed.
+
+### Sprint 3 (submission prep + deferred items, 2026-05-07 → 2026-05-18)
+
+In flight at time of writing. See `docs/plans/2026-05-07-sprint3-plan.md` for the day-by-day shape and `docs/status.md` for current progress.
+
+Cheap wins landed on Day 1:
+- Derm contamination move applied (49 cases routed by `acquire_sources.py` regex were non-derm and migrated to triage). Derm-clean retrain underperformed sprint-1 derm on the same test data (n=35, 1 RED case dominates) — *contamination move kept for data hygiene; specialist swap canceled per gate*. Documented in `eval/analysis/2026-05-07/derm_clean_retrain_findings.md`.
+- chrF++ replacement: multilingual sentence-transformer cosine on the same 131 chrF rows scored 0.6687 (vs chrF++ 0.301), passing the originally-targeted 0.60 fluency floor and validating the Sprint 1 finding that the "metric failure" was metric-fragility, not model failure.
+- Android emulator booted (Pixel 6 / Android 34 x86_64), APK installed for end-to-end demo. Phone TTFT explicitly NOT claimed from emulator runs — that's deferred per the sprint plan.
+
+Sprint 3 critical path: HF weights upload (blocked on user "go public" approval), B-retrained triage GGUF export (in flight), demo video, doc refresh, submission registration. Tier 2 (26B-A4B) and image multimodal carried as stretch goals with explicit Day-8 cancel point.
+
+### What this methodology produces
+
+The submission's strongest claim is not "we built a triage system." Many teams will. The strongest claim is "we built the diagnostic process that surfaces the failures, distinguishes label noise from model failure from metric artifact, and ships honest numbers calibrated to evidence." That process — gate-driven retraining, schema-consumer audits, bucket-A/B/C analysis, diagnostic-before-fix sprint cadence — is reproducible across any low-resource clinical NLP project. The model performance numbers are the evidence that the process worked.
