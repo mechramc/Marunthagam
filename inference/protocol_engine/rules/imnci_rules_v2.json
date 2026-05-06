@@ -1,0 +1,290 @@
+[
+  {
+    "_doc": "Marunthagam Protocol Engine rules — v2 schema (2026-05-07).",
+    "_schema_version": 2,
+    "_design_notes": [
+      "chief_complaint_pattern matches against the verbal_symptoms field ONLY.",
+      "  This is the structured chief complaint extracted upstream. Matching",
+      "  against the full Tamil narrative caused false positives in v1 (e.g.,",
+      "  IMNCI-002 firing on a chemo case that *mentioned* the word fever).",
+      "required_co_signals is a list of patterns; ALL must match somewhere in",
+      "  (verbal_symptoms || tamil_question). Use to express AND-combinations",
+      "  like 'chest pain AND (radiation OR dyspnea)'.",
+      "negative_scoping is a list of patterns; rule does NOT fire if ANY match",
+      "  in full text. Use for 'rule fires UNLESS narrative explicitly negates.'",
+      "age_group: 'any' or pipe-separated set like 'adolescent|adult|elderly'.",
+      "  Adolescent edge case (10-17): ADOLESCENT IS TREATED AS NON-PEDIATRIC",
+      "  for ADULT-* rules (so ADULT-CARDIAC-001 fires on a 16yo with cardiac",
+      "  pattern). Pediatric IMNCI-* rules use age_group='child' or 'infant'",
+      "  which exclude adolescent. No overlap.",
+      "duration_min_days / duration_max_days: integer or null."
+    ],
+    "_id": "_metadata"
+  },
+
+  {
+    "id": "IMNCI-001",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "convulsion|seizure|வலிப்பு|வலிப்புத்தாக்கம்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "any",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Any convulsion/seizure is an emergency danger sign — immediate referral required"
+  },
+  {
+    "id": "IMNCI-002",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "fever|காய்ச்சல்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "infant",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Any fever in infant under 2 months is a danger sign — always RED"
+  },
+  {
+    "id": "IMNCI-003",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "unable to drink|cannot drink|not drinking|குடிக்க முடியவில்லை|குடிக்கவில்லை",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Unable to drink/breastfeed is a general danger sign in child"
+  },
+  {
+    "id": "IMNCI-004",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "chest indrawing|severe chest|சாம்பல் நிறம்|சுவாசிக்க கஷ்டம்|மூச்சு விட முடியவில்லை",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "any",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Severe chest indrawing or inability to breathe — severe pneumonia, RED"
+  },
+  {
+    "id": "IMNCI-005",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "vomiting everything|cannot keep food|எல்லாவற்றையும் வாந்தி|வாந்தி நிற்கவில்லை",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Child vomiting everything is a general danger sign"
+  },
+  {
+    "id": "IMNCI-006",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "stiff neck|neck stiffness|கழுத்து விறைப்பு|கழுத்தை வளைக்க முடியவில்லை",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "any",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Stiff neck with fever — possible meningitis, RED emergency"
+  },
+  {
+    "id": "IMNCI-007",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "severe malnutrition|marasmus|kwashiorkor|மிகவும் மெலிந்த|வீக்கம் கால்|உடல் வீக்கம்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Severe acute malnutrition signs — RED referral"
+  },
+  {
+    "id": "IMNCI-008",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "lethargic|unconscious|unresponsive|சோர்வாக|உணர்வற்ற|விழிப்பில்லாம|எழுந்திரிக்கவில்லை",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Lethargic or unconscious child — danger sign, RED"
+  },
+  {
+    "id": "IMNCI-009",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "diarrhea|வயிற்றுப்போக்கு",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 14,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Diarrhea persisting more than 14 days in child — PHC evaluation required"
+  },
+  {
+    "id": "MATERNAL-001",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "bleeding.*pregnancy|pregnancy.*bleeding|கர்ப்ப.*ரத்தம்|ரத்தம்.*கர்ப்ப|கர்ப்பிணி.*ரத்தப்போக்கு",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "adult",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "IMNCI: Vaginal bleeding during pregnancy — obstetric emergency, RED"
+  },
+  {
+    "id": "MATERNAL-002",
+    "source": "WHO_IMNCI",
+    "chief_complaint_pattern": "headache.*pregnancy|pregnancy.*headache|swelling.*pregnancy|கர்ப்ப.*தலைவலி|கர்ப்ப.*வீக்கம்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "adult",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "IMNCI: Headache or swelling in pregnancy — possible pre-eclampsia, PHC within 48h"
+  },
+  {
+    "id": "TN-001",
+    "source": "TN_STATE",
+    "chief_complaint_pattern": "fever.*rash|rash.*fever|காய்ச்சல்.*தோல் புள்ளி|தோல் புள்ளி.*காய்ச்சல்|காய்ச்சல்.*சிவந்த",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 2,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Fever with rash in child for 2+ days — possible measles, PHC evaluation required"
+  },
+  {
+    "id": "TN-002",
+    "source": "TN_STATE",
+    "chief_complaint_pattern": "fever|காய்ச்சல்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "adult",
+    "duration_min_days": 4,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Fever persisting 4+ days in adult — PHC evaluation required"
+  },
+  {
+    "id": "TN-003",
+    "source": "TN_STATE",
+    "chief_complaint_pattern": "fever.*rash.*cough|measles|தட்டம்மை|சிவந்த புள்ளி.*இருமல்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "child",
+    "duration_min_days": 2,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Suspected measles (fever+rash+cough triad) in child — PHC evaluation"
+  },
+  {
+    "id": "TN-004",
+    "source": "TN_STATE",
+    "chief_complaint_pattern": "cough|இருமல்",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "any",
+    "duration_min_days": 21,
+    "duration_max_days": null,
+    "minimum_triage_level": "YELLOW",
+    "override_reason": "TN Protocol: Persistent cough 3+ weeks — possible TB, PHC evaluation required"
+  },
+
+  {
+    "id": "ADULT-CARDIAC-001",
+    "source": "MARUNTHAGAM_ADULT",
+    "chief_complaint_pattern": "chest\\s*(pain|press(ure|ing)?|tight(ness)?|discomf(ort)?)|cardiac|மார்பு\\s*(வலி|இறுக்க|நெருக்கம்)",
+    "required_co_signals": [
+      "(radiat|jaw|left\\s*arm|right\\s*arm|shoulder|தாடை|தோள்|கை\\s*(மரத்|வலி))",
+      "(dyspn|short(ness)?\\s*of\\s*breath|breathless|diaphor|cold\\s*sweat|tachycard|palpitat|heart\\s*racing|மூச்சு\\s*(திண|நெருக|இடை)|வியர்|பதற்ற)"
+    ],
+    "negative_scoping": [],
+    "age_group": "adolescent|adult|elderly",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "Cardiac-pattern symptoms (chest pain + radiation + autonomic/dyspnea). Same-day cardiology evaluation required REGARDLESS of patient self-attribution to anxiety/panic — symptom pattern alone is sufficient."
+  },
+  {
+    "id": "ADULT-ANAPHYLAXIS-001",
+    "source": "MARUNTHAGAM_ADULT",
+    "chief_complaint_pattern": "tongue\\s*swell|airway\\s*(swell|compromise|tight)|throat\\s*(tight|swell|close)|lip\\s*swell|நாக்கு\\s*வீக்க|தொண்டை\\s*(இறுக்|வீக்க)|உதடு\\s*வீக்க",
+    "required_co_signals": [],
+    "negative_scoping": [],
+    "age_group": "any",
+    "duration_min_days": 0,
+    "duration_max_days": 1,
+    "minimum_triage_level": "RED",
+    "override_reason": "Acute tongue/airway/throat swelling — anaphylaxis differential. Risk of progression to airway compromise. Same-hour ER referral required."
+  },
+  {
+    "id": "ADULT-HEAD-TRAUMA-001",
+    "source": "MARUNTHAGAM_ADULT",
+    "chief_complaint_pattern": "head\\s*(injur|trauma|impact|hit|struck|fall)|fell\\s*(on|onto|down)|skull\\s*(injur|fracture)|தலை\\s*(காயம்|அடி|விழ)|கீழே\\s*விழ",
+    "required_co_signals": [
+      "(loss\\s*of\\s*consciousness|LOC|fainted|blacked\\s*out|altered\\s*mental|confus|persistent\\s*vomit|repeated\\s*vomit|மயக்கம்|உணர்வை\\s*இழந்|குழப்ப|தொடர்ந்து\\s*வாந்தி)"
+    ],
+    "negative_scoping": [],
+    "age_group": "adolescent|adult|elderly",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "Head injury with LOC / altered mental status / persistent vomiting — possible intracranial bleed. Same-day CT head required."
+  },
+  {
+    "id": "ADULT-RESPIRATORY-001",
+    "source": "MARUNTHAGAM_ADULT",
+    "chief_complaint_pattern": "wheez|stridor|severe\\s*(dyspn|breathl)|respiratory\\s*distress|cannot\\s*breathe|gasping|மூச்சு\\s*(விசில்|திண|இடைய)",
+    "required_co_signals": [
+      "(can(not|'?t)\\s*(speak|complete|finish)|speak\\s*in\\s*(short|broken)|cyanos|blue\\s*(lip|finger|nail)|use(s)?\\s*accessory|tripod|sit(ting)?\\s*forward|பேச\\s*முடியவில்|நீல\\s*(உதடு|நிற)|மார்பு\\s*உள்வாங்க)"
+    ],
+    "negative_scoping": [],
+    "age_group": "adolescent|adult|elderly",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "Severe wheezing/stridor with respiratory distress markers (speech difficulty, cyanosis, accessory muscle use). Acute severe asthma / status asthmaticus / upper airway obstruction differential. Same-hour ER required."
+  },
+  {
+    "id": "ANIMAL-BITE-RESPIRATORY-001",
+    "source": "MARUNTHAGAM_ADULT",
+    "chief_complaint_pattern": "(dog|cat|monkey|wild\\s*animal|snake|bat)\\s*(bit(e|ten)?|attack|scratch)|animal\\s*bit|நாய்\\s*கடி|பூனை\\s*கடி|பாம்பு\\s*கடி",
+    "required_co_signals": [
+      "(dyspn|short(ness)?\\s*of\\s*breath|breathless|airway\\s*swell|throat\\s*tight|hypotens|low\\s*BP|shock|collap|மூச்சு\\s*(திண|நெருக்)|இரத்த\\s*அழுத்தம்\\s*குறை)"
+    ],
+    "negative_scoping": [],
+    "age_group": "any",
+    "duration_min_days": 0,
+    "duration_max_days": null,
+    "minimum_triage_level": "RED",
+    "override_reason": "Animal bite with respiratory distress / airway swelling / hypotension — anaphylactic reaction or severe envenomation differential. Same-hour ER required."
+  },
+  {
+    "id": "NEW-ONSET-JAUNDICE-001",
+    "source": "MARUNTHAGAM_ADULT",
+    "chief_complaint_pattern": "jaundic|yellow\\s*(skin|sclera|eye)|scleral\\s*ict|காமாலை|மஞ்சள்\\s*(நிற|காமாலை|கண்|தோல்)",
+    "required_co_signals": [],
+    "negative_scoping": [
+      "(known|prior|previous|chronic|established|diagnosed)\\s*(liver|hepat|cirrhos|gallston|gilbert)",
+      "(ESLD|cirrhosis|chronic\\s*hepatitis|known\\s*Hep\\s*[BC]|on\\s*lifelong)"
+    ],
+    "age_group": "adolescent|adult|elderly",
+    "duration_min_days": 0,
+    "duration_max_days": 14,
+    "minimum_triage_level": "RED",
+    "override_reason": "New-onset jaundice (skin or scleral yellowing) without prior liver disease, acute or subacute (≤14d) — fulminant hepatitis / hemolysis / biliary obstruction differential. Same-day labs (LFTs, CBC, coags) required."
+  }
+]

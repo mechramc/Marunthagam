@@ -638,9 +638,14 @@ def _real_predict(case: TestCase, model_path: str) -> PredictedOutput:
             protocol_references=[],
             escalation_flag=escalation_flag,
         )
+        # v2 engine schema (2026-05-07): chief complaint matched only
+        # against verbal_symptoms; narrative used for co-signals + negative
+        # scoping. Eliminates the v1 false-positive where rules fired on
+        # narrative mentions of unrelated symptoms.
         triage, overrides = engine.apply(
             triage,
-            symptoms=case.tamil_question.strip() or case.verbal_symptoms,
+            chief_complaint=(case.verbal_symptoms or "").strip(),
+            narrative=(case.tamil_question or "").strip(),
             age_group=case.age_group,
             duration_days=case.duration_days,
         )

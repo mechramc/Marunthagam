@@ -1,0 +1,24 @@
+# Triage LoRA on relabeled data — Stream 1 Option B per user direction (2026-05-07).
+# Plain SFT (no class weights), 6 epochs (vs 3 in baseline), single seed 42.
+# Output dir distinct from prior runs so no clobbering of triage-relabel-seed42 (3ep)
+# or triage-relabel-seed42-classbal3x (3ep + classbal3x).
+specialist: triage
+base_model: "unsloth/gemma-4-E4B-it"
+max_seq_length: 4096
+lora_rank: 32
+lora_alpha: 64
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+batch_size: 4
+gradient_accumulation: 4
+epochs: 6
+learning_rate: 2.0e-4
+warmup_steps: 50
+use_wandb: false
+output_dir: outputs/triage-relabel-seed42-6ep
