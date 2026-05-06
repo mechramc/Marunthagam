@@ -77,6 +77,57 @@ body {
   line-height: 1.4;
 }
 
+/* ── Role switcher ── */
+
+.sidebar__role-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem 0.5rem 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar__role-btn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: all 0.15s ease;
+}
+
+.sidebar__role-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+}
+
+.sidebar__role-btn--active {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.sidebar__role-tamil {
+  font-size: 0.78rem;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  line-height: 1.2;
+}
+
+.sidebar__role-en {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  line-height: 1;
+}
+
+.sidebar__role-btn--active .sidebar__role-en {
+  color: rgba(46, 204, 113, 0.7);
+}
+
 /* ── Nav list ── */
 
 .sidebar__nav-list {

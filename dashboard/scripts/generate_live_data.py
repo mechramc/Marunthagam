@@ -78,12 +78,41 @@ def find_routed_task6() -> Path:
     return cands[0]
 
 
+def load_test_chief_complaints() -> dict[str, str]:
+    """
+    Map case_id (e.g. `triage_test_001`) → Tamil user-message content.
+    case_id pattern is `{specialist}_test_{1-indexed-row-number-zero-padded-3}`.
+    """
+    out: dict[str, str] = {}
+    for spec in ("triage", "derm", "maternal"):
+        p = REPO / "training" / "data" / "formatted" / spec / "test.jsonl"
+        if not p.exists():
+            continue
+        for i, line in enumerate(p.read_text(encoding="utf-8").splitlines(), start=1):
+            rec = json.loads(line)
+            msgs = rec.get("messages") or []
+            content = msgs[0].get("content") if msgs else ""
+            cid = f"{spec}_test_{i:03d}"
+            out[cid] = (content or "").strip()
+    return out
+
+
+# Synthetic ASHA worker names — first names common in Tamil Nadu villages,
+# matched to cells. Used only as display labels; no real-world mapping.
+ASHA_NAMES = [
+    "Lakshmi K.", "Saraswati M.", "Kavitha R.", "Priya S.", "Meena T.",
+    "Selvi A.", "Devi N.", "Rajeshwari P.", "Banumathi V.", "Vasanthi G.",
+]
+
+
 def main() -> None:
     src = find_routed_task6()
     print(f"Reading routed Task 6 result: {src.name}")
     data = json.loads(src.read_text(encoding="utf-8"))
     preds = data["predictions"]
     print(f"  {len(preds)} predictions")
+    chiefs = load_test_chief_complaints()
+    print(f"  {len(chiefs)} chief complaints loaded from test.jsonl")
 
     rng = random.Random(42)
 
@@ -130,9 +159,31 @@ def main() -> None:
         return hour, minute
 
     pred_records = []
+    case_records = []
     for pred, cell, off in zip(preds, cells_for_preds, day_offsets):
         h, m = random_time_of_day()
         ts = (today - timedelta(days=off)).replace(hour=h, minute=m)
+        chief = chiefs.get(pred["case_id"], "")
+        # ASHA worker assignment — deterministic per geohash so the same village
+        # always shows the same ASHA name across the UI.
+        asha_idx = abs(hash(cell)) % len(ASHA_NAMES)
+        case = {
+            "case_id": pred["case_id"],
+            "geohash": cell,
+            "asha_worker": ASHA_NAMES[asha_idx],
+            "level": pred["pred"],
+            "gold_level": pred["gold"],
+            "specialist": pred["specialist"],
+            "confidence": pred.get("confidence", 0.0),
+            "escalation_flag": pred.get("escalation_flag", False),
+            "engine_overrides": pred.get("engine_overrides", []),
+            "pre_engine_level": pred.get("pre_engine_level", pred["pred"]),
+            "pre_engine_confidence": pred.get("pre_engine_confidence", 0.0),
+            "chief_complaint_ta": chief,
+            "timestamp": ts.isoformat(timespec="seconds"),
+            "date": ts.strftime("%Y-%m-%d"),
+        }
+        case_records.append(case)
         pred_records.append({
             "geohash": cell,
             "level": pred["pred"],
@@ -283,12 +334,24 @@ export function getMockAlerts() {{
 export function getMockStats() {{
   return {json.dumps(stats, ensure_ascii=False, indent=2)};
 }}
+
+/**
+ * Per-case records (Tier 2 clinic console source).
+ * Each record joins a Task 6 prediction with the Tamil chief complaint
+ * pulled from the test split. No patient-identifying information.
+ *
+ * @returns {{CaseRecord[]}}
+ */
+export function getMockCases() {{
+  return {json.dumps(case_records, ensure_ascii=False, indent=2)};
+}}
 """
     OUT_PATH.write_text(body, encoding="utf-8")
     print(f"\nWrote {OUT_PATH}")
     print(f"  {len(heatmap)} heatmap cells")
     print(f"  {len(trend)} trend days")
     print(f"  {len(alerts)} alerts")
+    print(f"  {len(case_records)} per-case records")
     print(f"  stats: today={stats['total_cases_today']} (RED={stats['red_cases_today']}) "
           f"yesterday={stats['total_cases_yesterday']} (RED={stats['red_cases_yesterday']})")
 

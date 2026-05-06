@@ -1,0 +1,451 @@
+/* Clinic console (Tier 2) — PHC doctor case queue + case detail + catchment */
+
+.page__title-en {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-left: 0.4rem;
+}
+
+.clinic__page-desc {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  max-width: 70ch;
+}
+
+/* ── Counts row ── */
+.clinic__counts {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.clinic__count {
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.clinic__count strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.clinic__count--red    { border-color: rgba(231, 76, 60, 0.45); }
+.clinic__count--yellow { border-color: rgba(243, 156, 18, 0.45); }
+.clinic__count--green  { border-color: rgba(46, 204, 113, 0.45); }
+
+/* ── Filter pills ── */
+.clinic__filters {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.clinic__filter {
+  padding: 0.4rem 0.85rem;
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+}
+
+.clinic__filter:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+}
+
+.clinic__filter--active {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+/* ── Queue table ── */
+.clinic__queue-table-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.clinic__queue-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.clinic__queue-table thead th {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.clinic__queue-row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.clinic__queue-row:last-child {
+  border-bottom: none;
+}
+
+.clinic__queue-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.clinic__queue-table tbody td {
+  padding: 0.7rem 0.9rem;
+  vertical-align: top;
+  color: var(--color-text);
+}
+
+.clinic__queue-cell-received {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  white-space: nowrap;
+}
+
+.clinic__queue-cell-time {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.clinic__queue-cell-chief {
+  max-width: 36rem;
+}
+
+.clinic__queue-link {
+  color: var(--color-text);
+  text-decoration: none;
+  font-family: 'Noto Sans Tamil', 'Latha', 'Inter', sans-serif;
+  line-height: 1.5;
+}
+
+.clinic__queue-link:hover {
+  color: var(--color-green);
+  text-decoration: underline;
+}
+
+.clinic__queue-cell-asha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  white-space: nowrap;
+}
+
+.clinic__asha-name {
+  font-size: 0.86rem;
+  color: var(--color-text);
+}
+
+.clinic__geohash-mono {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.clinic__conf {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.clinic__queue-cell-overrides {
+  white-space: nowrap;
+}
+
+.clinic__override-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(231, 76, 60, 0.18);
+  border: 1px solid rgba(231, 76, 60, 0.45);
+  color: #ffd9d3;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.7rem;
+}
+
+.clinic__no-override {
+  color: var(--color-text-muted);
+}
+
+.clinic__queue-empty {
+  text-align: center;
+  padding: 2rem !important;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ── Level pills (shared queue + detail) ── */
+.clinic__level-pill {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-family: 'Inter', sans-serif;
+}
+
+.clinic__level-pill--green  { background: rgba(46, 204, 113, 0.2);  color: #6fdaa1; border: 1px solid rgba(46, 204, 113, 0.5); }
+.clinic__level-pill--yellow { background: rgba(243, 156, 18, 0.2);  color: #f5b455; border: 1px solid rgba(243, 156, 18, 0.5); }
+.clinic__level-pill--red    { background: rgba(231, 76, 60, 0.2);   color: #ff8174; border: 1px solid rgba(231, 76, 60, 0.5); }
+
+/* ── Case detail ── */
+.clinic-case .page__title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.clinic__case-id {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-weight: 400;
+}
+
+.clinic__case-subhead {
+  margin: 0.4rem 0 0;
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+}
+
+.clinic__case-subhead code {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.78rem;
+  color: var(--color-text);
+}
+
+.clinic__back-link {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 5px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  align-self: flex-start;
+}
+
+.clinic__back-link:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+}
+
+.clinic__case-banner {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+}
+
+.clinic__case-level {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.clinic__case-level-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.clinic__case-level-value {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.clinic__case-level--green  { background: rgba(46, 204, 113, 0.15);  border-color: var(--color-green);  }
+.clinic__case-level--green  .clinic__case-level-value { color: var(--color-green); }
+.clinic__case-level--yellow { background: rgba(243, 156, 18, 0.15);  border-color: var(--color-yellow); }
+.clinic__case-level--yellow .clinic__case-level-value { color: var(--color-yellow); }
+.clinic__case-level--red    { background: rgba(231, 76, 60, 0.15);   border-color: var(--color-red);    }
+.clinic__case-level--red    .clinic__case-level-value { color: var(--color-red); }
+
+.clinic__case-banner-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.clinic__case-meta-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  font-size: 0.86rem;
+}
+
+.clinic__case-meta-label {
+  width: 13rem;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.clinic__case-meta-value {
+  color: var(--color-text);
+}
+
+.clinic__case-meta-sub {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.clinic__esc-flag {
+  color: var(--color-yellow);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.clinic__engine-flipped {
+  color: var(--color-red);
+  font-size: 0.78rem;
+}
+
+/* ── Case sections ── */
+.clinic__case-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.clinic__case-section-title {
+  margin: 0 0 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.clinic__case-section-title-ta {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-left: 0.3rem;
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+.clinic__narrative {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  background: rgba(0, 0, 0, 0.18);
+  border-left: 3px solid var(--color-green);
+  border-radius: 4px;
+  font-family: 'Noto Sans Tamil', 'Latha', 'Inter', sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  white-space: pre-wrap;
+}
+
+.clinic__narrative-empty {
+  color: var(--color-text-muted);
+}
+
+.clinic__overrides-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.clinic__overrides-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.18);
+  border-left: 3px solid var(--color-red);
+  border-radius: 4px;
+}
+
+.clinic__overrides-rule {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.82rem;
+  color: #ff8174;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.clinic__overrides-reason {
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+}
+
+.clinic__no-overrides {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.86rem;
+}
+
+.clinic__actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.clinic__action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.clinic__action:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.clinic__action--confirm:hover   { border-color: var(--color-green);  }
+.clinic__action--downgrade:hover { border-color: var(--color-yellow); }
+.clinic__action--escalate:hover  { border-color: var(--color-red);    }
+
+.clinic__action-en {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.clinic__action-ta {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  line-height: 1.3;
+}

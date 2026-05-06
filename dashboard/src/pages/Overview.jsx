@@ -18,8 +18,9 @@ export default function Overview() {
   return (
     <main className="page" aria-labelledby="overview-heading">
       <header className="page__header">
-        <h1 id="overview-heading" className="page__title">
+        <h1 id="overview-heading" className="page__title" lang="ta">
           {TA.PAGE_OVERVIEW_TITLE}
+          <span className="page__title-en"> · {TA.ROLE_DISTRICT_EN}</span>
         </h1>
         <span className="page__updated">
           {TA.DATA_UPDATED_EN}: {new Date().toLocaleTimeString('en-IN')}

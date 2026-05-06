@@ -18,4 +18,5 @@ export {
   getMockTrendData,
   getMockAlerts,
   getMockStats,
+  getMockCases,
 } from './realData.js';
