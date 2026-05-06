@@ -1,0 +1,1122 @@
+{
+  "date": "2026-05-07",
+  "splits": {
+    "train": [
+      {
+        "case_id": "derm_train_030",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 30,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "வணக்கம், சுமார் 2 மாதங்களுக்கு முன்பு எனது தொடையின் உட்புறத்தில் வட்ட வடிவமாக, சிவந்து, வீக்கத்துடன் மற்றும் அதிக அரிப்புடன் கூடிய ஒரு தழும்பு தோன்றியது. அது தோன்றிய சமயத்தில், சிறுநீரகப் பாதை தொற்றுக …",
+        "rater_notes": "Real derm case — circular red itchy thigh lesion, prior tinea-pattern. Nephrology flag is a false positive (regex artifact).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_032",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 32,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "கடந்த 10 ஆண்டுகளாக, எனது வயிற்றின் கீழ் வலது பக்கத்தை விரல்களால் அழுத்தும்போது மட்டும் வலி. எனக்கு 53 வயது, ஆண். MRI, CT ஸ்கேன், சிறுநீரகக் கல், ஹெர்னியா மற்றும் அப்பெண்டிசிஸ் ஆகியவற்றுக்கான பரிசோதனைக …",
+        "rater_notes": "RLQ abdominal pain x10 years with extensive negative workup including virtual colonoscopy. No derm content. Pure triage/GI; gold GREEN is fine.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 352
+      },
+      {
+        "case_id": "derm_train_055",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 55,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "36 வயதுடைய ஆண். விந்து வெளியேற்றத்திற்கு சில மணிநேரங்களுக்குப் பிறகு எனது சிறுநீரில் பழுப்பு நிறத் துகள்கள் காண. நான் ஒரு சிறுநீரக மருத்துவரை அணுகினேன், சி.டி ஸ்கேன் (CT scan) மற்றும் எக்ஸ்-ரே (X-ray) …",
+        "rater_notes": "Post-ejaculation hematuria + right varicocele/hydrocele in 36yo with single kidney. Urology question. UPGRADE YELLOW: persistent hematuria with negative cystoscopy + solitary kidney warrants ongoing nephrology surveillance.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 353
+      },
+      {
+        "case_id": "derm_train_056",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 56,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "நுரையீரல் சிகிச்சை பிரிவுக்கு,\nஐயா/அம்மா,\nநான் வங்காளதேசத்தின் டாக்காவிலிருந்து எழுதுகிறேன். ஒரு மூத்த நுரையீரல் சிகிச்சை நிபுணரின் (Pulmonologist) ஆன்லைன் ஆலோசனையை நான் பெற விரும்புகிறேன். நோயாளி எனத …",
+        "rater_notes": "Allergic rhinitis x10y, on nasal spray. ENT/allergy. No derm content. GREEN stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 354
+      },
+      {
+        "case_id": "derm_train_057",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 57,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "டாக்டர், நான் கடந்த 8 மாதங்களாக காசநோய் (tuberculosis) மருந்துகளை எடுத்து வருகிறேன். எனது நோய் இப்போது குணமடைந்துவிட்டாலும், முன்னெச்சரிக்கையாக மருந்துகள் நீட்டிக்கப்பட்டன. சமீபகாலமாக எனது முகப்பருக்க …",
+        "rater_notes": "Drug-induced acne is unambiguously dermatology. Pulmonology flag is false positive (likely regex on 'drug').",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_059",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 59,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "வணக்கம், என் பெயர் ஏப்ரல். சமீபத்தில் நான் மார்பக MRI பரிசோதனை செய்துகொண்டேன், அதன் முடிவுகள் மார்பகங்கள் ஆரோக்கியமாக இருப்பதாக வந்தன, ஆனால் எனது மண்ணீரலில் (spleen) ஒரு நீர்க்கட்டி (cyst) இருப்பது கண …",
+        "rater_notes": "Splenic cyst + bloating. GI/general surgery, no derm content. GREEN defensible (asymptomatic stable cyst).",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 355
+      },
+      {
+        "case_id": "derm_train_060",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 60,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "சமீபத்தில் நான் மேற்கொண்ட ஸ்கேன் பரிசோதனையில், எனது இடது சிறுநீரகத்தில் 8.4 மி.மீ அளவுள்ள ஒரு நீர்க்கட்டி (cyst) இருப்பது தெரியவந்தது., நான் பித்தப்பை கற்களுக்காக ஸ்கேன் செய்தபோது, இந்த நீர்க்கட்டி பற …",
+        "rater_notes": "8.4mm renal cyst incidental finding. Nephrology not derm. GREEN stands (small simple renal cysts routinely benign).",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 356
+      },
+      {
+        "case_id": "derm_train_075",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 75,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "ஐயா, எனக்கு காசநோய் (TB) பாதிப்பு இருந்தது. மத்திய கிழக்கு நாடுகளுக்கான வேலைவாய்ப்பு மருத்துவப் பரிசோதனையை மேற்கொண்டேன். நுரையீரலில் தழும்புகள் (Fibrotic Shadow) இருப்பதால், மருத்துவ மையம் என்னை 'தகுத …",
+        "rater_notes": "Old TB fibrotic shadow on CXR, employment medical clearance. Pulmonology not derm. GREEN stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 357
+      },
+      {
+        "case_id": "derm_train_079",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 79,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "வணக்கம்! நான் ஷர்மின். கடந்த 2 ஆண்டுகளாக எனக்குக் கடுமையான முடி உதிர்வு உள்ளது... மேலும் நான் ஹைப்போதராய்டிசம் (hypothyroidism) நோயால்வள். எனது முடி உதிர்வைக் குறித்து நான் மிகவும் கவலையாக இருக்கிறேன் …",
+        "rater_notes": "Hair loss x2yr in known hypothyroid patient. Hair loss IS dermatology; endocrine flag is contextual mention, not chief complaint.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_086",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 86,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், நான் பிலிப்பைன்ஸைச் சேர்ந்த ஜீன். ஹாங்காங்கில் வீட்டுப் பணியாளராக வேலை செய்ய விரும்புகிறேன். மருத்துவப் பரிசோதனைகளுக்குச் சென்றேன், ஆனால் எனது மார்பு எக்ஸ்ரேயில் (Chest X-ray) இடது மேல் நுரைய …",
+        "rater_notes": "CXR with faint infiltrates + old TB scars. Pure pulmonology, no derm content. UPGRADE YELLOW: faint new infiltrates in someone with TB history needs pulmonology follow-up to rule out reactivation.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 358
+      },
+      {
+        "case_id": "derm_train_087",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 87,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், நான் 34 வயதுடைய ஆண். எனது உயரம் 5 அடி 8 அங்குலம் மற்றும் எடை 312 பவுண்டுகள். எனக்கு உடல் உழைப்பு இல்லாத வேலையே உள்ளது, மேலும் நான் உடற்பயிற்சி செய்வதில்லை. சமீபத்தில் நான் செய்த மருத்துவப் பர …",
+        "rater_notes": "ALT 95 (>2x ULN) + high cholesterol + cancer anxiety. Hepatology, no derm content. UPGRADE YELLOW: persistent ALT elevation needs hepatology workup.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 359
+      },
+      {
+        "case_id": "derm_train_098",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 98,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனது கர்ப்பப்பை வாயில் (cervix) மச்சைப் போன்ற கருப்புப் புள்ளிகள் இருப்பதாகக் கூறப்பட்டது. பரிசோதனைக்குப் பிறகு, மருத்துவர் எனது சருமத்தைப் பரிசோதிக்க (skin check) ஏற்பாடு செய்துள்ளார் - சருமப் புற்று …",
+        "rater_notes": "Cervical pigmented spots, doctor explicitly arranged a derm skin-check. Patient asking about skin-cancer/cervical-cancer connection. Legitimate derm consult.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_105",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 105,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "வணக்கம், எனக்கு 23 வயது ஆகிறது. எனக்கு ஆண்ட்ரோஜெனிக் அலோபீசியா (Androgenic Alopecia) மற்றும் பாலீசிஸ்டிக் ஓவரீஸ் (Polycystic Ovaries) பாதிப்புகள் உள்ளன. என் தலைமுடியின் முன் பகுதியில் முடி கொட்டுதல்,  …",
+        "rater_notes": "Androgenic alopecia in 23yo with PCOS. Hair loss IS dermatology with endocrine context.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_124",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 124,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனக்கு 3 முன்பு குறைந்த அளவிலான காசநோய் (PTB) சிகிச்சை அளிக்கப்பட்டது, தற்போது நான் சவுதி அரேபியாவில் வேலை செய்வதற்கான விசாவுக்கு விண்ணப்பிக்கிறேன். ஏஜென்சியின் மருத்துவப் பரிசோதனைக்கு உட்படும் முன்,  …",
+        "rater_notes": "Post-TB lung scars, pulmonology not derm. GREEN stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 360
+      },
+      {
+        "case_id": "derm_train_126",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 126,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனக்கு ஜூன் 5, 2012 அன்று காசநோய் (TB) பரிசோதனை, ஜூன் 7, 2012 அன்று அதன் முடிவுகள் சரிபார்க்கப்பட்டன, அப்போது அது 0 மி.மீ ஆக இருந்தது. இன்று 13-ஆம் தேதி, பரிசோதனை இடத்தில் ஒரு வீக்கம்/உயர்த்தப்பட்ட பக …",
+        "rater_notes": "Swelling at TB test site (PPD induration question). Chief complaint IS a skin reaction, even if related to TB.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_134",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 134,
+        "old_level": "GREEN",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம் டாக்டர்! ஒரு சந்தேகம், கருத்தடை மாத்திரைகளை (birth control pill) அளவுக்கு அதிகமாக உட்கொண்டால் ஏதேனும் ஆபத்து உண்டா? தவறிய நாட்களை ஈடுகட்ட இன்று நான் 4 மாத்திரைகள் உட்கொண்டேன். எனக்கு PCOS பாதி …",
+        "rater_notes": "Birth-control overdose. Pure toxicology / poisoning query, no derm content. UPGRADE YELLOW: overdose is same-day Poison Control / GP.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 361
+      },
+      {
+        "case_id": "derm_train_136",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 136,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனக்கு முகப்பருக்கள், எண்ணெய் பசையுள்ள உச்சந்தலை மற்றும் முகம், மாதவிடாய் காலத்திற்கு முன்னதாக வயிற்று வலி போன்ற பிரச்சனைகள் உள்ளன. திருமணம் முடிந்து ஒரு வருட ஆகியும் என்னால் கருத்தரிக்க. கருத்தரிப்பத …",
+        "rater_notes": "Acne + oily skin + premenstrual abd pain + infertility. Acne is the chief complaint with hormonal context.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_140",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 140,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனது கதிரியக்க பரிசோதனை முடிவுகளின்படி (Radiographic Findings), வலது நுரையீரலின் நடுப்பகுதியின் வெளிப்பக்கத்தில் ஒரு சிறிய முட்டை வடிவ கால்சிஃபிக் அடர்த்தி (calcific density) காணப்படுகிறது. இதயத்தின்  …",
+        "rater_notes": "Calcific density in right lung on CXR. Pure pulmonology. GREEN defensible (likely old granuloma).",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 362
+      },
+      {
+        "case_id": "derm_train_141",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 141,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "வயிற்று வலி காரணமாக இரத்தப் பரிசோதனையும் அல்ட்ராசவுண்ட் ஸ்கேனும் செய்தேன் - அதில் எதுவும் கண்டறியப்படவில்லை. ஆனால் எனக்கு லேசான அரிப்பு இருப்பதால், எனக்கு ஹாட்ஜ்கின்ஸ் நோய் (Hodgkin's disease) இருக்கு …",
+        "rater_notes": "Abdominal pain + mild itching, Hodgkin's worry. GI workup negative. Itching mentioned but chief complaint is abdominal pain + lymphoma anxiety. GREEN defensible.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 363
+      },
+      {
+        "case_id": "derm_train_149",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 149,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "இரவில் தூங்கச் செல்லும் போது எனக்குக் கட்டுப்பாடற்ற இருமல் தொடங்குகிறது, மேலும் எனது கழுத்து மற்றும் தாடைப் பகுதி மிகவும் அரிப்பு எடுக்கிறது. இது இரவில் மட்டுமே நடக்கிறது, இதற்காக நான் என்ன செய்ய வேண் …",
+        "rater_notes": "Nighttime cough + neck/jaw itching. Itch on neck/jaw is cutaneous; cough is associated. Possible eczema-asthma overlap.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_152",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 152,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனக்கு பிரசவத்திற்கு 8 மாதங்கள் கழித்து திறந்த மைவோமெக்டமி (கருப்பை நார்த்திசு நீக்கம்). மீண்டும் முயற்சிக்கு முன் ஒரு வருடம் காத்திருக்க அறிவுறுத்தப்பட்டேன். ஆனால் இப்போது 5 மாதங்கள் கழித்து …",
+        "rater_notes": "Post-myomectomy unplanned pregnancy with uterine rupture concern. Pure OB/GYN, no derm content. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 364
+      },
+      {
+        "case_id": "derm_train_154",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 154,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "என் தந்தைக்கு ஹெர்பெஸ் புண் (herpes lesion) பாதிப்பு உள்ளது. வயிற்றின் வலது பக்கத்தில் நீர் நிறைந்த கொப்புளங்கள் தோன்றியதும், தற்போது அவை மறைந்துவிட்டன. ஆனால் கொப்புளங்கள் மறைந்து 1.5 மாதங்களாக வயிற்ற …",
+        "rater_notes": "Post-herpes-zoster persistent abdominal pain (likely post-herpetic neuralgia in dermatomal distribution) + insomnia in elderly. Herpes is dermatology; abd pain is the dermatomal sequela.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_161",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 161,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனக்கு இரண்டு மாதங்களாக இருமல் உள்ளது, ஆனால் எனக்கு உடல்நலக்குறைவு போன்ற உணர்வு இல்லை. எனக்கு இருமல் மட்டுமே உள்ளது. சளி அல்லது அசாதாரணமான எதுவும் வெளிவருவதில்லை. இருமல் கடுமையாக இருக்கும்போத …",
+        "rater_notes": "Chronic cough x60 days + dyspnea. Pure pulmonology, no derm content. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 365
+      },
+      {
+        "case_id": "derm_train_162",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 162,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு ஜூன் 2012-ல் உயிருடன் இருந்த ஒருவரிடமிருந்து சிறுநீரக மாற்று அறுவை சிகிச்சை. அந்த கொடையாளருக்கு பிறப்புறுப்பு ஹெர்பெஸ் (genital herpes) உள்ளது. இது மாற்று அறுவை சிகிச்சை சிறுநீரகம் மூலம் எனக்கு …",
+        "rater_notes": "Post-renal-transplant patient asking about HSV transmission, with painful genital sores + abdominal vesicular lesions. Real derm presentation (HSV reactivation in immunocompromised).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_165",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 165,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு 41 வயது, நான் ஒரு ஆண். உடல் வலி, முகம் சிவந்து வெப்பமாக உணர்வது மற்றும் ஆற்றல் இல்லாதது போன்ற அறிகுறிகளுடன் இது தொடங்கியது. ஒரு நாளைக்கு முன்பு, எனது நெற்றியில் பரு போன்ற ஒன்று தோன்றுவதை கவனித் …",
+        "rater_notes": "Body-wide red spots + fever + body aches + abd pain + diarrhea (likely viral exanthem). Skin findings central.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_174",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 174,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனக்கு அதிகப்படியான சளியுடன் இருமல் உள்ளது. மார்பு, முதுகு மற்றும் முழங்கைகளில் தடிப்புகள் ஏற்பட்டுள்ளன. மேலும், நகங்களின் அடிப்பகுதி சிவந்து வீங்கியுள்ளது. எனது ஆள்காட்டி விரலில் தடிப்பு உள் …",
+        "rater_notes": "Cough + skin nodules + nail-bed swelling + weight loss + fatigue x150d. Multi-system but skin and nail findings are prominent. Possible sarcoidosis/connective tissue disease.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_177",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 177,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "இந்த வாரத்தில் சிறுநீரகப் பிரச்சினைகளுக்காக அவசர சிகிச்சை பிரிவில் பலமுறை மருத்துவமனையில் அனுமதிக்கப்பட்டேன். பிறகு அவசர சிகிச்சை பிரிவு மருத்துவர் எனது சிறுநீரகத்திற்கு சில ஆன்டிபயாடிக் மருந்துகளைப்  …",
+        "rater_notes": "Antibiotic-induced rash + body itching + elevated LFTs. Drug eruption is dermatology.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_179",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 179,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "சுத்தம் செய்த பிறகு திசுதாளில் இளஞ்சிவப்பு நிற வெளியேற்றம் (pink discharge) ஏற்படுகிறதா? சிறுநீரில் இரத்தம் இல்லை. நான் கடந்த இரண்டு வாரங்களாக Rocephin 2 g IV எடுத்து வருகிறேன், இன்னும் ஆறு நாட்கள் மீ …",
+        "rater_notes": "On IV Rocephin x2wk for bacteremia + post-discharge UTI, asking about pink discharge. No derm content; ortho flag is regex artifact. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 366
+      },
+      {
+        "case_id": "derm_train_184",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 184,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது 4 வயது குழந்தைக்கு வயிற்று வலி மற்றும் காய்ச்சல் உள்ளது. இப்போது தொண்டை வலி இருப்பதாகக் கூறுகிறாள், மேலும் அவளுடைய கால்களில் மூன்று சிவப்பு நிறப் புள்ளிகளைக் கவனித்தேன். அவளுக்கு என்ன பிரச்சனை என …",
+        "rater_notes": "Pediatric fever + sore throat + abd pain + petechiae on legs. Petechiae IS skin finding. HSP/meningococcal differential.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_188",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 188,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது 4 and half வயது மகனுக்கு முழு வயிற்றுப் பகுதி ஸ்கேன் (USG). அதில் கல்லீரல் சற்று enlarged ஆக உள்ளது, parenchymal echotexture சீராக உள்ளது (homogenous) என்று குறிப்பிட. பெரிய அளவில் focal lesion எ …",
+        "rater_notes": "Pediatric hepatomegaly + anorexia + vomiting on USG. Pure hepatology/GI. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 367
+      },
+      {
+        "case_id": "derm_train_189",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 189,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், 4 முன்பு மார்பு எக்ஸ்-ரே (Chest X-ray) எடுத்தபோது, எனது வலது நுரையீரலில் ஒரு நுரையீரல் கணு (pulmonary nodule) இருப்பதை மருத்துவர்கள் தற்செயலாகக் கண்டறிந்தனர். அவர்கள் சிடி (CT) ஸ்கேன் செய்யச் …",
+        "rater_notes": "Pulmonary nodule on CT + intermittent fever x4yr. Pure pulm/onc. YELLOW stands (pulmonary nodule needs surveillance).",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 368
+      },
+      {
+        "case_id": "derm_train_190",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 190,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது AST அளவு 56 மற்றும் ALT அளவு 91 ஆக உள்ளது. 2012-ல் எனது ALT அளவு 55 ஆக இருந்தது. நான் மது அருந்துவதில்லை, ஆனால் எனது எடை 25 பவுண்டுகள் அதிகரித்துள்ளது (தற்போது 222 பவுண்டுகள்). எனக்கு and சொரியாச …",
+        "rater_notes": "AST 56 + ALT 91 + weight gain + psoriasis on methotrexate. Psoriasis IS the active dermatologic problem; LFTs are methotrexate monitoring.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_193",
+        "verdict": "RELABEL_ONLY",
+        "split": "train",
+        "source_line_num": 193,
+        "old_level": "YELLOW",
+        "new_level": "RED",
+        "user_prompt_preview": "வணக்கம், உங்கள் ஆரோக்கியம் சார்ந்த சந்தேகங்களை இப்போது நான் தீர்க்கலாமா? தயவுசெய்து உங்கள் கேள்வியை இங்கே பதிவிடவும்... வணக்கம், எனக்கு ஒரு கேள்வி உள்ளது. இரத்த உறைவு (blood clot) காரணமாக நான் மருத்து …",
+        "rater_notes": "Recently discharged after blood clot in right thigh, now post-travel hot/painful lump in right buttock. Suspected recurrent DVT/cellulitis post-discharge. Borderline derm vs vascular but skin warmth/swelling IS a derm presentation. UPGRADE RED: keep in derm with RED label as a hard test case.",
+        "destination": "derm (relabeled in place)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_200",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 200,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது மார்புப்பகுதியில் நிணநீர் கணுக்கள் (lymph nodes) இருப்பதாகக் கூறப்பட்டது. சிலர் நுரையீரலில் நிணநீர் கணுக்கள் இருக்காது என்று சொல்கிறார்கள், ஆனால் எனது சி-ஸ்கேன் (C-scan) முடிவில் அவை இருப்பதாகக்  …",
+        "rater_notes": "Mediastinal lymphadenopathy on CT awaiting biopsy + anxiety. Pure pulm/onc, no derm content. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 369
+      },
+      {
+        "case_id": "derm_train_207",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 207,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "சமீபகாலமாக எனக்கு காய்ச்சல் போன்ற அறிகுறிகள் உள்ளன. எனது உடல் உட்புறமாக அதிக காய்ச்சல் இருப்பது போல் உணர்கிறேன், ஆனால் எனது தோல் சாதாரணத்தை விட சற்று வெப்பமாகவே உள்ளது. நான் வெப்பநிலையை சரிபார்த்தபோது …",
+        "rater_notes": "Fever 101.9 + lethargy + confusion + memory loss + dizziness + visual changes in post-hysterectomy patient. No derm content. YELLOW stands (defensible YELLOW given subacute pattern).",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 370
+      },
+      {
+        "case_id": "derm_train_215",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 215,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், நான் நீண்ட இடைவெளிக்குப் பிறகு உடற்பயிற்சி செய்யும்போது மட்டுமே இது நிகழ்கிறது. ஆனால் இது ஒரு வழக்கத்திற்கு மாறான மற்றும் அச்சமூட்டும் நிகழ்வு என்பதால் நான் கவலைப்படுகிறேன். ஜிம்மில் கடினமான  …",
+        "rater_notes": "Post-exercise dyspnea + dizziness + tingling + pallor in deconditioned exerciser. Pure cardio/pulm. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 371
+      },
+      {
+        "case_id": "derm_train_225",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 225,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு நரம்பியல் அறிகுறிகளான கிடுக்கிப்பிடி போன்ற உணர்வு, எரிச்சல், மரத்துப்போதல், பலவீனம், தலையில் அதிக அதிர்வெண் ஒலிகள், தசை துடிப்பு, tingling மற்றும் பிற உணர்வுகள் உள்ளன; இந்த அறிகுறிகள் அவ்வப்போத …",
+        "rater_notes": "Confirmed peripheral neuropathy on EMG with progressive symptoms. Pure neurology. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 372
+      },
+      {
+        "case_id": "derm_train_228",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 228,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனது 2 and a half (இரண்டரை) வயது குழந்தைக்கு மலம் கழிக்கும்போது கடைசியாகச் சிறிய அளவில் ரத்தம் வருகிறது... எனது குழந்தை நல மருத்துவர் எக்ஸ்-ரே (X-ray) எடுத்துப் பார்த்தார், குழந்தை வழக்கமாக ம …",
+        "rater_notes": "Pediatric rectal bleeding + GRAY stool. Acholic (pale) stool in a child is the key finding — biliary obstruction/atresia differential. Pure hepatology/peds-GI. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 373
+      },
+      {
+        "case_id": "derm_train_231",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 231,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த ஒரு வருடமாக எனக்கு சுவாசக் கோளாறுகள் உள்ளன. இது ஆஸ்துமா (Asthma) இருக்கலாம் என்று எனது மருத்துவர் நினைக்கிறார். ஆனால், எனக்கு அடிக்கடி தலைச்சுற்றல் மற்றும் மார்பு, விலா எலும்புகள் மற்றும் வயிற்ற …",
+        "rater_notes": "Chronic respiratory + dizziness + chest/abd pain x365d. Multi-system but no derm content. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 374
+      },
+      {
+        "case_id": "derm_train_233",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 233,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், சரியாக ஒரு வாரத்திற்கு முன்பு எனக்கு 'பாய்சன் ஐவி' (poison ivy) பாதிப்பு ஏற்பட்டது, இப்போது அந்தத் தோல் தடிப்பு (rash) மிகவும் மோசமான நிலையில் உள்ளது. துரதிர்ஷ்டவசமாக, ஒரு இசை நிகழ்ச்சியின் ப …",
+        "rater_notes": "Poison ivy progressing to purpura + pus + lymph node swelling x7d. Worsening contact dermatitis with secondary infection. Toxicology flag is false positive on 'poison.'",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_244",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 244,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு ஷிங்கிள்ஸ் (தடிப்பு நோய்த்தொற்று) தடிப்பு நோய்த்தொற்று உள்ளது, நான் மருந்துகள் எடுத்துக்கொண்டேன் மற்றும் இப்போது கேட்னிப் தேநீர் அருந்துகிறேன், ஆனால் இவை இரண்டும் அரிப்பை நிறுத்தவில்லை - இப்போத …",
+        "rater_notes": "Shingles + persistent itch + fever + abd pain. Shingles IS dermatology.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_246",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 246,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், என் காதலருக்கு வயிற்றில் உறுமல் மற்றும் பொதுவான அசௌகரியத்துடன் சில வயிற்றுப் பிரச்சனைகள் உள்ளன. அவருக்கு அதிக காய்ச்சலும் உள்ளது, மேலும் அவரது தோல் மிகவும் உணர்திறனுடன் (sensitive) உள்ளது. அவ …",
+        "rater_notes": "Abdominal pain + fever + skin sensitivity. Possible early herpes zoster prodrome with abd dermatomal pain.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_247",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 247,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வலது தோள்பட்டை பிரச்சனை: வணக்கம் டாக்டர். இரண்டு நாட்களுக்கு முன்பு எனது உறவினருடன் மல்யுத்தம் செய்தபோது எனது தோள்பட்டையில் காயம் ஏற்பட்டது. அவர் என்னை கீழே தள்ளியபோது, அவரது உடல் எடை முழுவதும் எனது வ …",
+        "rater_notes": "Right shoulder injury + swelling + immobility + severe pain x2d. Pure ortho. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 375
+      },
+      {
+        "case_id": "derm_train_250",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 250,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது மனைவிக்கு நீரிழிவு நோய் மற்றும் ஆஸ்துமா உள்ளது. அவரது முழங்கால் மாற்று அறுவை சிகிச்சைக்கு முன்னதாக, அவரது காலில் புண் (wound ulcer) ஏற்பட்டு, அறுவை சிகிச்சைக்கு முன்னதாக அது குணமடைய பல மாதங்கள் ஆ …",
+        "rater_notes": "Diabetic elderly with leg burning, itching, and swelling. Prior wound history. Possible diabetic dermopathy/cellulitis.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_255",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 255,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "காலை வணக்கம், நான் கழிவறையை சுத்தம் செய்தபோது, சுமார் 250 மி.லி ஹார்பிக் மற்றும் ப்ளீச் ஆகியவற்றை ஒன்றாகக் கலந்தேன். அதனால் ஒருவித புகை/ஆவி உருவானது, நான் அதில் வெளிப்பட்டேன். சுமார் 3 மணி நேரம் எனக்க …",
+        "rater_notes": "Chronic post-chemical-inhalation (Harpic+bleach) respiratory symptoms x30d. Pure pulm/toxicology. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 376
+      },
+      {
+        "case_id": "derm_train_263",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 263,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம் டாக்டர்... எனது விதைப்பைக்கும் (scrotum) மலத்துவாரத்திற்கும் இடையில் ஒரு கட்டி உள்ளது, அது பட்டாணி அளவு மற்றும் கடினமாக உள்ளது, அது சில நேரங்களில் மறைந்து மீண்டும் தோன்றுகிறது, மேலும் எனது பிற …",
+        "rater_notes": "Perineal lump + yellow penile lesion + urethral itching. Genital skin lesions are dermatology/STI workup.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_265",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 265,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு ஹெபடைடிஸ் சி (Hep C) உள்ளது, கடந்த ஆண்டு பரிசோதித்தபோது எனது வைரஸ் அளவு (viral load) செயலற்ற நிலையில் (dormant) இருப்பதாகக் கூறினர். நான் எப்போது சிகிச்சை பெற வேண்டும் மற்றும் அதன் அறிகுறிகள் எ …",
+        "rater_notes": "Hep C + abd pain + suboxone + psych meds. Pure hepatology/addiction medicine. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 377
+      },
+      {
+        "case_id": "derm_train_268",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 268,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "12 வார கர்ப்பமாக இருந்தபோது ஒரு பெண்ணை எனது நாய் கடித்தது. அதன் கடியால் அவரது முகத்தில் தோல் கிழிந்தது. அவர் அவசர சிகிச்சை பிரிவுக்கு (ER) அழைத்துச் செல்லப்பட்டு சிகிச்சை அளிக்கப்பட்டது. அவரது பெண் கு …",
+        "rater_notes": "Mother bitten by dog at 12wk gestation; baby now 2wk old with congenital heart defects. Causation question, no current derm. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 378
+      },
+      {
+        "case_id": "derm_train_270",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 270,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு கல்லீரல் என்சைம்கள் (liver enzymes) சற்று அதிகரித்துள்ளன, வைட்டமின் டி அளவு மிகக் குறைவாக உள்ளது. தைராய்டு பரிசோதனை சரியாக உள்ளது. எனக்கு உடல் சோர்வு, முடி உதிர்வு மற்றும் தோல் வறட்சி உள்ளது. ம …",
+        "rater_notes": "Multi-system: fatigue + alopecia + dry skin + elevated LFTs + vaginal hyperplasia. Hair loss + dry skin are dermatologic chief complaints in a multi-system presentation.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_280",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 280,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனக்கு சில வாரங்களாக நிமோனியா (நுரையீரல் அழற்சி) உள்ளது, தற்போது மூன்றாவது முறையாக ஆன்டிபயாடிக் மருந்துகளை எடுத்து வருகிறேன். நான் இப்போது மிகவும் நலமாக உணர்கிறேன், எனக்கு இன்னும் அதிக உடல் ச …",
+        "rater_notes": "Pneumonia x21d on third antibiotic course + chest discomfort + fatigue. Pure pulm. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 379
+      },
+      {
+        "case_id": "derm_train_281",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 281,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "இரண்டாம் வகை நீரிழிவு நோய் (Type 2 diabetes) உள்ள எனக்கு சுமார் 2.5 நாட்களுக்கு முன்பு குளவி கொட்டியது, ஆரம்பத்தில் அந்த இடத்தில் வலி இருந்தது. ஐஸ் தண்ணீரில் குளிர்வித்தேன், நேப்ராக்சன் (naproxen) மரு …",
+        "rater_notes": "Wasp sting causing finger swelling + redness in T2DM. Sting reaction IS dermatology.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_283",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 283,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது மகனுக்கு 21 வயது, அவர் பொதுவாக ஆரோக்கியமாக. கடந்த சில நாட்களாக, அவரது நாக்கின் இரு பக்கங்களிலும் புண்கள் (canker sores) ஏற்பட்டுள்ளன. இதனால் அவருக்குப் பேசவும் சாப்பிடவும் சிரமமாகவும், வலியாகவும் …",
+        "rater_notes": "Tongue ulcers + swelling + difficulty speaking/eating in 21yo on migraine meds. Aphthous ulcers / drug-induced oral lesions are dermatology / oral medicine.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_287",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 287,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், என் மகனுக்கு சுமார் 5 நாட்களுக்கு காய்ச்சல் இருந்தது, அதைத் தொடர்ந்து 4-5 நாட்களுக்கு தடிப்புகள் (rash) தோன்றின. அவருக்கு அம்மை (measles) இருக்கலாம் என்று மருத்துவர்கள் கவலைப்பட்டதால், வழக்கம …",
+        "rater_notes": "Pediatric fever + rash + platelet variability (initially low at 131, now 644). Rash is dermatologic chief complaint with hematologic findings — Kawasaki / measles / viral exanthem differential.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_290",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 290,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த 6 மாதங்களாக எனக்கு லேசான காய்ச்சல் (99.5°F) உள்ளது. பகல் முழுவதும் உடல் வெப்பநிலை இயல்பாக (97-98°F) இருக்கும், ஆனால் ஒவ்வொரு மதியமும்/மாலை நேரமும் காய்ச்சல் வருவதை உணர்கிறேன். எனக்கு உயர் இரத்த  …",
+        "rater_notes": "Evening low-grade fever x180d + hypertension + diabetes (insulin) + fistula treatment. Multi-system, no derm content. Possible chronic infection or endocarditis differential. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 380
+      },
+      {
+        "case_id": "derm_train_291",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 291,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "கடந்த ஆண்டு செப்டம்பர் மாதம் எனக்கு சிறுநீரகத் தொற்று ஏற்பட்டது, 14 நாட்கள் ஆன்டிபயாடிக் மருந்துகளை உட்கொண்ட பிறகு அது சரியானது. ஆனால் சில நாட்களிலேயே அது மீண்டும் வந்தது. அக்டோபர் மாதம் நான் மீண்டும் …",
+        "rater_notes": "Recurrent UTI + painful vulvar/clitoral blisters x120d. Genital blisters are dermatologic chief complaint (possible HSV).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_292",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 292,
+        "old_level": "YELLOW",
+        "new_level": "GREEN",
+        "user_prompt_preview": "வணக்கம், நான் பிலிப்பைன்ஸைச் சேர்ந்த ஜியான். நேற்று நான் ஆய்வகப் பரிசோதனை செய்துகொண்டேன், அதில் எனது SGPT அளவு 97 ஆக சற்று அதிகமாக உள்ளது. SGPT அதிகரிப்பதற்கான காரணங்கள் என்ன? நான் மருந்துகள் உட்கொள்ள …",
+        "rater_notes": "Isolated SGPT 97 (mildly elevated), no symptoms. Pure hepatology, no derm content. DOWNGRADE GREEN: isolated mild ALT elevation in asymptomatic patient is routine repeat-and-monitor. Gold over-triage.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 381
+      },
+      {
+        "case_id": "derm_train_295",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 295,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம் ஐயா, எனது தாயார் 70 வயதுடைய பெண், ஒரு வாரமாக காய்ச்சலால் அவதிப்பட்டு வருகிறார். அவரது நுரையீரலின் இருபுறமும் மேல் பகுதியில் பழைய ஃபைப்ரோகால்சிஃபைட் லீஷன்ஸ் (fibrocalcified lesions) இருப்பதாகக் …",
+        "rater_notes": "Elderly with 1wk fever + old TB scars on CXR (no active TB). Pure pulm/general medicine. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 382
+      },
+      {
+        "case_id": "derm_train_296",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 296,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனக்கு 19 வயது ஆகிறது. ஆண்குறி முழுமையாக விறித்திருக்கும்போது என்னால் முன்தோலை (foreskin) பின்னோக்கி இழுக்க, ஆனால் விறிக்காத நிலையில் என்னால் அவ்வாறு செய்ய முடிகிறது., சுத்தம் செய்வதற்காக தின …",
+        "rater_notes": "Phimosis with foreskin tearing/bleeding in 19yo. Genital skin pathology.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_297",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 297,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனக்கு கல்லீரல் நோயின் இறுதி நிலையும் (ESLD), தீராத அரிப்பும் உள்ளது. என்னால் இரவில் தூங்க, பகலில் சிறிய இடைவெளிகளில் மட்டுமே தூங்க முடிகிறது. கடையில் கிடைக்கும் அனைத்து மருந்துகளை (OTC) முயற்சி செய்த …",
+        "rater_notes": "ESLD with intractable pruritus + insomnia + depression. Pruritus IS the dermatologic chief complaint, even though etiology is hepatic.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_300",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 300,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது இயல்பான உடல் வெப்பநிலை 98.6, ஆனால் இன்று நாள் முழுவதும் அது கொஞ்சம் கொஞ்சமாக குறைந்து 97.4 ஆக உள்ளது. எனக்கு ஒரு வாரத்திற்கும் மேலாக உடல்நலக்குறைவு, குமட்டல், வயிற்று வலி மற்றும் தலைவலி உள்ளது. ந …",
+        "rater_notes": "Low body temp 97.4 + nausea + abd pain + headache + weakness x7d in known gallstone patient. Pure GI/general medicine. Cholangitis/sepsis differential. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 383
+      },
+      {
+        "case_id": "derm_train_304",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 304,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "நான் உடலுறவில் ஈடுபடுவதால் மற்றும் கர்ப்பமடைய விரும்பாததால், சுமார் ஒரு மாதத்திற்கு முன்பு பிறப்புக்கட்டு தடுப்பூசி (birth control shot) போட்டுக் கொண்டேன். மாதவிடாயின் போது இரத்தப்போக்கு மிகக் குறைவாக …",
+        "rater_notes": "Severe abd cramps + dark bleeding + tissue passage post-DMPA injection. Pure GYN. YELLOW stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 384
+      },
+      {
+        "case_id": "derm_train_310",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 310,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "எனது சகோதரருக்கு 44 வயது ஆகிறது. இரண்டு நாட்களுக்கு முன்பு அவர் திடீரென மயக்கமடைந்து, சுவாசம் இல்லாமல், முகம் வெளிறி காணப்பட்டார். அவர் சுமார் 2 நிமிடங்கள் அல்லது அதற்கு சற்று கூடுதலாக இவ்வாறு இருந்தா …",
+        "rater_notes": "Sudden 2-min syncope with apnea + pallor + HTN 160/100. Cardiac/neurology emergency. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 385
+      },
+      {
+        "case_id": "derm_train_311",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 311,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "வணக்கம், கடந்த வாரம் எனது தாயார் நுரையீரலில் நீர் கோர்த்துக் கொண்டதால் மருத்துவமனையில் அனுமதிக்கப்பட்டார், அதன் பிறகு அவரது உடல்நிலை கணிசமாக மோசமடைந்தது. அவரால் நடக்க, சிறுநீர் மற்றும் மலம் கழிப்பதைக் …",
+        "rater_notes": "Elderly with rapid post-discharge decompensation: incontinence + confusion + inability to walk/eat after pulmonary edema admission. ICU-level. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 386
+      },
+      {
+        "case_id": "derm_train_313",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 313,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "வணக்கம், எனது அத்தையின் மூச்சுத்திணறல் காரணமாக அவர் தற்போது வென்டிலேட்டரில் (ventilator) உள்ளார். அவரது மார்பகப் பகுதியில் ஏதோ தொற்று ஏற்பட்டு, அது கருப்பு நிறக் கொப்புளங்களாக மாறியுள்ளது. அவை பரவுவதை …",
+        "rater_notes": "Patient on ventilator with breast skin infection progressing to BLACK necrotic blisters + pulmonary edema. Black blisters are dermatologic — necrotizing fasciitis differential. RED preserved. Hard test case where derm presentation drives the emergency.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_315",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 315,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "எனது கணவரின் மார்பெலும்பில் (sternum) ஒரு பெரிய, கடினமான கட்டி உள்ளது. அது சுமார் ஒரு வருடமாக உள்ளது, கடந்த சில மாதங்களாக அவருக்குக் கடுமையான வயிற்று வலி, சாப்பிட்டவுடன் குமட்டல் மற்றும் கடுமையான நெஞ் …",
+        "rater_notes": "Sternal mass + severe abd pain + nausea + heartburn + bedbound in pre-cancer patient. Pure GI/onc emergency. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 387
+      },
+      {
+        "case_id": "derm_train_317",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 317,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "வணக்கம் ஐயா, மதிய வணக்கம். நான் 19 வயது மாணவன். கடந்த 2 ஆண்டுகளாக எனக்கு முடி உதிர்வு பிரச்சனை உள்ளது, அது மொட்டையாகும் நிலைக்கு கொண்டு சென்றுவிட்டது. மற்றவர்களின் கருத்துக்களால் நான் தினமும் அழுதுகொண …",
+        "rater_notes": "Hair loss with active suicidal ideation and prior suicide attempt in 19yo. The crisis is psychiatric, not dermatologic. RED stands. NOTE: hair loss alone would be derm GREEN/YELLOW; the suicidality is what makes it RED. Worth flagging this case as an example for the safety classifier — model should escalate to mental-health crisis path.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 388
+      },
+      {
+        "case_id": "derm_train_320",
+        "verdict": "KEEP_IN_DERM",
+        "split": "train",
+        "source_line_num": 320,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "வணக்கம்! என் கணவருக்கு ஒரு பிரச்சனை உள்ளது. அவர் சனிக்கிழமை தனது உடல் முழுவதும் (ஆண்குறியின் கீழ் உள்ள விதைப்பைகள் உட்பட) முடி நீக்கும் கிரீம் (Veet Hair removal cream) பயன்படுத்தினார். அடுத்த நாள் அவ …",
+        "rater_notes": "Veet hair-removal cream causing genital irritation + hematuria. Chemical contact derm with mucosal involvement is the chief complaint. RED preserved (hematuria after topical chemical = same-day GP).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_train_322",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 322,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "எனது தந்தைக்கு நீரிழிவு நோய் உள்ளது, அவருக்கு காய்ச்சல் மற்றும் மார்பு வலி இருப்பதாகக் கூறுகிறார். அவர் மருத்துவமனையில் அனுமதிக்கப்பட்டுள்ளார், அவருக்கு நிமோனியா (நுரையீரல் அழற்சி) இருப்பது போல் தெரிக …",
+        "rater_notes": "Diabetic admitted with fever + chest pain + pneumonia + elevated LFTs. Already in hospital. Pure pulm/cardiology emergency. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 389
+      },
+      {
+        "case_id": "derm_train_326",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 326,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "கடந்த 2 அல்லது 3 மாதங்களாக, எனது மார்புப் பகுதியில் மறையாத பலமான துடிப்பு மற்றும் நடுக்க உணர்வு உள்ளது. மேலும், எனக்குக் கடுமையான உயர் இரத்த அழுத்தக் காலங்கள் (hypertensive periods), தலைச்சுற்றல் (ver …",
+        "rater_notes": "Severe HTN 200/115 + palpitations + tinnitus + Trousseau sign + Hashimoto history. Pheochromocytoma/carcinoid screen indicated. Pure cardio/endo emergency. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 390
+      },
+      {
+        "case_id": "derm_train_327",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 327,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "ஐயா, 45 வயதுடைய பெண் நோயாளி ஒருவர் மனநிலை மாற்றம் (altered mental status) மற்றும் உடல் முழுவதும் அதிர்வுகளுடன் கூடிய வலிப்பு (generalized tonic clonic fits)டன் சிகிச்சைக்காக வந்தார். அவரது CT ஸ்கேன் ம …",
+        "rater_notes": "45yo with altered mental status + GTC seizure + parietal hypodensity on CT. Pure neurology emergency. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 391
+      },
+      {
+        "case_id": "derm_train_328",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "train",
+        "source_line_num": 328,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "வணக்கம் ஐயா, கடந்த காலத்தில் என் தந்தைக்கு காசநோய் (TB) இருந்தது, அதற்கான சிகிச்சை அளிக்கப்பட்டு அவர் குணமடைந்தார். இப்போது மீண்டும் காசநோய் தொற்று ஏற்பட்டுள்ளது. சிடி ஸ்கேன் மற்றும் எக்ஸ்ரே பரிசோதனைய …",
+        "rater_notes": "Recurrent TB + fungal infection + pneumothorax + chest drain in elderly. Already in hospital, pulm critical care. RED stands.",
+        "destination": "triage/train.jsonl",
+        "destination_line_num": 392
+      }
+    ],
+    "val": [
+      {
+        "case_id": "derm_val_012",
+        "verdict": "KEEP_IN_DERM",
+        "split": "val",
+        "source_line_num": 12,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனது மகனுக்கு 2 வயது ஆகிறது. கடந்த வாரம் நாங்கள் மருத்துவரிடம் சென்றபோது அவருக்கு லேசான நிமோனியா (நுரையீரல் அழற்சி) இருந்தது. அவர் தனது ஆன்டிபயாடிக் மருந்துகளை முடித்துவிட்டார். கடந்த சில மாதங்களாக அவ …",
+        "rater_notes": "Toddler post-pneumonia with yellow-tinted feet + strange smell + iron deficiency. Skin discoloration of feet IS dermatologic finding. Could reasonably be GREEN (likely carotenemia or iron-deficiency-related).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_val_020",
+        "verdict": "KEEP_IN_DERM",
+        "split": "val",
+        "source_line_num": 20,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது 10 வயது மகள். அவருக்கு பருவகால ஒவ்வாமை (மகரந்தத் தூள்) கடுமையாக உள்ளது. அவருக்கு ஆஸ்துமா இருக்கலாம் என்று மருத்துவர் சந்தேகிக்கிறார். ஒரு வாரத்திற்கும் மேலாக இன்ஹேலர் (inhaler) வருகிறார். மேலும், …",
+        "rater_notes": "10yo with body-wide hives + warm sensation + asthma history on inhaler/Singulair. Hives IS dermatology. YELLOW stands.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_val_025",
+        "verdict": "KEEP_IN_DERM",
+        "split": "val",
+        "source_line_num": 25,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது 4 வயது மகளுக்கு 4 நாட்களாக லேசான காய்ச்சல் உள்ளது, இது பொதுவாக மதிய நேரங்களில் அதிகரித்து 100.5 டிகிரியை மட்டுமே எட்டுகிறது, அதனால் எங்கள் மருத்துவர் எங்களைப் பார்க்கவில்லை. அவளுக்குடன் தளர்வான ம …",
+        "rater_notes": "Pediatric low-grade fever + loose stool + abd pain + nasal congestion + oral herpes lesion x4d. Oral herpes IS dermatologic. YELLOW stands.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_val_036",
+        "verdict": "KEEP_IN_DERM",
+        "split": "val",
+        "source_line_num": 36,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "நேற்று பணியில் இருந்தபோது, எனது இடது கையின் மணிக்கட்டு மற்றும் முழங்கைக்கு இடையில், கையின் பின்புறம் இருக்கும் பகுதியில், திடீரென்று மார்பிள் அளவு ஒரு சிறிய வீக்கமான முடிச்சு போன்றது தோன்றியது. அது வல …",
+        "rater_notes": "Sudden marble-sized hand swelling that resolved leaving a bruise. Transient localized swelling + ecchymosis is dermatologic (urticaria, insect bite, vasculitis, or transient soft-tissue swelling).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_val_039",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "val",
+        "source_line_num": 39,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "எனக்கு 1984-ல் காசநோய் (TB) பாதிப்பு ஏற்பட்டது, பின்னர் 2011-ல் அது மீண்டும் வந்துவிட்டது. அதற்காக நான் 6 மாதங்கள் சிகிச்சை எடுத்துக்கொண்டேன்., தொண்டையில் இருமல் மற்றும் அவ்வப்போது காய்ச்சல் இன்னும் ந …",
+        "rater_notes": "Persistent cough + fever + leg imbalance after recurrent TB + penicillin exposure. Pulm/neurology presentation, no derm content. RED stands (TB recurrence + neurologic symptoms = TB meningitis differential).",
+        "destination": "triage/val.jsonl",
+        "destination_line_num": 44
+      },
+      {
+        "case_id": "derm_val_040",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "val",
+        "source_line_num": 40,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "சரி, எனக்கு 40 வயது ஆகிறது, எனக்கு 'கார்சினாய்டு சிண்ட்ரோம்' (carcinoid syndrome) இருப்பது கண்டறிய. சில முன்பு கார்சினாய்டு கட்டி (benign carcinoid) அகற்றப்பட்டது. இப்போது எனது இதய வால்வுகள் (heart va …",
+        "rater_notes": "Carcinoid syndrome with BP swings 80/38 → 158/126, heart valve damage, pulmonary atelectasis, lymphadenopathy. Pure cardio/pulm/onc emergency. RED stands.",
+        "destination": "triage/val.jsonl",
+        "destination_line_num": 45
+      }
+    ],
+    "test": [
+      {
+        "case_id": "derm_test_014",
+        "verdict": "KEEP_IN_DERM",
+        "split": "test",
+        "source_line_num": 14,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனது கால்களில் தோன்றிய தோல் தடிப்பு (skin rash) இப்போது கைகள் மற்றும் மணிக்கட்டுகளுக்கும் பரவியுள்ளது. இவை மிகவும் அரிப்புடன் காண மற்றும் சிவப்பு புள்ளிகளாகத் தெரிகின்றன. எனது இரத்தப் பரிசோதனை முடிவுக …",
+        "rater_notes": "Pruritic red spotted rash spreading from legs to arms + abnormal CBC (mild leukocytosis, anemia). Rash IS dermatology with hematology context.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_test_017",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "test",
+        "source_line_num": 17,
+        "old_level": "GREEN",
+        "new_level": "GREEN",
+        "user_prompt_preview": "எனது 7 வயது மகன் குவாத்தமாலா நாட்டில் இருந்து தத்தெடுக்கப்பட்டவன். சமீபத்தில் அவனது மார்பு பகுதியில், முலைக்காம்புகளுக்கு சற்று கீழே இருந்து தொப்புள் வரை ஒரு மங்கலான வெள்ளை நிறக் கோடு இருப்பதை நாங்கள் …",
+        "rater_notes": "Faint white line from breast to umbilicus in 7yo adopted child. The 'line' is likely linea alba (normal anatomic finding) or a fading scar — not a discrete dermatologic lesion. Endocrine flag false positive. Borderline keep-vs-move; lean MOVE. GREEN stands.",
+        "destination": "triage/test.jsonl",
+        "destination_line_num": 46
+      },
+      {
+        "case_id": "derm_test_019",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "test",
+        "source_line_num": 19,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "நான் 62 வயது பெண், எனக்கு 2006-ஆம் ஆண்டு நான்காம் நிலை பெருங்குடல் புற்றுநோய் (stage IV colon cancer) கண்டறியப்பட்டது. புற்றுநோய் பெருங்குடல் மட்டுமின்றி கல்லீரல், ஓமெண்டம் (omentum), இடுப்புத் தளத்தி …",
+        "rater_notes": "LLQ pain + constipation + cancer recurrence concern in elderly. Pure GI/onc. YELLOW stands.",
+        "destination": "triage/test.jsonl",
+        "destination_line_num": 47
+      },
+      {
+        "case_id": "derm_test_022",
+        "verdict": "KEEP_IN_DERM",
+        "split": "test",
+        "source_line_num": 22,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது தாயாருக்கு கடந்த வியாழக்கிழமை (11/09/2014) மस्तिஷ்க இரத்த நாள பாதிப்பு (cerebral stroke) ஏற்பட்டது, அதனால் அவரது உடலின் வலது பக்கம் செயலிழந்துவிட்டது. இரத்த சர்க்கரை அளவு பரிசோதனையில் வெறும் வயிற …",
+        "rater_notes": "Post-stroke elderly with new bedsores + uncontrolled diabetes. Bedsores ARE dermatology / wound care. YELLOW stands.",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_test_026",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "test",
+        "source_line_num": 26,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், எனக்கு 22 வயது, பெண். எனது எடை 45 கிலோ, உயரம் 54 அங்குலம். எனது இரு சிறுநீரகங்களும் வீக்கமடைந்துள்ளன. எனக்கு வாந்தி வருவது போன்ற உணர்வு, மார்பக வலி, சிறுநீரகப் பகுதியில் அரிப்பு, சிறுநீர் கழி …",
+        "rater_notes": "Bilateral renal swelling + dysuria + nausea + breast pain + itching in 22yo. Multi-system but the 'itching' appears to be in the renal/flank area, not a dermatologic chief complaint. Pure nephrology presentation. YELLOW stands.",
+        "destination": "triage/test.jsonl",
+        "destination_line_num": 48
+      },
+      {
+        "case_id": "derm_test_030",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "test",
+        "source_line_num": 30,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "எனது தொப்புளுக்கு மேலே ஒரு கடினமான கட்டி இருந்தது, மேலும் கடுமையான வயிற்று வலி (குச்சிகள்) இருந்தது. அந்த கட்டி நகர்ந்தது, அது பார்ப்பதற்கே ஒரு கை கால்கள் உள்ளே நகர்வது போல இருந்தது. இதற்குப் பிறகு என …",
+        "rater_notes": "Hard moving abdominal mass + severe abd pain + painful defecation, 'hand and feet moving inside' (likely peristaltic mass or hernia). Pure GI/surgery. YELLOW stands.",
+        "destination": "triage/test.jsonl",
+        "destination_line_num": 49
+      },
+      {
+        "case_id": "derm_test_035",
+        "verdict": "KEEP_IN_DERM",
+        "split": "test",
+        "source_line_num": 35,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "வணக்கம், நான் சமீபத்தில் கோஸ்டாரிகாவிற்குச் சென்றிருந்தேன், அங்கு பாட்டிலிடப்பட்ட தண்ணீரை மட்டுமே குடித்தேன். ஆனால் அங்கிருந்து கிளம்பும் போது பொதுக் குடிநீர் குழாயிலிருந்து (fountain) தண்ணீர் குடித்த …",
+        "rater_notes": "Body itching + abd pain + bloating + glans pain after travel to Costa Rica with tap water exposure. Body itching IS dermatologic (parasitic differential).",
+        "destination": "derm (unchanged)",
+        "destination_line_num": null
+      },
+      {
+        "case_id": "derm_test_038",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "test",
+        "source_line_num": 38,
+        "old_level": "YELLOW",
+        "new_level": "YELLOW",
+        "user_prompt_preview": "சில நாட்களுக்கு முன்பு, எனது கீழ் முதுகுப் பகுதியில் பலமான அடிபட்டது. அதன் பிறகு ஓய்வு, ஐஸ் ஒத்தடம் மற்றும் மென்மையான உடற்பயிற்சிகளால் அது குணமடைந்து வருவதாகத் தெரிகிறது., அதே நேரத்தில் மற்றொரு பிரச்ச …",
+        "rater_notes": "Post-trauma perineal swelling + red lump + severe pain. Pure surgical (likely perianal abscess). YELLOW stands (perianal abscess needs incision and drainage).",
+        "destination": "triage/test.jsonl",
+        "destination_line_num": 50
+      },
+      {
+        "case_id": "derm_test_041",
+        "verdict": "MOVE_TO_TRIAGE",
+        "split": "test",
+        "source_line_num": 41,
+        "old_level": "RED",
+        "new_level": "RED",
+        "user_prompt_preview": "எனக்கு மிகவும் தொந்தரவாக இருக்கும் பல அறிகுறிகள் உள்ளன. முடி உதிர்தல், விழுங்குவதில் சிரமம் (சுவாசம் சீராக உள்ளது), பல்சட்டங்கள் இப்போது சரியாகப் பொருந்தவில்லை, ஈறுகளில் வலி, கைகள் மற்றும் கால்களில் அ …",
+        "rater_notes": "Multi-system: dysphagia + denture problems + extremity rashes/tingling + memory loss + word-finding difficulty + extremity swelling. Has skin signal but the chief complaint is neurologic emergency (possible Guillain-Barré, stroke, or systemic vasculitis with neuro involvement). RED stands.",
+        "destination": "triage/test.jsonl",
+        "destination_line_num": 51
+      }
+    ]
+  },
+  "summary": {
+    "verdict_counts": {
+      "KEEP_IN_DERM": 36,
+      "MOVE_TO_TRIAGE": 49,
+      "RELABEL_ONLY": 1
+    },
+    "pre": {
+      "derm": {
+        "train": {
+          "GREEN": 142,
+          "YELLOW": 164,
+          "RED": 22
+        },
+        "val": {
+          "GREEN": 18,
+          "YELLOW": 20,
+          "RED": 3
+        },
+        "test": {
+          "GREEN": 18,
+          "YELLOW": 21,
+          "RED": 2
+        }
+      },
+      "triage": {
+        "train": {
+          "YELLOW": 227,
+          "GREEN": 72,
+          "RED": 52
+        },
+        "val": {
+          "YELLOW": 27,
+          "GREEN": 10,
+          "RED": 6
+        },
+        "test": {
+          "YELLOW": 27,
+          "GREEN": 11,
+          "RED": 7
+        }
+      }
+    },
+    "post": {
+      "derm": {
+        "train": {
+          "GREEN": 130,
+          "YELLOW": 142,
+          "RED": 15
+        },
+        "val": {
+          "GREEN": 18,
+          "YELLOW": 20,
+          "RED": 1
+        },
+        "test": {
+          "GREEN": 17,
+          "YELLOW": 17,
+          "RED": 1
+        }
+      },
+      "triage": {
+        "train": {
+          "YELLOW": 251,
+          "GREEN": 81,
+          "RED": 60
+        },
+        "val": {
+          "YELLOW": 27,
+          "GREEN": 10,
+          "RED": 8
+        },
+        "test": {
+          "YELLOW": 31,
+          "GREEN": 12,
+          "RED": 8
+        }
+      }
+    }
+  }
+}

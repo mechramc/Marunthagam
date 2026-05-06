@@ -1,0 +1,26 @@
+# Derm LoRA on contamination-cleaned data (Sprint 3 cheap win, 2026-05-07).
+# Same hyperparameters as original lora_derm.yaml; only output_dir differs
+# so the original derm-seed{42,137,256} adapters are preserved.
+# Plain SFT (no class weights) — derm class distribution post-clean is
+# 45/49/5% G/Y/R which doesn't trigger the YELLOW-collapse pattern that
+# motivated class-weighted CE on triage.
+specialist: derm
+base_model: "unsloth/gemma-4-E4B-it"
+max_seq_length: 4096
+lora_rank: 32
+lora_alpha: 64
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+batch_size: 4
+gradient_accumulation: 4
+epochs: 3
+learning_rate: 2.0e-4
+warmup_steps: 50
+use_wandb: false
+output_dir: outputs/derm-clean-seed42
