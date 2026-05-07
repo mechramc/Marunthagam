@@ -87,6 +87,66 @@ Example output:
 
 ---
 
+## Screenshots
+
+### Tier 1 — ASHA worker phone app (Android)
+
+Captured on a Pixel 6 emulator (Android 14) running the production APK. Both locales render the same `triage_classify()` schema; the keyword-keyed demo path is active because the 5 GB Q4_K_M GGUF is not sideloaded on the emulator (the README documents the model-loaded path elsewhere).
+
+#### Tamil — production target language
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/android_screenshots/01_home.png" width="220" /><br/><sub>Home — patient details form</sub></td>
+    <td align="center"><img src="docs/android_screenshots/02_red_result.png" width="220" /><br/><sub>RED — cardiac pattern, escalate</sub></td>
+    <td align="center"><img src="docs/android_screenshots/03_yellow_result.png" width="220" /><br/><sub>YELLOW — fever, PHC referral</sub></td>
+    <td align="center"><img src="docs/android_screenshots/04_green_result.png" width="220" /><br/><sub>GREEN — home care + watchful waiting</sub></td>
+  </tr>
+</table>
+
+#### English — same UI, alternate locale (for hackathon review)
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/android_screenshots/01_home_en.png" width="220" /><br/><sub>Home — patient details form</sub></td>
+    <td align="center"><img src="docs/android_screenshots/02_red_result_en.png" width="220" /><br/><sub>RED — cardiac pattern, escalate</sub></td>
+    <td align="center"><img src="docs/android_screenshots/03_yellow_result_en.png" width="220" /><br/><sub>YELLOW — fever, PHC referral</sub></td>
+    <td align="center"><img src="docs/android_screenshots/04_green_result_en.png" width="220" /><br/><sub>GREEN — home care + watchful waiting</sub></td>
+  </tr>
+</table>
+
+The mandatory Tamil disclaimer **இது மருத்துவ ஆலோசனை அல்ல** ("This is not medical advice") appears on every screen, in both locales. The English locale renders it bilingually rather than translating it away — the verbatim Tamil string is a CLAUDE.md compliance requirement.
+
+### Tier 2 — PHC doctor clinic console (web)
+
+The clinic console (Tier 2) is served by the same dashboard codebase under the `/clinic/*` route prefix with an Apache-blue accent and a "Viewing as: PHC Doctor" banner. The doctor-facing views work at **individual case level**:
+
+- `/clinic` — RED-first case queue across the catchment, with each row showing the Tamil chief complaint, model confidence, and any IMNCI engine rule overrides that fired
+- `/clinic/case/:id` — single-case detail with full Tamil patient narrative, post-engine + pre-engine triage levels (so the doctor sees the model's raw output AND the engine's escalation reasoning), all IMNCI rules that fired, and three doctor-action buttons in Tamil + English (confirm-and-refer / downgrade-after-exam / escalate-to-district-hospital)
+- `/clinic/catchment` — per-geohash cell summary scoped to the cells this PHC serves
+
+### Tier 3 — district health office dashboard (web)
+
+The district dashboard (Tier 3) is served under `/district/*` with the green accent and a "Viewing as: District Health Office" banner. The district-facing views work at **aggregated population level** — no individual patient narratives, ever:
+
+- `/district` — today vs yesterday stats (total cases, RED count, active cells, escalation rate) + active cluster alerts panel
+- `/district/map` — geohash heatmap with G/Y/R density per ~1km cell across 20 active Tamil Nadu cells
+- `/district/alerts` — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up/stable/down trend per cell
+- `/district/trends` — 7-day G/Y/R rollup chart
+
+To run the dashboards yourself:
+
+```bash
+cd dashboard && npm install && npm run dev
+# Open http://localhost:5173/district  (Tier 3)
+# Open http://localhost:5173/clinic    (Tier 2)
+# Use the role switcher in the sidebar to toggle between them.
+```
+
+The dashboard renders real held-out predictions: the n=131 Task 6 routed-config cases joined to the Tamil chief complaints from the test split, distributed across plausible Tamil Nadu geohashes and across the past 7 days. No patient-identifying information crosses over from the eval predictions — only the aggregate counts and (for Tier 2 case detail) the de-identified Tamil narrative.
+
+---
+
 ## Quick Start
 
 ```bash
