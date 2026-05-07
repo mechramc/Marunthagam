@@ -89,11 +89,17 @@ Example output:
 
 ## Screenshots
 
-### Tier 1 — ASHA worker phone app (Android)
+All three tiers are captured below. The **Tamil** set is the production-target UI that ASHA workers, PHC doctors, and district health staff actually see. The **English** set is the same screens in an alternate locale, included so hackathon reviewers without Tamil reading ability can inspect the UI structure end-to-end.
 
-Captured on a Pixel 6 emulator (Android 14) running the production APK. Both locales render the same `triage_classify()` schema; the keyword-keyed demo path is active because the 5 GB Q4_K_M GGUF is not sideloaded on the emulator (the README documents the model-loaded path elsewhere).
+The Android screens are real Pixel 6 emulator captures running the production APK; the Tier 2 / Tier 3 dashboards are real Vite production builds rendering the n=131 routed Task 6 held-out predictions joined to the Tamil chief complaints from the test split. The Android demo path is active in these captures because the 5 GB Q4_K_M GGUF is not sideloaded on the emulator — the schema, protocol engine, escalation logic, and disclaimer are all production code.
 
-#### Tamil — production target language
+The mandatory Tamil disclaimer **இது மருத்துவ ஆலோசனை அல்ல** ("This is not medical advice") appears on every screen in every locale. In English locales it is rendered bilingually rather than translated away — the verbatim Tamil string is a CLAUDE.md compliance requirement.
+
+---
+
+### தமிழ் · Tamil — production target language
+
+#### Tier 1 — ASHA worker phone app (Android)
 
 <table>
   <tr>
@@ -104,7 +110,32 @@ Captured on a Pixel 6 emulator (Android 14) running the production APK. Both loc
   </tr>
 </table>
 
-#### English — same UI, alternate locale (for hackathon review)
+#### Tier 2 — PHC doctor clinic console (`/clinic/*`, Apache-blue accent)
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/dashboard_screenshots/Case%20list%20-%20Dr%20view.png" width="450" /><br/><sub>Case queue — RED-first list of incoming ASHA-escalated cases with Tamil chief-complaint preview, model confidence, IMNCI engine rule overrides</sub></td>
+    <td align="center"><img src="docs/dashboard_screenshots/Catchment%20-%20Dr.%20View.png" width="450" /><br/><sub>Catchment area — per-geohash cell summary for the cells this PHC's ASHA workers serve</sub></td>
+  </tr>
+</table>
+
+#### Tier 3 — district health office dashboard (`/district/*`, green accent)
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/dashboard_screenshots/health%20office%20-%20dash.png" width="450" /><br/><sub>Overview — today vs yesterday stats + active RED cluster alerts</sub></td>
+    <td align="center"><img src="docs/dashboard_screenshots/Health%20office%20-%20map.png" width="450" /><br/><sub>Map — geohash heatmap, G/Y/R density per ~1km cell across 20 active Tamil Nadu cells</sub></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><img src="docs/dashboard_screenshots/health%20office%20-%20alerts.png" width="600" /><br/><sub>Alerts — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up / stable / down trend per cell</sub></td>
+  </tr>
+</table>
+
+---
+
+### English — alternate locale, for hackathon review
+
+#### Tier 1 — ASHA worker phone app (Android)
 
 <table>
   <tr>
@@ -115,35 +146,39 @@ Captured on a Pixel 6 emulator (Android 14) running the production APK. Both loc
   </tr>
 </table>
 
-The mandatory Tamil disclaimer **இது மருத்துவ ஆலோசனை அல்ல** ("This is not medical advice") appears on every screen, in both locales. The English locale renders it bilingually rather than translating it away — the verbatim Tamil string is a CLAUDE.md compliance requirement.
+#### Tier 2 — PHC doctor clinic console (`/clinic/*`, Apache-blue accent)
 
-### Tier 2 — PHC doctor clinic console (web)
+<table>
+  <tr>
+    <td align="center"><img src="docs/dashboard_screenshots/Case%20list%20-%20Dr%20view%20-%20Eng.png" width="450" /><br/><sub>Case queue — RED-first list of incoming ASHA-escalated cases with chief-complaint preview, model confidence, IMNCI engine rule overrides</sub></td>
+    <td align="center"><img src="docs/dashboard_screenshots/Catchment%20-%20Dr.%20View%20-%20eng.png" width="450" /><br/><sub>Catchment area — per-geohash cell summary for the cells this PHC's ASHA workers serve</sub></td>
+  </tr>
+</table>
 
-The clinic console (Tier 2) is served by the same dashboard codebase under the `/clinic/*` route prefix with an Apache-blue accent and a "Viewing as: PHC Doctor" banner. The doctor-facing views work at **individual case level**:
+#### Tier 3 — district health office dashboard (`/district/*`, green accent)
 
-- `/clinic` — RED-first case queue across the catchment, with each row showing the Tamil chief complaint, model confidence, and any IMNCI engine rule overrides that fired
-- `/clinic/case/:id` — single-case detail with full Tamil patient narrative, post-engine + pre-engine triage levels (so the doctor sees the model's raw output AND the engine's escalation reasoning), all IMNCI rules that fired, and three doctor-action buttons in Tamil + English (confirm-and-refer / downgrade-after-exam / escalate-to-district-hospital)
-- `/clinic/catchment` — per-geohash cell summary scoped to the cells this PHC serves
+<table>
+  <tr>
+    <td align="center"><img src="docs/dashboard_screenshots/health%20office%20-%20dash%20-%20eng.png" width="450" /><br/><sub>Overview — today vs yesterday stats + active RED cluster alerts</sub></td>
+    <td align="center"><img src="docs/dashboard_screenshots/Health%20office%20-%20map%20-%20eng.png" width="450" /><br/><sub>Map — geohash heatmap, G/Y/R density per ~1km cell across 20 active Tamil Nadu cells</sub></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><img src="docs/dashboard_screenshots/health%20office%20-%20alerts%20-%20eng.png" width="600" /><br/><sub>Alerts — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up / stable / down trend per cell</sub></td>
+  </tr>
+</table>
 
-### Tier 3 — district health office dashboard (web)
+---
 
-The district dashboard (Tier 3) is served under `/district/*` with the green accent and a "Viewing as: District Health Office" banner. The district-facing views work at **aggregated population level** — no individual patient narratives, ever:
-
-- `/district` — today vs yesterday stats (total cases, RED count, active cells, escalation rate) + active cluster alerts panel
-- `/district/map` — geohash heatmap with G/Y/R density per ~1km cell across 20 active Tamil Nadu cells
-- `/district/alerts` — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up/stable/down trend per cell
-- `/district/trends` — 7-day G/Y/R rollup chart
-
-To run the dashboards yourself:
+### Run the dashboards yourself
 
 ```bash
 cd dashboard && npm install && npm run dev
-# Open http://localhost:5173/district  (Tier 3)
-# Open http://localhost:5173/clinic    (Tier 2)
-# Use the role switcher in the sidebar to toggle between them.
+# Open http://localhost:5173/district  (Tier 3 — district health office)
+# Open http://localhost:5173/clinic    (Tier 2 — PHC doctor)
+# Sidebar role switcher toggles between the two views.
 ```
 
-The dashboard renders real held-out predictions: the n=131 Task 6 routed-config cases joined to the Tamil chief complaints from the test split, distributed across plausible Tamil Nadu geohashes and across the past 7 days. No patient-identifying information crosses over from the eval predictions — only the aggregate counts and (for Tier 2 case detail) the de-identified Tamil narrative.
+No patient-identifying information crosses over from the eval predictions to either dashboard tier — only aggregate counts plus, for Tier 2 case detail, the de-identified Tamil chief complaint as it arrived from the ASHA worker.
 
 ---
 
