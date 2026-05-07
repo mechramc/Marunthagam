@@ -56,7 +56,11 @@ Marunthagam is **not** a doctor-in-a-phone, an autonomous diagnostic engine, or 
 
 ## Demo
 
-> Demo video link will be added at submission. CLI demo below:
+> **2-minute demo video:** [`assets/marunthagam-demo.mp4`](assets/marunthagam-demo.mp4) — 1920×1080 · 30fps · authored with [HyperFrames](https://github.com/heygen-com/hyperframes), rendered from real screenshots of the running production stack.
+
+https://github.com/user-attachments/assets/marunthagam-demo.mp4
+
+CLI demo below:
 
 ```bash
 python inference/cli_demo.py \
