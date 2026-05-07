@@ -18,7 +18,7 @@ India's 940,000 ASHA (Accredited Social Health Activist) workers are the first a
 
 Marunthagam (மருந்தகம் — "place of medicine") is a three-tier offline health intelligence system designed for Tamil-speaking ASHA workers. It is not a chatbot. Every output is a structured, validated, protocol-grounded triage decision.
 
-![Marunthagam architecture — three-tier offline community health intelligence](docs/architecture_diagram.svg)
+![Marunthagam architecture — three-tier offline community health intelligence](assets/architecture_diagram.svg)
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -56,8 +56,7 @@ Marunthagam is **not** a doctor-in-a-phone, an autonomous diagnostic engine, or 
 
 ## Demo
 
-> Demo video script (recording pending): [`docs/demo_video_script.md`](docs/demo_video_script.md). Final video link will be added on submission.
-> CLI demo below:
+> Demo video link will be added at submission. CLI demo below:
 
 ```bash
 python inference/cli_demo.py \
@@ -103,10 +102,10 @@ The mandatory Tamil disclaimer **இது மருத்துவ ஆலோச
 
 <table>
   <tr>
-    <td align="center"><img src="docs/android_screenshots/01_home.png" width="220" /><br/><sub>Home — patient details form</sub></td>
-    <td align="center"><img src="docs/android_screenshots/02_red_result.png" width="220" /><br/><sub>RED — cardiac pattern, escalate</sub></td>
-    <td align="center"><img src="docs/android_screenshots/03_yellow_result.png" width="220" /><br/><sub>YELLOW — fever, PHC referral</sub></td>
-    <td align="center"><img src="docs/android_screenshots/04_green_result.png" width="220" /><br/><sub>GREEN — home care + watchful waiting</sub></td>
+    <td align="center"><img src="assets/android_screenshots/01_home.png" width="220" /><br/><sub>Home — patient details form</sub></td>
+    <td align="center"><img src="assets/android_screenshots/02_red_result.png" width="220" /><br/><sub>RED — cardiac pattern, escalate</sub></td>
+    <td align="center"><img src="assets/android_screenshots/03_yellow_result.png" width="220" /><br/><sub>YELLOW — fever, PHC referral</sub></td>
+    <td align="center"><img src="assets/android_screenshots/04_green_result.png" width="220" /><br/><sub>GREEN — home care + watchful waiting</sub></td>
   </tr>
 </table>
 
@@ -114,8 +113,8 @@ The mandatory Tamil disclaimer **இது மருத்துவ ஆலோச
 
 <table>
   <tr>
-    <td align="center"><img src="docs/dashboard_screenshots/Case%20list%20-%20Dr%20view.png" width="450" /><br/><sub>Case queue — RED-first list of incoming ASHA-escalated cases with Tamil chief-complaint preview, model confidence, IMNCI engine rule overrides</sub></td>
-    <td align="center"><img src="docs/dashboard_screenshots/Catchment%20-%20Dr.%20View.png" width="450" /><br/><sub>Catchment area — per-geohash cell summary for the cells this PHC's ASHA workers serve</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/Case%20list%20-%20Dr%20view.png" width="450" /><br/><sub>Case queue — RED-first list of incoming ASHA-escalated cases with Tamil chief-complaint preview, model confidence, IMNCI engine rule overrides</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/Catchment%20-%20Dr.%20View.png" width="450" /><br/><sub>Catchment area — per-geohash cell summary for the cells this PHC's ASHA workers serve</sub></td>
   </tr>
 </table>
 
@@ -123,11 +122,11 @@ The mandatory Tamil disclaimer **இது மருத்துவ ஆலோச
 
 <table>
   <tr>
-    <td align="center"><img src="docs/dashboard_screenshots/health%20office%20-%20dash.png" width="450" /><br/><sub>Overview — today vs yesterday stats + active RED cluster alerts</sub></td>
-    <td align="center"><img src="docs/dashboard_screenshots/Health%20office%20-%20map.png" width="450" /><br/><sub>Map — geohash heatmap, G/Y/R density per ~1km cell across 20 active Tamil Nadu cells</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/health%20office%20-%20dash.png" width="450" /><br/><sub>Overview — today vs yesterday stats + active RED cluster alerts</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/Health%20office%20-%20map.png" width="450" /><br/><sub>Map — geohash heatmap, G/Y/R density per ~1km cell across 20 active Tamil Nadu cells</sub></td>
   </tr>
   <tr>
-    <td align="center" colspan="2"><img src="docs/dashboard_screenshots/health%20office%20-%20alerts.png" width="600" /><br/><sub>Alerts — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up / stable / down trend per cell</sub></td>
+    <td align="center" colspan="2"><img src="assets/dashboard_screenshots/health%20office%20-%20alerts.png" width="600" /><br/><sub>Alerts — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up / stable / down trend per cell</sub></td>
   </tr>
 </table>
 
@@ -139,10 +138,10 @@ The mandatory Tamil disclaimer **இது மருத்துவ ஆலோச
 
 <table>
   <tr>
-    <td align="center"><img src="docs/android_screenshots/01_home_en.png" width="220" /><br/><sub>Home — patient details form</sub></td>
-    <td align="center"><img src="docs/android_screenshots/02_red_result_en.png" width="220" /><br/><sub>RED — cardiac pattern, escalate</sub></td>
-    <td align="center"><img src="docs/android_screenshots/03_yellow_result_en.png" width="220" /><br/><sub>YELLOW — fever, PHC referral</sub></td>
-    <td align="center"><img src="docs/android_screenshots/04_green_result_en.png" width="220" /><br/><sub>GREEN — home care + watchful waiting</sub></td>
+    <td align="center"><img src="assets/android_screenshots/01_home_en.png" width="220" /><br/><sub>Home — patient details form</sub></td>
+    <td align="center"><img src="assets/android_screenshots/02_red_result_en.png" width="220" /><br/><sub>RED — cardiac pattern, escalate</sub></td>
+    <td align="center"><img src="assets/android_screenshots/03_yellow_result_en.png" width="220" /><br/><sub>YELLOW — fever, PHC referral</sub></td>
+    <td align="center"><img src="assets/android_screenshots/04_green_result_en.png" width="220" /><br/><sub>GREEN — home care + watchful waiting</sub></td>
   </tr>
 </table>
 
@@ -150,8 +149,8 @@ The mandatory Tamil disclaimer **இது மருத்துவ ஆலோச
 
 <table>
   <tr>
-    <td align="center"><img src="docs/dashboard_screenshots/Case%20list%20-%20Dr%20view%20-%20Eng.png" width="450" /><br/><sub>Case queue — RED-first list of incoming ASHA-escalated cases with chief-complaint preview, model confidence, IMNCI engine rule overrides</sub></td>
-    <td align="center"><img src="docs/dashboard_screenshots/Catchment%20-%20Dr.%20View%20-%20eng.png" width="450" /><br/><sub>Catchment area — per-geohash cell summary for the cells this PHC's ASHA workers serve</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/Case%20list%20-%20Dr%20view%20-%20Eng.png" width="450" /><br/><sub>Case queue — RED-first list of incoming ASHA-escalated cases with chief-complaint preview, model confidence, IMNCI engine rule overrides</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/Catchment%20-%20Dr.%20View%20-%20eng.png" width="450" /><br/><sub>Catchment area — per-geohash cell summary for the cells this PHC's ASHA workers serve</sub></td>
   </tr>
 </table>
 
@@ -159,11 +158,11 @@ The mandatory Tamil disclaimer **இது மருத்துவ ஆலோச
 
 <table>
   <tr>
-    <td align="center"><img src="docs/dashboard_screenshots/health%20office%20-%20dash%20-%20eng.png" width="450" /><br/><sub>Overview — today vs yesterday stats + active RED cluster alerts</sub></td>
-    <td align="center"><img src="docs/dashboard_screenshots/Health%20office%20-%20map%20-%20eng.png" width="450" /><br/><sub>Map — geohash heatmap, G/Y/R density per ~1km cell across 20 active Tamil Nadu cells</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/health%20office%20-%20dash%20-%20eng.png" width="450" /><br/><sub>Overview — today vs yesterday stats + active RED cluster alerts</sub></td>
+    <td align="center"><img src="assets/dashboard_screenshots/Health%20office%20-%20map%20-%20eng.png" width="450" /><br/><sub>Map — geohash heatmap, G/Y/R density per ~1km cell across 20 active Tamil Nadu cells</sub></td>
   </tr>
   <tr>
-    <td align="center" colspan="2"><img src="docs/dashboard_screenshots/health%20office%20-%20alerts%20-%20eng.png" width="600" /><br/><sub>Alerts — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up / stable / down trend per cell</sub></td>
+    <td align="center" colspan="2"><img src="assets/dashboard_screenshots/health%20office%20-%20alerts%20-%20eng.png" width="600" /><br/><sub>Alerts — cluster alerts (any RED in 48h or ≥3 YELLOW in 24h) with up / stable / down trend per cell</sub></td>
   </tr>
 </table>
 
@@ -393,7 +392,7 @@ Three specialist LoRAs are trained independently on Gemma 4 E4B using Unsloth QL
 
 At inference time a lightweight MoE router (a single linear layer, embedding dimension → 3, trained on specialist validation embeddings) scores the query and activates the top-scoring specialist. For ambiguous inputs the `top2_weighted` routing strategy blends two adapters proportionally. The router adds negligible latency — the routing decision is a single matrix multiply on the query embedding before the first decode step.
 
-The full technical rationale for every architectural decision is in [`docs/architecture.md`](docs/architecture.md).
+The architecture diagram at the top of this README captures the full three-tier topology end-to-end.
 
 ---
 
@@ -401,7 +400,7 @@ The full technical rationale for every architectural decision is in [`docs/archi
 
 Marunthagam defines an open, anonymized health signal format — the **Open Protocol v1.0** — for structured local logging and Tier 1→3 aggregation. Each interaction log entry records triage outcome, model ID, modalities used, geohash (~1km), and protocol overrides applied. No patient-identifying information is ever stored.
 
-The protocol is designed to be adopted by other community health tools regardless of language or country. Full specification: [`docs/protocol_spec.md`](docs/protocol_spec.md).
+The protocol is designed to be adopted by other community health tools regardless of language or country.
 
 ---
 
