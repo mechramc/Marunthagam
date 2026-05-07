@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="மருந்தகம் — நோயாளி தகவல்"
+            android:text="@string/screen_title"
             android:textAppearance="?attr/textAppearanceHeadlineSmall"
             android:textColor="?attr/colorOnSurface" />
 
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="கீழே நோயாளி விவரங்களை உள்ளிடுங்கள்"
+            android:text="@string/screen_subtitle"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -58,10 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="அறிகுறிகளை இங்கே உள்ளிடுங்கள்"
+            android:hint="@string/hint_symptoms"
             app:counterEnabled="true"
             app:counterMaxLength="500"
-            app:helperText="Tamil அல்லது English-ல் உள்ளிடலாம்">
+            app:helperText="@string/helper_symptoms">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSymptoms"
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="வயது பிரிவு">
+            android:hint="@string/label_age_group">
 
             <!--
                 Use AutoCompleteTextView rather than Spinner to stay within
@@ -111,8 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:hint="நாட்கள் (அறிகுறி காலம்)"
-            app:helperText="உதாரணம்: 3">
+            android:hint="@string/label_duration"
+            app:helperText="@string/helper_duration">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDurationDays"
@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:minHeight="56dp"
-            android:text="தீர்மானி"
+            android:text="@string/btn_assess"
             android:textSize="16sp" />
 
         <!-- Progress indicator — visible during inference (managed by ViewModel) -->
@@ -182,7 +182,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="தீர்மானிப்பு"
+                        android:text="@string/result_title"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -216,7 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="நம்பகத்தன்மை"
+                    android:text="@string/result_confidence_label"
                     android:textAppearance="?attr/textAppearanceLabelMedium"
                     android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -235,7 +235,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:text="உடனடி மேல்நிலை பரிந்துரை"
+                    android:text="@string/result_escalation_chip"
                     android:visibility="gone"
                     app:chipBackgroundColor="#FFF3E0"
                     app:chipStrokeColor="#FF9800"
@@ -246,7 +246,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="அடுத்த படிகள்"
+                    android:text="@string/result_next_steps_label"
                     android:textAppearance="?attr/textAppearanceLabelMedium"
                     android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -275,7 +275,7 @@
             android:layout_marginTop="8dp"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:text="இது மருத்துவ ஆலோசனை அல்ல"
+            android:text="@string/disclaimer"
             android:textAppearance="?attr/textAppearanceLabelSmall"
             android:textColor="?attr/colorError"
             android:textStyle="italic" />

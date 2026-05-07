@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    English (en) age-group display labels for the dropdown.
+    The internal `age_groups` array is locale-independent and lives in
+    values/arrays.xml; only the display labels switch per locale.
+
+    Indices must align 1:1 with values/arrays.xml age_groups so the
+    selected position maps correctly to the internal value passed to
+    TriageEngine.triage(ageGroup=…).
+-->
+<resources>
+    <string-array name="age_groups_tamil">
+        <item>Infant (&lt; 2 years)</item>
+        <item>Child (2–12)</item>
+        <item>Adolescent (13–18)</item>
+        <item>Adult</item>
+        <item>Elderly</item>
+    </string-array>
+</resources>

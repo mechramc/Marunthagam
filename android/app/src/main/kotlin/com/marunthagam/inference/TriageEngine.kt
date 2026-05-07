@@ -1,6 +1,7 @@
 package com.marunthagam.inference
 
 import android.util.Log
+import java.util.Locale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -133,6 +134,7 @@ object TriageEngine {
      */
     private fun demoResult(symptoms: String, ageGroup: String, durationDays: Int): TriageResult {
         val s = symptoms.lowercase()
+        val isEnglishLocale = Locale.getDefault().language == "en"
 
         // RED indicators — cardiac pattern, severe respiratory, syncope
         val redKeywords = listOf(
@@ -148,24 +150,42 @@ object TriageEngine {
             "fever", "vomit", "diarrhea", "headache",
         )
 
+        val redNextStepsTa =
+            "உடனடியாக 108-ஐ அழைத்து அருகில் உள்ள மருத்துவமனைக்கு செல்லுங்கள். " +
+            "காத்திருக்காதீர்கள். ஆம்புலன்ஸ் வரும் வரை நோயாளியை அமைதியாக படுக்க வைக்கவும்."
+        val redNextStepsEn =
+            "Call 108 immediately and go to the nearest hospital. Do not wait. " +
+            "Keep the patient calm and lying down until the ambulance arrives."
+
+        val yellowNextStepsTa =
+            "இன்றே PHC சென்று மருத்துவரை அணுகுங்கள். அதிக நீர் / ORS கொடுக்கவும். " +
+            "காய்ச்சல் 39°C-க்கு மேல் சென்றால் அல்லது 24 மணிநேரத்தில் குறையவில்லை எனில் RED-ஆக கருத வேண்டும்."
+        val yellowNextStepsEn =
+            "Visit the PHC and consult a doctor today. Give plenty of fluids / ORS. " +
+            "If fever rises above 39°C or does not subside within 24 hours, treat as RED."
+
+        val greenNextStepsTa =
+            "வீட்டிலேயே ஓய்வெடுங்கள். அதிக நீர் குடியுங்கள். " +
+            "அறிகுறிகள் 3 நாட்களுக்கு மேல் தொடர்ந்தால் PHC சென்று மருத்துவரை அணுகுங்கள்."
+        val greenNextStepsEn =
+            "Rest at home. Drink plenty of fluids. " +
+            "If symptoms persist more than 3 days, visit the PHC and consult a doctor."
+
         val (level, conf, conditionsTa, nextStepsTa) = when {
             redKeywords.any { it in s } -> Quad(
                 TriageLevel.RED, 0.91f,
                 listOf("Cardiac event (suspected)", "Acute respiratory distress", "Severe hypotension"),
-                "உடனடியாக 108-ஐ அழைத்து அருகில் உள்ள மருத்துவமனைக்கு செல்லுங்கள். " +
-                "காத்திருக்காதீர்கள். ஆம்புலன்ஸ் வரும் வரை நோயாளியை அமைதியாக படுக்க வைக்கவும்.",
+                if (isEnglishLocale) redNextStepsEn else redNextStepsTa,
             )
             yellowKeywords.any { it in s } || durationDays >= 3 -> Quad(
                 TriageLevel.YELLOW, 0.78f,
                 listOf("Acute febrile illness", "Gastroenteritis (suspected)", "Dehydration"),
-                "இன்றே PHC சென்று மருத்துவரை அணுகுங்கள். அதிக நீர் / ORS கொடுக்கவும். " +
-                "காய்ச்சல் 39°C-க்கு மேல் சென்றால் அல்லது 24 மணிநேரத்தில் குறையவில்லை எனில் RED-ஆக கருத வேண்டும்.",
+                if (isEnglishLocale) yellowNextStepsEn else yellowNextStepsTa,
             )
             else -> Quad(
                 TriageLevel.GREEN, 0.82f,
                 listOf("Self-limiting upper respiratory illness", "Mild fatigue"),
-                "வீட்டிலேயே ஓய்வெடுங்கள். அதிக நீர் குடியுங்கள். " +
-                "அறிகுறிகள் 3 நாட்களுக்கு மேல் தொடர்ந்தால் PHC சென்று மருத்துவரை அணுகுங்கள்.",
+                if (isEnglishLocale) greenNextStepsEn else greenNextStepsTa,
             )
         }
 

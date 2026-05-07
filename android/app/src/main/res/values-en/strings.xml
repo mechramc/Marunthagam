@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    English (en) — used for hackathon judging screenshots.
+    The production target language is Tamil (default values/strings.xml).
+    This locale exists so reviewers without Tamil reading ability can
+    inspect the UI structure end-to-end.
+-->
+<resources>
+    <!-- App brand stays in Tamil — that's the brand mark -->
+    <string name="app_name">Marunthagam</string>
+
+    <!-- Screen header -->
+    <string name="screen_title">Marunthagam — Patient Triage</string>
+    <string name="screen_subtitle">Enter patient details below</string>
+
+    <!-- Symptom input -->
+    <string name="hint_symptoms">Enter symptoms here</string>
+    <string name="helper_symptoms">Enter in Tamil or English</string>
+
+    <!-- Age group dropdown -->
+    <string name="label_age_group">Age group</string>
+
+    <!-- Duration field -->
+    <string name="label_duration">Days (symptom duration)</string>
+    <string name="helper_duration">Example: 3</string>
+
+    <!-- Assess action -->
+    <string name="btn_assess">Assess</string>
+
+    <!-- Result card labels -->
+    <string name="result_title">Triage result</string>
+    <string name="result_confidence_label">Confidence</string>
+    <string name="result_escalation_chip">Immediate escalation recommended</string>
+    <string name="result_next_steps_label">Next steps</string>
+
+    <!-- Disclaimer kept in Tamil — verbatim disclaimer is a CLAUDE.md
+         requirement and must appear in every triage output regardless of
+         UI locale. (Hackathon judges: this Tamil disclaimer translates
+         literally to "This is not medical advice.") -->
+    <string name="disclaimer">இது மருத்துவ ஆலோசனை அல்ல · This is not medical advice</string>
+
+    <!-- Snackbar / status messages -->
+    <string name="loading_model">Loading model…</string>
+    <string name="error_model_not_found">Model file not found</string>
+    <string name="error_symptoms_empty">Please enter symptoms</string>
+</resources>
